@@ -3,7 +3,18 @@ import 'package:flutter/material.dart';
 import '../../config/styles.dart';
 
 class WeatherDailyBox extends StatelessWidget {
-  const WeatherDailyBox({super.key});
+  final String day;
+  final String imgUrl;
+  final String weather;
+  final String temp;
+
+  const WeatherDailyBox({
+    super.key,
+    required this.day,
+    required this.imgUrl,
+    required this.weather,
+    required this.temp,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +37,7 @@ class WeatherDailyBox extends StatelessWidget {
               color: blueColor5,
             ),
             child: Image.asset(
-              'assets/icons/weathers/09d.png',
+              imgUrl,
               width: 12,
             ),
           ),
@@ -36,7 +47,7 @@ class WeatherDailyBox extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Selasa',
+                  day,
                   style: blackTextStyle.copyWith(
                     color: blackColor2,
                     fontWeight: semibold,
@@ -44,7 +55,7 @@ class WeatherDailyBox extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Hujan Petir',
+                  weather,
                   style: blackTextStyle.copyWith(
                     fontSize: 12,
                     color: grayColor,
@@ -55,7 +66,7 @@ class WeatherDailyBox extends StatelessWidget {
             ),
           ),
           Text(
-            '19°C',
+            '$temp°C',
             style: blackTextStyle.copyWith(
               color: blackColor2,
               fontWeight: semibold,

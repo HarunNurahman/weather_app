@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 Color blackColor = const Color(0xFF201D1D);
 Color blackColor2 = const Color(0xFF201C1C);
 Color blackColor3 = const Color(0xFF242222);
+Color blackColor4 = const Color(0xFF242425);
 
 Color whiteColor = const Color(0xFFFFFFFF);
 Color whiteColor2 = const Color(0xFFEEEBEB);

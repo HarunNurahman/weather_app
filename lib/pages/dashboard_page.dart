@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
+import 'package:weather_app/pages/widgets/detail_info_box.dart';
 import 'package:weather_app/pages/widgets/search_delegate.dart';
 import 'package:weather_app/pages/widgets/weather_daily_box.dart';
 import 'package:weather_app/pages/widgets/weather_hourly_box.dart';
@@ -165,11 +166,74 @@ class DashboardPage extends StatelessWidget {
             SizedBox(height: defaultHorizontalMargin),
             Column(
               children: const [
-                WeatherDailyBox(),
-                WeatherDailyBox(),
-                WeatherDailyBox(),
+                WeatherDailyBox(
+                  day: 'Senin',
+                  imgUrl: 'assets/icons/weathers/09d.png',
+                  weather: 'Cerah Berawan',
+                  temp: '23',
+                ),
+                WeatherDailyBox(
+                  day: 'Selasa',
+                  imgUrl: 'assets/icons/weathers/09d.png',
+                  weather: 'Mendung',
+                  temp: '24',
+                ),
+                WeatherDailyBox(
+                  day: 'Rabu',
+                  imgUrl: 'assets/icons/weathers/09d.png',
+                  weather: 'Hujan Angin',
+                  temp: '23',
+                ),
               ],
             )
+          ],
+        ),
+      );
+    }
+
+    // Widget detail informasi cuaca (humidity, air pressure, wind speed, fog)
+    Widget detailInformation() {
+      return Container(
+        margin: EdgeInsets.only(top: defaultVerticalMargin),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Detail Informasi',
+              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: medium),
+            ),
+            SizedBox(height: defaultHorizontalMargin),
+            Row(
+              children: [
+                const DetailInfoBox(
+                  imgUrl: 'assets/icons/ic_humid.png',
+                  value: '86%',
+                  title: 'Kelembaban',
+                ),
+                SizedBox(width: defaultHorizontalMargin),
+                const DetailInfoBox(
+                  imgUrl: 'assets/icons/ic_pressure.png',
+                  value: '940 hPa',
+                  title: 'Tekanan Udara',
+                ),
+              ],
+            ),
+            SizedBox(height: defaultHorizontalMargin),
+            Row(
+              children: [
+                const DetailInfoBox(
+                  imgUrl: 'assets/icons/ic_wind_speed.png',
+                  value: '1 km/h',
+                  title: 'Wind Speed',
+                ),
+                SizedBox(width: defaultHorizontalMargin),
+                const DetailInfoBox(
+                  imgUrl: 'assets/icons/ic_fog.png',
+                  value: '14%',
+                  title: 'Kabut',
+                ),
+              ],
+            ),
           ],
         ),
       );
@@ -191,6 +255,7 @@ class DashboardPage extends StatelessWidget {
                 weatherInfo(),
                 weatherHourly(),
                 weatherDaily(),
+                detailInformation(),
               ],
             ),
           ),
