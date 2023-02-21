@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/pages/widgets/detail_info_box.dart';
 import 'package:weather_app/pages/widgets/search_delegate.dart';
 import 'package:weather_app/pages/widgets/weather_daily_box.dart';
 import 'package:weather_app/pages/widgets/weather_hourly_box.dart';
+import 'package:weather_app/services/global_controller.dart';
 
-class DashboardPage extends StatelessWidget {
+import 'widgets/header_widget.dart';
+
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  final GlobalController globalController = Get.put(GlobalController());
 
   @override
   Widget build(BuildContext context) {
@@ -15,41 +27,9 @@ class DashboardPage extends StatelessWidget {
     String time = DateFormat.Hm().format(DateTime.now());
 
     // Header Widget (Lokasi saat ini & search button)
-    Widget header() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Lokasi
-          Row(
-            children: [
-              Icon(Icons.location_on, size: 24, color: whiteColor),
-              SizedBox(width: defaultRadius),
-              Text(
-                'Regol, Bandung',
-                style: whiteTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: medium,
-                ),
-              )
-            ],
-          ),
-          // Search button
-          GestureDetector(
-            onTap: () {
-              showSearch(
-                context: context,
-                delegate: MySearchDelegate(),
-              );
-            },
-            child: Icon(
-              Icons.search,
-              size: 24,
-              color: whiteColor,
-            ),
-          ),
-        ],
-      );
-    }
+    // Widget header() {
+    //   return const HeaderWidget();
+    // }
 
     // Widget informasi cuaca terkini di lokasi yang terdeteksi
     Widget weatherInfo() {
@@ -242,24 +222,28 @@ class DashboardPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: blackColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.symmetric(
-              vertical: defaultVerticalMargin,
-              horizontal: defaultHorizontalMargin,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                header(),
-                weatherInfo(),
-                weatherHourly(),
-                weatherDaily(),
-                detailInformation(),
-              ],
-            ),
-          ),
-        ),
+        child: Obx(() => globalController.isLoading.isTrue
+            ? Center(
+                child: CircularProgressIndicator(color: blueColor),
+              )
+            : SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                    vertical: defaultVerticalMargin,
+                    horizontal: defaultHorizontalMargin,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HeaderWidget(),
+                      weatherInfo(),
+                      weatherHourly(),
+                      weatherDaily(),
+                      detailInformation(),
+                    ],
+                  ),
+                ),
+              )),
       ),
     );
   }
