@@ -7,6 +7,7 @@ import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/pages/widgets/detail_info_box.dart';
 import 'package:weather_app/pages/widgets/weather_daily_box.dart';
 import 'package:weather_app/pages/widgets/weather_hourly_box.dart';
+import 'package:weather_app/pages/widgets/weather_info_box.dart';
 import 'package:weather_app/services/global_controller.dart';
 
 import 'widgets/header_widget.dart';
@@ -54,71 +55,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
     // Widget informasi cuaca terkini di lokasi yang terdeteksi
     Widget weatherInfo() {
-      return Container(
-        margin: EdgeInsets.only(top: defaultVerticalMargin),
-        padding: EdgeInsets.all(defaultVerticalMargin),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(defaultRadius),
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFF4F7FFA),
-              Color(0xFF335FD1),
-            ],
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Tanggal dan Waktu
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(dateFormat, style: whiteTextStyle),
-                StreamBuilder(
-                  stream: Stream.periodic(const Duration(seconds: 1)),
-                  builder: (context, snapshot) {
-                    return Text(
-                      timeFormat,
-                      style: whiteTextStyle,
-                    );
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: defaultVerticalMargin),
-            // Suhu dan Status Cuaca
-            Row(
-              children: [
-                // Icon cuaca
-                Image.asset(
-                  'assets/icons/weathers/09d.png',
-                  width: 64,
-                ),
-                SizedBox(width: defaultRadius),
-                // Informasi cuaca
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '18°C',
-                      style: whiteTextStyle.copyWith(fontSize: 20),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Hujan Berawan',
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 20,
-                        fontWeight: semibold,
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: defaultVerticalMargin),
-            Text('Feels Like 23°C', style: whiteTextStyle)
-          ],
-        ),
+      return WeatherInfo(
+        currentWeather: globalController.getData().getCurrentWeather(),
       );
     }
 

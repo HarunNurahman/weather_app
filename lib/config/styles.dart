@@ -44,6 +44,16 @@ double defaultHorizontalMargin = 16.0;
 double defaultVerticalMargin = 24.0;
 double defaultRadius = 12.0;
 
+// Kapital pada huruf pertama
+extension StringCasingExtension on String {
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
+}
+
 // App Format (format tanggal)
 class AppFormat {
   static String dateFormat(String stringDate) {
