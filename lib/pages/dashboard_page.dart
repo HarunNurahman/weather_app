@@ -1,10 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/pages/widgets/detail_info_box.dart';
-import 'package:weather_app/pages/widgets/search_delegate.dart';
 import 'package:weather_app/pages/widgets/weather_daily_box.dart';
 import 'package:weather_app/pages/widgets/weather_hourly_box.dart';
 import 'package:weather_app/services/global_controller.dart';
@@ -19,17 +19,38 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final GlobalController globalController = Get.put(GlobalController());
+  String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
+  String timeFormat = DateFormat.Hms().format(DateTime.now());
+
+  Timer? time;
+
+  final GlobalController globalController = Get.put(
+    GlobalController(),
+    permanent: true,
+  );
+
+  // Auto-update waktu (hh:mm:ss)
+  @override
+  void initState() {
+    time = Timer.periodic(
+      const Duration(seconds: 1),
+      (t) => update(),
+    );
+    super.initState();
+  }
+
+  void update() {
+    setState(() {
+      timeFormat = DateFormat.Hms().format(DateTime.now());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    String date = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
-    String time = DateFormat.Hm().format(DateTime.now());
-
     // Header Widget (Lokasi saat ini & search button)
-    // Widget header() {
-    //   return const HeaderWidget();
-    // }
+    Widget header() {
+      return const HeaderWidget();
+    }
 
     // Widget informasi cuaca terkini di lokasi yang terdeteksi
     Widget weatherInfo() {
@@ -52,8 +73,16 @@ class _DashboardPageState extends State<DashboardPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(date, style: whiteTextStyle),
-                Text(time, style: whiteTextStyle)
+                Text(dateFormat, style: whiteTextStyle),
+                StreamBuilder(
+                  stream: Stream.periodic(const Duration(seconds: 1)),
+                  builder: (context, snapshot) {
+                    return Text(
+                      timeFormat,
+                      style: whiteTextStyle,
+                    );
+                  },
+                ),
               ],
             ),
             SizedBox(height: defaultVerticalMargin),
@@ -61,7 +90,10 @@ class _DashboardPageState extends State<DashboardPage> {
             Row(
               children: [
                 // Icon cuaca
-                Image.asset('assets/icons/weathers/09d.png', width: 64),
+                Image.asset(
+                  'assets/icons/weathers/09d.png',
+                  width: 64,
+                ),
                 SizedBox(width: defaultRadius),
                 // Informasi cuaca
                 Column(
@@ -235,7 +267,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HeaderWidget(),
+                      header(),
                       weatherInfo(),
                       weatherHourly(),
                       weatherDaily(),

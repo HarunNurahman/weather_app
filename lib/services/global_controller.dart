@@ -4,17 +4,20 @@ import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/services/api_services.dart';
 
 class GlobalController extends GetxController {
-  final RxDouble lat = 0.0.obs; // Kirim nilai lat ke API
-  final RxDouble lon = 0.0.obs; // Kirim nilai lon ke API
   final RxBool isLoading = true.obs;
+  final RxDouble _lat = 0.0.obs;
+  final RxDouble _lon = 0.0.obs;
 
-  RxDouble getLat() => lat;
-  RxDouble getLon() => lon;
+  // Contoh untuk dipanggil
   RxBool checkLoading() => isLoading;
+  RxDouble getLat() => _lat;
+  RxDouble getLon() => _lon;
 
   @override
   void onInit() {
-    getLocation();
+    if (isLoading.isTrue) {
+      getLocation();
+    }
     super.onInit();
   }
 
@@ -28,35 +31,32 @@ class GlobalController extends GetxController {
     LocationPermission locationPermission;
 
     isServiceEnabled = await Geolocator.isLocationServiceEnabled();
-
-    // Apabila location service tidak diizinkan
     if (!isServiceEnabled) {
-      return Future.error('Please Enable Location Service');
+      return Future.error("Please enable location service");
     }
 
-    // Cek location service permission
     locationPermission = await Geolocator.checkPermission();
     if (locationPermission == LocationPermission.deniedForever) {
       return Future.error(
-        'Location Permission is Denied, Please Enable on Settings',
+        "Location permission is denied, please enable on setting",
       );
     } else if (locationPermission == LocationPermission.denied) {
-      // request ulang location permission
+      locationPermission = await Geolocator.requestPermission();
       if (locationPermission == LocationPermission.denied) {
-        return Future.error('Location Permission is Denied, Please Try Again');
+        return Future.error("Location permission is denied, please try again");
       }
     }
 
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     ).then((value) {
-      lat.value = value.latitude;
-      lon.value = value.longitude;
-
+      _lat.value = value.latitude;
+      _lon.value = value.longitude;
       return ApiServices()
           .getWeather(value.latitude, value.longitude)
           .then((value) {
-        weatherData.value;
+        weatherData.value = value;
+        isLoading.value = false;
       });
     });
   }

@@ -42,18 +42,27 @@ class _HeaderWidgetState extends State<HeaderWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Lokasi
         Row(
           children: [
-            Icon(Icons.location_on, size: 24, color: whiteColor),
-            SizedBox(width: defaultRadius),
-            Text(
-              city,
-              style: whiteTextStyle.copyWith(
-                fontSize: 14,
-                fontWeight: medium,
+            Icon(Icons.location_on, color: whiteColor, size: 24),
+            const SizedBox(width: 8),
+            // Lokasi
+            RichText(
+              text: TextSpan(
+                text: city,
+                style:
+                    whiteTextStyle.copyWith(fontSize: 14, fontWeight: medium),
+                children: [
+                  TextSpan(
+                    text: ', $subcity',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: medium,
+                    ),
+                  )
+                ],
               ),
-            )
+            ),
           ],
         ),
         // Search button

@@ -30,14 +30,17 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   dio: ^5.0.0
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.2
   geocoding: ^2.0.5
   geolocator: ^9.0.2
   get: ^4.6.5
   google_fonts: ^4.0.3
   http: ^0.13.5
   intl: ^0.18.0
+  location: ^4.4.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
