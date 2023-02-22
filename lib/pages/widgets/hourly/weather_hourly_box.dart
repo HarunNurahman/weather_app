@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
-
-import '../../config/styles.dart';
+import 'package:intl/intl.dart';
+import 'package:weather_app/config/styles.dart';
 
 class WeatherHourlyBox extends StatelessWidget {
+  final int temp;
+  final int timeStamp;
+  final int index;
   final String imgUrl;
-  final String temp;
-  final String time;
   const WeatherHourlyBox({
     super.key,
-    required this.imgUrl,
     required this.temp,
-    required this.time,
+    required this.timeStamp,
+    required this.index,
+    required this.imgUrl,
   });
+
+  String getTime(final timeStamp) {
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    String value = DateFormat('Hm').format(time);
+
+    return value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +36,17 @@ class WeatherHourlyBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(imgUrl, width: 40),
+          Image.asset('assets/icons/weathers/$imgUrl.png', width: 40),
           const SizedBox(height: 8),
           Text(
-            temp,
+            '${temp.toString()}°C',
             style: whiteTextStyle.copyWith(
               fontWeight: semibold,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            time,
+            getTime(timeStamp),
             style: whiteTextStyle.copyWith(fontSize: 12),
           ),
         ],

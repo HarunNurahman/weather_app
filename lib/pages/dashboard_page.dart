@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
+import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
 import 'package:weather_app/pages/widgets/detail_info_box.dart';
-import 'package:weather_app/pages/widgets/weather_daily_box.dart';
-import 'package:weather_app/pages/widgets/weather_hourly_box.dart';
-import 'package:weather_app/pages/widgets/weather_info_box.dart';
+import 'package:weather_app/pages/widgets/daily/weather_daily_box.dart';
+import 'package:weather_app/pages/widgets/current/weather_info_box.dart';
+import 'package:weather_app/pages/widgets/hourly/weather_hourly_widget.dart';
 import 'package:weather_app/services/global_controller.dart';
 
 import 'widgets/header_widget.dart';
@@ -62,82 +63,15 @@ class _DashboardPageState extends State<DashboardPage> {
 
     // Widget informasi cuaca beberapa jam kedepan
     Widget weatherHourly() {
-      return Container(
-        margin: EdgeInsets.only(top: defaultVerticalMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Cuaca Per Jam',
-              style: whiteTextStyle.copyWith(
-                fontSize: 20,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 111,
-              child: ListView.separated(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return const WeatherHourlyBox(
-                    imgUrl: 'assets/icons/weathers/09d.png',
-                    temp: '21°C',
-                    time: '16:00',
-                  );
-                },
-                separatorBuilder: (context, index) => VerticalDivider(
-                  color: transparent,
-                  width: 10,
-                ),
-                itemCount: 8,
-              ),
-            )
-          ],
-        ),
+      return WeatherHourlyWidget(
+        weatherHourly: globalController.getData().getHourlyWeather(),
       );
     }
 
     // Widget informasi cuaca 3/5 hari kedepan
     Widget weatherDaily() {
-      return Container(
-        margin: EdgeInsets.only(top: defaultVerticalMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Harian',
-              style: whiteTextStyle.copyWith(
-                fontSize: 20,
-                fontWeight: medium,
-              ),
-            ),
-            SizedBox(height: defaultHorizontalMargin),
-            Column(
-              children: const [
-                WeatherDailyBox(
-                  day: 'Senin',
-                  imgUrl: 'assets/icons/weathers/09d.png',
-                  weather: 'Cerah Berawan',
-                  temp: '23',
-                ),
-                WeatherDailyBox(
-                  day: 'Selasa',
-                  imgUrl: 'assets/icons/weathers/09d.png',
-                  weather: 'Mendung',
-                  temp: '24',
-                ),
-                WeatherDailyBox(
-                  day: 'Rabu',
-                  imgUrl: 'assets/icons/weathers/09d.png',
-                  weather: 'Hujan Angin',
-                  temp: '23',
-                ),
-              ],
-            )
-          ],
-        ),
+      return WeatherDailyWidget(
+        dailyWeather: globalController.getData().getDailyWeather(),
       );
     }
 
@@ -192,28 +126,44 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: blackColor,
       body: SafeArea(
-        child: Obx(() => globalController.isLoading.isTrue
-            ? Center(
-                child: CircularProgressIndicator(color: blueColor),
-              )
-            : SingleChildScrollView(
-                child: Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: defaultVerticalMargin,
-                    horizontal: defaultHorizontalMargin,
-                  ),
+        child: Obx(
+          () => globalController.isLoading.isTrue
+              ? Center(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      header(),
-                      weatherInfo(),
-                      weatherHourly(),
-                      weatherDaily(),
-                      detailInformation(),
+                      Text(
+                        'Mengambil Data...',
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 12,
+                          fontWeight: light,
+                        ),
+                      ),
+                      SizedBox(height: defaultVerticalMargin),
+                      CircularProgressIndicator(color: blueColor),
                     ],
                   ),
+                )
+              : SingleChildScrollView(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                      vertical: defaultVerticalMargin,
+                      horizontal: defaultHorizontalMargin,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        header(),
+                        weatherInfo(),
+                        weatherHourly(),
+                        weatherDaily(),
+                        detailInformation(),
+                      ],
+                    ),
+                  ),
                 ),
-              )),
+        ),
       ),
     );
   }

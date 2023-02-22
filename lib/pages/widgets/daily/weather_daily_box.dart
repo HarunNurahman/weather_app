@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import '../../config/styles.dart';
+import '../../../config/styles.dart';
 
 class WeatherDailyBox extends StatelessWidget {
-  final String day;
+  final int day;
   final String imgUrl;
   final String weather;
-  final String temp;
+  final int minTemp;
+  final int maxTemp;
 
   const WeatherDailyBox({
     super.key,
     required this.day,
     required this.imgUrl,
     required this.weather,
-    required this.temp,
+    required this.minTemp,
+    required this.maxTemp,
   });
+
+  String getDay(final day) {
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(day * 1000);
+    final x = DateFormat('EEEE').format(time);
+    return x;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +46,7 @@ class WeatherDailyBox extends StatelessWidget {
               color: blueColor5,
             ),
             child: Image.asset(
-              imgUrl,
+              'assets/icons/weathers/$imgUrl.png',
               width: 12,
             ),
           ),
@@ -47,7 +56,7 @@ class WeatherDailyBox extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  day,
+                  getDay(day),
                   style: blackTextStyle.copyWith(
                     color: blackColor2,
                     fontWeight: semibold,
@@ -55,7 +64,7 @@ class WeatherDailyBox extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  weather,
+                  weather.toCapitalized(),
                   style: blackTextStyle.copyWith(
                     fontSize: 12,
                     color: grayColor,
@@ -66,7 +75,7 @@ class WeatherDailyBox extends StatelessWidget {
             ),
           ),
           Text(
-            '$temp°C',
+            '${minTemp.toString()}°C/${maxTemp.toString()}°C',
             style: blackTextStyle.copyWith(
               color: blackColor2,
               fontWeight: semibold,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/models/weather_data_current.dart';
 
-import '../../config/styles.dart';
+import '../../../config/styles.dart';
 
 class WeatherInfo extends StatefulWidget {
   final WeatherDataCurrent currentWeather;
@@ -77,6 +77,13 @@ class _WeatherInfoState extends State<WeatherInfo> {
               Image.asset(
                 'assets/icons/weathers/${widget.currentWeather.current.weather![0].icon}.png',
                 width: 64,
+              ),
+              SizedBox(width: defaultRadius),
+              // Divider
+              Container(
+                height: 50,
+                width: 1,
+                color: whiteColor.withOpacity(0.5),
               ),
               SizedBox(width: defaultRadius),
               // Informasi cuaca
