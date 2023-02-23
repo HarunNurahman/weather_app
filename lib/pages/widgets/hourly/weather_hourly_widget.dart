@@ -44,7 +44,7 @@ class _WeatherHourlyWidgetState extends State<WeatherHourlyWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Cuaca Per Jam',
+            'Hourly',
             style: whiteTextStyle.copyWith(
               fontSize: 20,
               fontWeight: medium,

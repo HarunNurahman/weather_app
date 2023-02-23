@@ -6,15 +6,15 @@ import 'package:weather_app/models/weather_data_current.dart';
 
 import '../../../config/styles.dart';
 
-class WeatherInfo extends StatefulWidget {
+class WeatherInfoWidget extends StatefulWidget {
   final WeatherDataCurrent currentWeather;
-  const WeatherInfo({super.key, required this.currentWeather});
+  const WeatherInfoWidget({super.key, required this.currentWeather});
 
   @override
-  State<WeatherInfo> createState() => _WeatherInfoState();
+  State<WeatherInfoWidget> createState() => _WeatherInfoWidgetState();
 }
 
-class _WeatherInfoState extends State<WeatherInfo> {
+class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
   String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
   String timeFormat = DateFormat.Hms().format(DateTime.now());
 

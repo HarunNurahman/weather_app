@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../config/styles.dart';
+import '../../../config/styles.dart';
 
 class DetailInfoBox extends StatelessWidget {
   final String imgUrl;

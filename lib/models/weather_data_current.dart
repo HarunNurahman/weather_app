@@ -10,6 +10,8 @@ class Current {
   int? temp;
   int? humidity;
   int? clouds;
+  int? pressure;
+  int? visibility;
   double? feelsLike;
   double? uvi;
   double? windSpeed;
@@ -19,6 +21,8 @@ class Current {
     this.temp,
     this.humidity,
     this.clouds,
+    this.pressure,
+    this.visibility,
     this.feelsLike,
     this.uvi,
     this.windSpeed,
@@ -29,6 +33,8 @@ class Current {
         temp: (json['temp'] as num?)?.round(),
         humidity: json['humidity'] as int?,
         clouds: json['clouds'] as int?,
+        pressure: json['pressure'] as int?,
+        visibility: json['visibility'] as int?,
         feelsLike: (json['feels_like'] as num?)!.toDouble(),
         uvi: (json['uvi'] as num?)!.toDouble(),
         windSpeed: (json['wind_speed'] as num?)?.toDouble(),
@@ -41,6 +47,8 @@ class Current {
         'temp': temp,
         'humidity': humidity,
         'clouds': clouds,
+        'pressure': pressure,
+        'visibility': visibility,
         'feels_like': feelsLike,
         'uvi': uvi,
         'wind_speed': windSpeed,

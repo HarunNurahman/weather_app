@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
-import 'package:weather_app/pages/widgets/detail_info_box.dart';
-import 'package:weather_app/pages/widgets/daily/weather_daily_box.dart';
+import 'package:weather_app/pages/widgets/detail/detail_info_box.dart';
 import 'package:weather_app/pages/widgets/current/weather_info_box.dart';
+import 'package:weather_app/pages/widgets/detail/detail_info_widget.dart';
 import 'package:weather_app/pages/widgets/hourly/weather_hourly_widget.dart';
 import 'package:weather_app/services/global_controller.dart';
 
@@ -56,7 +56,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
     // Widget informasi cuaca terkini di lokasi yang terdeteksi
     Widget weatherInfo() {
-      return WeatherInfo(
+      return WeatherInfoWidget(
         currentWeather: globalController.getData().getCurrentWeather(),
       );
     }
@@ -77,49 +77,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
     // Widget detail informasi cuaca (humidity, air pressure, wind speed, fog)
     Widget detailInformation() {
-      return Container(
-        margin: EdgeInsets.only(top: defaultVerticalMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Detail Informasi',
-              style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: medium),
-            ),
-            SizedBox(height: defaultHorizontalMargin),
-            Row(
-              children: [
-                const DetailInfoBox(
-                  imgUrl: 'assets/icons/ic_humid.png',
-                  value: '86%',
-                  title: 'Kelembaban',
-                ),
-                SizedBox(width: defaultHorizontalMargin),
-                const DetailInfoBox(
-                  imgUrl: 'assets/icons/ic_pressure.png',
-                  value: '940 hPa',
-                  title: 'Tekanan Udara',
-                ),
-              ],
-            ),
-            SizedBox(height: defaultHorizontalMargin),
-            Row(
-              children: [
-                const DetailInfoBox(
-                  imgUrl: 'assets/icons/ic_wind_speed.png',
-                  value: '1 km/h',
-                  title: 'Wind Speed',
-                ),
-                SizedBox(width: defaultHorizontalMargin),
-                const DetailInfoBox(
-                  imgUrl: 'assets/icons/ic_fog.png',
-                  value: '14%',
-                  title: 'Kabut',
-                ),
-              ],
-            ),
-          ],
-        ),
+      return DetailInfoWidget(
+        detailInfo: globalController.getData().getCurrentWeather(),
       );
     }
 

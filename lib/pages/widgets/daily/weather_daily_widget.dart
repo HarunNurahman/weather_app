@@ -20,7 +20,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Harian',
+            'Daily',
             style: whiteTextStyle.copyWith(
               fontSize: 20,
               fontWeight: medium,
