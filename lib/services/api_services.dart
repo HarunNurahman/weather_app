@@ -2,6 +2,7 @@ import 'dart:convert';
 
 // import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/models/search_weather_data.dart';
 import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/models/weather_data_current.dart';
 import 'package:weather_app/models/weather_data_daily.dart';
@@ -16,25 +17,45 @@ class ApiServices {
     return url;
   }
 
-  final String apiKey = '2c8848a279b83b708bd1998475800a02';
+  String apiKey = '2c8848a279b83b708bd1998475800a02';
 
   WeatherData? weatherData;
 
   // Mengambil data cuaca berdasarkan gps
   Future<WeatherData> getWeather(lat, lon) async {
-    // var response = await _dio.get(
-    //   '$baseUrl?lat=$lat&lon=$lon&appid=$apiKey&units=metric&exclude=minutely',
-    // );
-    var response = await http.get(
-      Uri.parse(baseUrl(lat, lon)),
-    );
-    var jsonString = jsonDecode(response.body);
-    weatherData = WeatherData(
-      WeatherDataCurrent.fromJson(jsonString),
-      WeatherDataHourly.fromJson(jsonString),
-      WeatherDataDaily.fromJson(jsonString),
-    );
+    try {
+      // var response = await _dio.get(
+      //   '$baseUrl?lat=$lat&lon=$lon&appid=$apiKey&units=metric&exclude=minutely',
+      // );
+      final response = await http.get(
+        Uri.parse(baseUrl(lat, lon)),
+      );
+      var jsonString = jsonDecode(response.body);
+      weatherData = WeatherData(
+        WeatherDataCurrent.fromJson(jsonString),
+        WeatherDataHourly.fromJson(jsonString),
+        WeatherDataDaily.fromJson(jsonString),
+      );
 
-    return weatherData!;
+      return weatherData!;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<List<SearchWeatherModel>> searchWeather(String query) async {
+    try {
+      final response = await http.get(Uri.parse(
+          'api.openweathermap.org/data/2.5/forecast?q=$query&appid=$apiKey&units=metric'));
+      print(response.body);
+
+      var search = jsonDecode(response.body)['list'];
+      List<SearchWeatherModel> searchResult =
+          search.map((e) => SearchWeatherModel.fromJson(e)).toList();
+
+      return searchResult;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 }
