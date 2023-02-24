@@ -49,7 +49,7 @@ class ApiServices {
           'api.openweathermap.org/data/2.5/forecast?q=$query&appid=$apiKey&units=metric'));
       print(response.body);
 
-      var search = jsonDecode(response.body)['list'];
+      var search = jsonDecode(response.body);
       List<SearchWeatherModel> searchResult =
           search.map((e) => SearchWeatherModel.fromJson(e)).toList();
 

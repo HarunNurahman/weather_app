@@ -75,12 +75,7 @@ class MySearchDelegate extends SearchDelegate {
           } else if (state is SearchWeatherSuccess) {
             return SearchResultPage();
           } else {
-            return Center(
-              child: Text(
-                'Kota Tidak Ditemukan',
-                style: whiteTextStyle,
-              ),
-            );
+            return SearchResultPage();
           }
         },
       ),

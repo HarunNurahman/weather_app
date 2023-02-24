@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:weather_app/models/search_weather_data.dart';
