@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-// import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/models/weather_data.dart';
@@ -9,7 +9,7 @@ import 'package:weather_app/models/weather_data_daily.dart';
 import 'package:weather_app/models/weather_data_hourly.dart';
 
 class ApiServices {
-  // final Dio _dio = Dio();
+  final Dio _dio = Dio();
 
   String baseUrl(var lat, var lon) {
     String url =
@@ -18,6 +18,7 @@ class ApiServices {
   }
 
   String apiKey = '2c8848a279b83b708bd1998475800a02';
+  String searchUrl = 'https://api.openweathermap.org/data/2.5';
 
   WeatherData? weatherData;
 
@@ -43,14 +44,12 @@ class ApiServices {
     }
   }
 
-  Future<List<SearchWeatherModel>> searchWeather(String query) async {
+  Future<SearchWeatherModel> searchWeather(String query) async {
     try {
-      final response = await http.get(Uri.parse(
-          'api.openweathermap.org/data/2.5/weather?q=$query&appid=$apiKey&units=metric'));
-
-      var search = jsonDecode(response.body);
-      List<SearchWeatherModel> searchResult =
-          search.map((e) => SearchWeatherModel.fromJson(e)).toList();
+      final response = await _dio
+          .get('$searchUrl/weather?q=$query&appid=$apiKey&units=metric');
+      SearchWeatherModel searchResult =
+          SearchWeatherModel.fromJson(response.data);
 
       return searchResult;
     } catch (e) {

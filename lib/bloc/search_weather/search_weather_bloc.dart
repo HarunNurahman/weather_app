@@ -12,8 +12,10 @@ class SearchWeatherBloc extends Bloc<SearchWeatherEvent, SearchWeatherState> {
       if (event is SearchWeatherEventStarted) {
         emit(SearchWeatherLoading());
         try {
-          final searchResult = await ApiServices().searchWeather(event.query);
-          emit(SearchWeatherSuccess(searchResult as SearchWeatherModel));
+          SearchWeatherModel searchResult;
+          searchResult = await ApiServices().searchWeather(event.query);
+
+          emit(SearchWeatherSuccess(searchResult));
         } catch (e) {
           emit(SearchWeatherError(e.toString()));
         }
