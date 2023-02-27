@@ -30,7 +30,7 @@ class DetailInfoWidget extends StatelessWidget {
               DetailInfoBox(
                 imgUrl: 'assets/icons/ic_pressure.png',
                 value: '${detailInfo.current.pressure} hPa',
-                title: 'Air Pressure',
+                title: 'Pressure',
               ),
             ],
           ),
@@ -45,7 +45,8 @@ class DetailInfoWidget extends StatelessWidget {
               SizedBox(width: defaultHorizontalMargin),
               DetailInfoBox(
                 imgUrl: 'assets/icons/ic_fog.png',
-                value: '${detailInfo.current.visibility! / 1000} Km',
+                value:
+                    '${detailInfo.current.visibility!.roundToDouble() / 1000} Km',
                 title: 'Visibility',
               ),
             ],

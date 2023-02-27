@@ -2,7 +2,7 @@ import 'dart:convert';
 
 // import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:weather_app/models/search_weather_data.dart';
+import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/models/weather_data_current.dart';
 import 'package:weather_app/models/weather_data_daily.dart';
@@ -46,8 +46,7 @@ class ApiServices {
   Future<List<SearchWeatherModel>> searchWeather(String query) async {
     try {
       final response = await http.get(Uri.parse(
-          'api.openweathermap.org/data/2.5/forecast?q=$query&appid=$apiKey&units=metric'));
-      print(response.body);
+          'api.openweathermap.org/data/2.5/weather?q=$query&appid=$apiKey&units=metric'));
 
       var search = jsonDecode(response.body);
       List<SearchWeatherModel> searchResult =

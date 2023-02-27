@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
+import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/pages/search_result_page.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
 import 'package:weather_app/pages/widgets/current/weather_info_box.dart';
@@ -56,16 +57,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
     // Widget informasi cuaca terkini di lokasi yang terdeteksi
     Widget weatherInfo() {
-      return GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SearchResultPage(),
-          ),
-        ),
-        child: WeatherInfoWidget(
-          currentWeather: globalController.getData().getCurrentWeather(),
-        ),
+      return WeatherInfoWidget(
+        currentWeather: globalController.getData().getCurrentWeather(),
       );
     }
 

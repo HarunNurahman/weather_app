@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:weather_app/models/search_weather_data.dart';
+import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/services/api_services.dart';
 
 part 'search_weather_event.dart';
@@ -12,10 +12,8 @@ class SearchWeatherBloc extends Bloc<SearchWeatherEvent, SearchWeatherState> {
       if (event is SearchWeatherEventStarted) {
         emit(SearchWeatherLoading());
         try {
-          List<SearchWeatherModel> searchResult;
-          searchResult = await ApiServices().searchWeather(event.query);
-
-          emit(SearchWeatherSuccess(searchResult));
+          final searchResult = await ApiServices().searchWeather(event.query);
+          emit(SearchWeatherSuccess(searchResult as SearchWeatherModel));
         } catch (e) {
           emit(SearchWeatherError(e.toString()));
         }

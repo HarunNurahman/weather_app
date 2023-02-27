@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/search_weather/search_weather_bloc.dart';
 import 'package:weather_app/config/styles.dart';
+import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/pages/search_result_page.dart';
 
 class MySearchDelegate extends SearchDelegate {
+  String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
+  String timeFormat = DateFormat.Hms().format(DateTime.now());
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -73,9 +78,55 @@ class MySearchDelegate extends SearchDelegate {
               ),
             );
           } else if (state is SearchWeatherSuccess) {
-            return SearchResultPage();
+            SearchWeatherModel search = state.searchResult;
+            return Center(
+              child: Text(
+                search.name!,
+                style: blackTextStyle,
+              ),
+            );
+            // return Container(
+            //   width: double.infinity,
+            //   margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
+            //   child: Center(
+            //     child: Column(
+            //       children: [
+            //         RichText(
+            //           text: TextSpan(
+            //             text: dateFormat,
+            //             style: whiteTextStyle,
+            //             children: [
+            //               TextSpan(
+            //                 text: ' - $timeFormat',
+            //                 style: whiteTextStyle,
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         SizedBox(height: defaultVerticalMargin),
+            //         Image.asset(
+            //           'assets/icons/weathers/${search.weather![0].icon}.png',
+            //           width: 64,
+            //         ),
+            //         const SizedBox(height: 18),
+            //         Text(
+            //           '${search.main!.temp}°C',
+            //           style: whiteTextStyle.copyWith(fontSize: 20),
+            //         ),
+            //         const SizedBox(height: 4),
+            //         Text(
+            //           search.weather![0].description.toCapitalized(),
+            //           style: whiteTextStyle.copyWith(
+            //             fontSize: 20,
+            //             fontWeight: semibold,
+            //           ),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // );
           } else {
-            return SearchResultPage();
+            return const SizedBox();
           }
         },
       ),
@@ -85,7 +136,7 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return Container(
-      color: blackColor,
+      color: whiteColor,
     );
   }
 }

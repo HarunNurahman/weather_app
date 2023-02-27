@@ -12,7 +12,7 @@ class SearchWeatherInitial extends SearchWeatherState {}
 class SearchWeatherLoading extends SearchWeatherState {}
 
 class SearchWeatherSuccess extends SearchWeatherState {
-  final List<SearchWeatherModel> searchResult;
+  final SearchWeatherModel searchResult;
   const SearchWeatherSuccess(this.searchResult);
 
   @override

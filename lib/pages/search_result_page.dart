@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
+import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/pages/detail_example.dart';
 import 'package:weather_app/pages/hourly_example.dart';
 
 class SearchResultPage extends StatefulWidget {
-  const SearchResultPage({super.key});
+  final SearchWeatherModel searchWeater;
+  const SearchResultPage({super.key, required this.searchWeater});
 
   @override
   State<SearchResultPage> createState() => _SearchResultPageState();
@@ -48,7 +50,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
           ),
         ),
         title: Text(
-          'Haurgeulis, Indramayu',
+          widget.searchWeater.name!,
           style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 16),
         ),
       );
@@ -78,7 +80,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
               Image.asset('assets/icons/weathers/09d.png', width: 64),
               const SizedBox(height: 18),
               Text(
-                '18°C',
+                '${widget.searchWeater.main!.temp}°C',
                 style: whiteTextStyle.copyWith(fontSize: 20),
               ),
               const SizedBox(height: 4),
@@ -149,14 +151,14 @@ class _SearchResultPageState extends State<SearchResultPage> {
               children: [
                 DetailExample(
                   imgUrl: 'assets/icons/ic_humid.png',
-                  value: '50%',
+                  value: '${widget.searchWeater.main!.humidity}%',
                   title: 'Humidity',
                 ),
                 SizedBox(width: defaultHorizontalMargin),
                 DetailExample(
-                  imgUrl: 'assets/icons/ic_humid.png',
-                  value: '50%',
-                  title: 'Humidity',
+                  imgUrl: 'assets/icons/ic_pressure.png',
+                  value: '${widget.searchWeater.main!.pressure} hPa',
+                  title: 'Pressure',
                 ),
               ],
             ),
@@ -164,15 +166,15 @@ class _SearchResultPageState extends State<SearchResultPage> {
             Row(
               children: [
                 DetailExample(
-                  imgUrl: 'assets/icons/ic_humid.png',
-                  value: '50%',
-                  title: 'Humidity',
+                  imgUrl: 'assets/icons/ic_wind_speed.png',
+                  value: '${widget.searchWeater.wind!.speed} km/h',
+                  title: 'Wind Speed',
                 ),
                 SizedBox(width: defaultHorizontalMargin),
                 DetailExample(
-                  imgUrl: 'assets/icons/ic_humid.png',
-                  value: '50%',
-                  title: 'Humidity',
+                  imgUrl: 'assets/icons/ic_fog.png',
+                  value: '${widget.searchWeater.visibility!.round() / 1000} km',
+                  title: 'Visibility',
                 ),
               ],
             ),
