@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/models/forecast_weather_model.dart';
 import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/models/weather_data_current.dart';
@@ -52,6 +53,20 @@ class ApiServices {
           SearchWeatherModel.fromJson(response.data);
 
       return searchResult;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<List<ForecastWeatherModel>> getWeatherForecast(
+      double lat, double lon) async {
+    try {
+      final response = await _dio.get(
+          '$searchUrl/forecast?lat=$lat&lon=$lon&appid=$apiKey&units=metric');
+      var forecast = response.data["list"] as List;
+      List<ForecastWeatherModel> weatherForecast =
+          forecast.map((e) => ForecastWeatherModel.fromJson(e)).toList();
+      return weatherForecast;
     } catch (e) {
       throw Exception(e.toString());
     }
