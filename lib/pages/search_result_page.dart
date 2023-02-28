@@ -1,15 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app/bloc/forecast/forecast_bloc.dart';
 import 'package:weather_app/config/styles.dart';
-import 'package:weather_app/models/search_weather_model.dart';
+import 'package:weather_app/models/forecast_weather_model.dart';
 import 'package:weather_app/pages/detail_example.dart';
 import 'package:weather_app/pages/hourly_example.dart';
 
 class SearchResultPage extends StatefulWidget {
-  final SearchWeatherModel searchWeater;
-  const SearchResultPage({super.key, required this.searchWeater});
+  final double lat;
+  final double lon;
+  const SearchResultPage({
+    super.key,
+    required this.lat,
+    required this.lon,
+  });
 
   @override
   State<SearchResultPage> createState() => _SearchResultPageState();
@@ -49,51 +56,78 @@ class _SearchResultPageState extends State<SearchResultPage> {
             color: whiteColor,
           ),
         ),
-        title: Text(
-          widget.searchWeater.name!,
-          style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 16),
+        title: BlocBuilder<ForecastBloc, ForecastState>(
+          builder: (context, state) {
+            if (state is ForecastLoading) {
+              return const SizedBox();
+            } else if (state is ForecastSuccess) {
+              List<ForecastWeatherModel> forecast = state.forecastWeather;
+              return Text(
+                forecast[0].city!.name!,
+                style: whiteTextStyle.copyWith(
+                  fontWeight: medium,
+                  fontSize: 16,
+                ),
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
         ),
       );
     }
 
     // Cuaca saat ini
     Widget currentWeather() {
-      return Container(
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
-        child: Center(
-          child: Column(
-            children: [
-              RichText(
-                text: TextSpan(
-                  text: dateFormat,
-                  style: whiteTextStyle,
+      return BlocBuilder<ForecastBloc, ForecastState>(
+        builder: (context, state) {
+          if (state is ForecastLoading) {
+            return const SizedBox();
+          } else if (state is ForecastSuccess) {
+            List<ForecastWeatherModel> forecast = state.forecastWeather;
+            return Container(
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
+              child: Center(
+                child: Column(
                   children: [
-                    TextSpan(
-                      text: ' - $timeFormat',
-                      style: whiteTextStyle,
+                    RichText(
+                      text: TextSpan(
+                        text: dateFormat,
+                        style: whiteTextStyle,
+                        children: [
+                          TextSpan(
+                            text: ' - $timeFormat',
+                            style: whiteTextStyle,
+                          ),
+                        ],
+                      ),
                     ),
+                    SizedBox(height: defaultVerticalMargin),
+                    Image.asset(
+                        'assets/icons/weathers/${forecast[0].list![0].weather}.png',
+                        width: 64),
+                    const SizedBox(height: 18),
+                    Text(
+                      '${forecast[0].list![0].main!.temp}°C',
+                      style: whiteTextStyle.copyWith(fontSize: 20),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      forecast[0].list![0].weather![0].description!,
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 20,
+                        fontWeight: semibold,
+                      ),
+                    )
                   ],
                 ),
               ),
-              SizedBox(height: defaultVerticalMargin),
-              Image.asset('assets/icons/weathers/09d.png', width: 64),
-              const SizedBox(height: 18),
-              Text(
-                '${widget.searchWeater.main!.temp}°C',
-                style: whiteTextStyle.copyWith(fontSize: 20),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Hujan Berawan',
-                style: whiteTextStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: semibold,
-                ),
-              )
-            ],
-          ),
-        ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
       );
     }
 
