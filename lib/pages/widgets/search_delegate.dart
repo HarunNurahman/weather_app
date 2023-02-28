@@ -14,7 +14,7 @@ class MySearchDelegate extends SearchDelegate {
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
       appBarTheme: AppBarTheme(
-        color: blueColor,
+        color: blackColor,
         elevation: 0,
       ),
       // Border Color
@@ -68,103 +68,98 @@ class MySearchDelegate extends SearchDelegate {
       child: BlocBuilder<SearchWeatherBloc, SearchWeatherState>(
         builder: (context, state) {
           if (state is SearchWeatherLoading) {
-            return Center(
-              child: SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  color: blueColor,
+            return Container(
+              color: blackColor,
+              child: Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    color: blueColor,
+                  ),
                 ),
               ),
             );
           } else if (state is SearchWeatherSuccess) {
             SearchWeatherModel search = state.searchResult;
-
-            // return ListView.builder(
-            //   itemCount: search.length,
-            //   itemBuilder: (context, index) {
-            //     return Container(
-            //       width: double.infinity,
-            //       margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
-            //       child: Center(
-            //         child: Column(
-            //           children: [
-            //             RichText(
-            //               text: TextSpan(
-            //                 text: dateFormat,
-            //                 style: whiteTextStyle,
-            //                 children: [
-            //                   TextSpan(
-            //                     text: ' - $timeFormat',
-            //                     style: whiteTextStyle,
-            //                   ),
-            //                 ],
-            //               ),
-            //             ),
-            //             SizedBox(height: defaultVerticalMargin),
-            //             Image.asset(
-            //               'assets/icons/weathers/${search[index].weather![index].icon}.png',
-            //               width: 64,
-            //             ),
-            //             const SizedBox(height: 18),
-            //             Text(
-            //               '${search[index].main!.temp}°C',
-            //               style: whiteTextStyle.copyWith(fontSize: 20),
-            //             ),
-            //             const SizedBox(height: 4),
-            //             Text(
-            //               search[index]
-            //                   .weather![index]
-            //                   .description
-            //                   .toCapitalized(),
-            //               style: whiteTextStyle.copyWith(
-            //                 fontSize: 20,
-            //                 fontWeight: semibold,
-            //               ),
-            //             )
-            //           ],
-            //         ),
-            //       ),
-            //     );
-            //   },
-            // );
-
-            return Container(
-              color: blueColor,
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
-              child: Center(
+            return Scaffold(
+              backgroundColor: blackColor,
+              body: Container(
+                margin: EdgeInsets.symmetric(
+                  vertical: defaultVerticalMargin,
+                  horizontal: defaultHorizontalMargin,
+                ),
+                height: 200,
+                padding: EdgeInsets.all(defaultVerticalMargin),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(defaultRadius),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF4F7FFA),
+                      Color(0xFF335FD1),
+                    ],
+                  ),
+                ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        text: dateFormat,
-                        style: whiteTextStyle,
-                        children: [
-                          TextSpan(
-                            text: ' - $timeFormat',
-                            style: whiteTextStyle,
-                          ),
-                        ],
-                      ),
+                    // Tanggal dan Waktu
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(dateFormat, style: whiteTextStyle),
+                        StreamBuilder(
+                          stream: Stream.periodic(const Duration(seconds: 1)),
+                          builder: (context, snapshot) {
+                            return Text(
+                              timeFormat,
+                              style: whiteTextStyle,
+                            );
+                          },
+                        ),
+                      ],
                     ),
                     SizedBox(height: defaultVerticalMargin),
-                    Image.asset(
-                      'assets/icons/weathers/${search.weather![0].icon}.png',
-                      width: 64,
+                    // Suhu dan Status Cuaca
+                    Row(
+                      children: [
+                        // Icon cuaca
+                        Image.asset(
+                          'assets/icons/weathers/${search.weather![0].icon}.png',
+                          width: 64,
+                        ),
+                        SizedBox(width: defaultRadius),
+                        // Divider
+                        Container(
+                          height: 50,
+                          width: 1,
+                          color: whiteColor.withOpacity(0.5),
+                        ),
+                        SizedBox(width: defaultRadius),
+                        // Informasi cuaca
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${search.main!.temp}°C',
+                              style: whiteTextStyle.copyWith(fontSize: 20),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              search.weather![0].description!.toCapitalized(),
+                              style: whiteTextStyle.copyWith(
+                                fontSize: 20,
+                                fontWeight: semibold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 18),
+                    SizedBox(height: defaultVerticalMargin),
                     Text(
-                      '${search.main!.temp}°C',
-                      style: whiteTextStyle.copyWith(fontSize: 20),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      search.weather![0].description.toCapitalized(),
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 20,
-                        fontWeight: semibold,
-                      ),
+                      'Feels Like ${search.main!.feelsLike}°C',
+                      style: whiteTextStyle,
                     )
                   ],
                 ),
@@ -172,8 +167,11 @@ class MySearchDelegate extends SearchDelegate {
             );
           } else {
             print(state.toString());
-            return Center(
-              child: Text('Kota Tidak Ditemukan', style: blackTextStyle),
+            return Container(
+              color: blackColor,
+              child: Center(
+                child: Text('Kota Tidak Ditemukan', style: whiteTextStyle),
+              ),
             );
           }
         },
@@ -184,7 +182,7 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return Container(
-      color: whiteColor,
+      color: blackColor,
     );
   }
 }
