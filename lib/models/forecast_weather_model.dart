@@ -1,91 +1,69 @@
+// class City {
+//   City({
+//     this.id,
+//     this.name,
+//     this.coord,
+//     this.country,
+//     this.population,
+//     this.timezone,
+//     this.sunrise,
+//     this.sunset,
+//   });
+
+//   int? id;
+//   String? name;
+//   Coord? coord;
+//   String? country;
+//   int? population;
+//   int? timezone;
+//   int? sunrise;
+//   int? sunset;
+
+//   factory City.fromJson(Map<String, dynamic> json) => City(
+//         id: json["id"],
+//         name: json["name"],
+//         coord: Coord.fromJson(json["coord"]),
+//         country: json["country"],
+//         population: json["population"],
+//         timezone: json["timezone"],
+//         sunrise: json["sunrise"],
+//         sunset: json["sunset"],
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "name": name,
+//         "coord": coord!.toJson(),
+//         "country": country,
+//         "population": population,
+//         "timezone": timezone,
+//         "sunrise": sunrise,
+//         "sunset": sunset,
+//       };
+// }
+
+// class Coord {
+//   Coord({
+//     this.lat,
+//     this.lon,
+//   });
+
+//   double? lat;
+//   double? lon;
+
+//   factory Coord.fromJson(Map<String, dynamic> json) => Coord(
+//         lat: json["lat"].toDouble(),
+//         lon: json["lon"].toDouble(),
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "lat": lat,
+//         "lon": lon,
+//       };
+// }
+
 class ForecastWeatherModel {
   ForecastWeatherModel({
-    this.list,
-    this.city,
-  });
-
-  List<ListElement>? list;
-  City? city;
-
-  factory ForecastWeatherModel.fromJson(Map<String, dynamic> json) =>
-      ForecastWeatherModel(
-        list: List<ListElement>.from(
-            json["list"].map((x) => ListElement.fromJson(x))),
-        city: City.fromJson(json["city"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "list": List<dynamic>.from(list!.map((x) => x.toJson())),
-        "city": city!.toJson(),
-      };
-}
-
-class City {
-  City({
-    this.id,
-    this.name,
-    this.coord,
-    this.country,
-    this.population,
-    this.timezone,
-    this.sunrise,
-    this.sunset,
-  });
-
-  int? id;
-  String? name;
-  Coord? coord;
-  String? country;
-  int? population;
-  int? timezone;
-  int? sunrise;
-  int? sunset;
-
-  factory City.fromJson(Map<String, dynamic> json) => City(
-        id: json["id"],
-        name: json["name"],
-        coord: Coord.fromJson(json["coord"]),
-        country: json["country"],
-        population: json["population"],
-        timezone: json["timezone"],
-        sunrise: json["sunrise"],
-        sunset: json["sunset"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "coord": coord!.toJson(),
-        "country": country,
-        "population": population,
-        "timezone": timezone,
-        "sunrise": sunrise,
-        "sunset": sunset,
-      };
-}
-
-class Coord {
-  Coord({
-    this.lat,
-    this.lon,
-  });
-
-  double? lat;
-  double? lon;
-
-  factory Coord.fromJson(Map<String, dynamic> json) => Coord(
-        lat: json["lat"].toDouble(),
-        lon: json["lon"].toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "lat": lat,
-        "lon": lon,
-      };
-}
-
-class ListElement {
-  ListElement({
     this.dt,
     this.main,
     this.weather,
@@ -103,7 +81,8 @@ class ListElement {
   int? visibility;
   double? pop;
 
-  factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+  factory ForecastWeatherModel.fromJson(Map<String, dynamic> json) =>
+      ForecastWeatherModel(
         dt: json["dt"],
         main: Main.fromJson(json["main"]),
         weather:

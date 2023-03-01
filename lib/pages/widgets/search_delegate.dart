@@ -6,7 +6,6 @@ import 'package:weather_app/bloc/search_weather/search_weather_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/pages/search_result_page.dart';
-// import 'package:weather_app/pages/search_result_page.dart';
 
 class MySearchDelegate extends SearchDelegate {
   String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
@@ -86,10 +85,12 @@ class MySearchDelegate extends SearchDelegate {
               backgroundColor: blackColor,
               body: GestureDetector(
                 onTap: () {
-                  Get.to(
-                    () => SearchResultPage(
-                      lat: search.coord!.lat!,
-                      lon: search.coord!.lon!,
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchResultPage(
+                        searchResult: search,
+                      ),
                     ),
                   );
                 },

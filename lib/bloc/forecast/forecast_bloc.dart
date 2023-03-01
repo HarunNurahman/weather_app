@@ -14,8 +14,8 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
         try {
           List<ForecastWeatherModel> forecastWeather;
           forecastWeather =
-              await ApiServices().getWeatherForecast(event.lat, event.lon);
-          emit(ForecastSucess(forecastWeather));
+              await ApiServices().getWeatherForecast(event.cityName);
+          emit(ForecastSuccess(forecastWeather));
         } catch (e) {
           emit(ForecastError(e.toString()));
         }

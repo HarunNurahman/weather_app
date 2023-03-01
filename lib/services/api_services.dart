@@ -59,10 +59,11 @@ class ApiServices {
   }
 
   Future<List<ForecastWeatherModel>> getWeatherForecast(
-      double lat, double lon) async {
+    String cityName,
+  ) async {
     try {
       final response = await _dio.get(
-          '$searchUrl/forecast?lat=$lat&lon=$lon&appid=$apiKey&units=metric');
+          '$searchUrl/forecast?q=$cityName&appid=$apiKey&units=metric');
       var forecast = response.data["list"] as List;
       List<ForecastWeatherModel> weatherForecast =
           forecast.map((e) => ForecastWeatherModel.fromJson(e)).toList();
