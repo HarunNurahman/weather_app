@@ -8,14 +8,18 @@ import 'package:weather_app/bloc/forecast/forecast_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/forecast_weather_model.dart';
 import 'package:weather_app/models/search_weather_model.dart';
+import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/pages/detail_example.dart';
-import 'package:weather_app/pages/hourly_example.dart';
 
 class SearchResultPage extends StatefulWidget {
-  final SearchWeatherModel searchResult;
+  final double lat;
+  final double lon;
+  final String cityName;
   const SearchResultPage({
     super.key,
-    required this.searchResult,
+    required this.lat,
+    required this.lon,
+    required this.cityName,
   });
 
   @override
@@ -65,9 +69,9 @@ class _SearchResultPageState extends State<SearchResultPage> {
             if (state is ForecastLoading) {
               return const SizedBox();
             } else if (state is ForecastSuccess) {
-              List<ForecastWeatherModel> forecast = state.forecastWeather;
+              WeatherData forecast = state.forecastWeather;
               return Text(
-                'Test',
+                widget.cityName,
                 style: whiteTextStyle.copyWith(
                   fontWeight: medium,
                   fontSize: 16,
@@ -90,8 +94,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
             if (state is ForecastLoading) {
               return const SizedBox();
             } else if (state is ForecastSuccess) {
-              ForecastWeatherModel forecast =
-                  state.forecastWeather as ForecastWeatherModel;
+              WeatherData forecast = state.forecastWeather;
               return Container(
                 width: double.infinity,
                 margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
@@ -112,16 +115,16 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       ),
                       SizedBox(height: defaultVerticalMargin),
                       Image.asset(
-                          'assets/icons/weathers/${forecast.weather![0].icon}.png',
+                          'assets/icons/weathers/${forecast.current!.current.weather![0].icon}.png',
                           width: 64),
                       const SizedBox(height: 18),
                       Text(
-                        '${forecast.main!.temp}°C',
+                        '${forecast.current!.current.temp}°C',
                         style: whiteTextStyle.copyWith(fontSize: 20),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        forecast.weather![0].description!,
+                        forecast.current!.current.weather![0].description!,
                         style: whiteTextStyle.copyWith(
                           fontSize: 20,
                           fontWeight: semibold,
@@ -146,7 +149,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
             if (state is ForecastLoading) {
               return const SizedBox();
             } else if (state is ForecastSuccess) {
-              List<ForecastWeatherModel> forecast = state.forecastWeather;
+              WeatherData forecast = state.forecastWeather;
               return Container(
                 margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
                 child: Column(
@@ -162,13 +165,13 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       children: [
                         DetailExample(
                           imgUrl: 'assets/icons/ic_humid.png',
-                          value: '${forecast[0].main!.humidity}%',
+                          value: '${forecast.current!.current.humidity}%',
                           title: 'Humidity',
                         ),
                         SizedBox(width: defaultHorizontalMargin),
                         DetailExample(
                           imgUrl: 'assets/icons/ic_pressure.png',
-                          value: '${forecast[0].main!.pressure} hPa',
+                          value: '${forecast.current!.current.pressure} hPa',
                           title: 'Pressure',
                         ),
                       ],
@@ -178,13 +181,14 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       children: [
                         DetailExample(
                           imgUrl: 'assets/icons/ic_wind_speed.png',
-                          value: '${forecast[0].wind!.speed} km/h',
+                          value: '${forecast.current!.current.windSpeed} km/h',
                           title: 'Wind Speed',
                         ),
                         SizedBox(width: defaultHorizontalMargin),
                         DetailExample(
                           imgUrl: 'assets/icons/ic_fog.png',
-                          value: '${forecast[0].visibility! / 1000} km',
+                          value:
+                              '${forecast.current!.current.visibility! / 1000} km',
                           title: 'Visibility',
                         ),
                       ],
@@ -230,7 +234,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
 
     return BlocProvider(
       create: (context) =>
-          ForecastBloc()..add(ForecastEventStarted(widget.searchResult.name!)),
+          ForecastBloc()..add(ForecastEventStarted(widget.lat, widget.lon)),
       child: Scaffold(
         backgroundColor: blueColor,
         appBar: appBar(),

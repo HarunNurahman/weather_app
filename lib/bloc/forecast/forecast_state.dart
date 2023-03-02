@@ -12,7 +12,7 @@ class ForecastInitial extends ForecastState {}
 class ForecastLoading extends ForecastState {}
 
 class ForecastSuccess extends ForecastState {
-  final List<ForecastWeatherModel> forecastWeather;
+  final WeatherData forecastWeather;
   const ForecastSuccess(this.forecastWeather);
 
   @override

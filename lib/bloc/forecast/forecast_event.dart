@@ -5,8 +5,9 @@ abstract class ForecastEvent extends Equatable {
 }
 
 class ForecastEventStarted extends ForecastEvent {
-  final String cityName;
-  const ForecastEventStarted(this.cityName);
+  final double lat;
+  final double lon;
+  const ForecastEventStarted(this.lat, this.lon);
 
   @override
   List<Object?> get props => [];

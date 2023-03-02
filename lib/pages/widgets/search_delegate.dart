@@ -89,7 +89,9 @@ class MySearchDelegate extends SearchDelegate {
                     context,
                     MaterialPageRoute(
                       builder: (context) => SearchResultPage(
-                        searchResult: search,
+                        lat: search.coord!.lat!,
+                        lon: search.coord!.lon!,
+                        cityName: search.name!,
                       ),
                     ),
                   );
