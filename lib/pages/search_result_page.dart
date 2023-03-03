@@ -6,10 +6,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/forecast/forecast_bloc.dart';
 import 'package:weather_app/config/styles.dart';
-import 'package:weather_app/models/forecast_weather_model.dart';
-import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/pages/detail_example.dart';
+import 'package:weather_app/pages/hourly_example.dart';
 
 class SearchResultPage extends StatefulWidget {
   final double lat;
@@ -64,31 +63,86 @@ class _SearchResultPageState extends State<SearchResultPage> {
             color: whiteColor,
           ),
         ),
-        title: BlocBuilder<ForecastBloc, ForecastState>(
-          builder: (context, state) {
-            if (state is ForecastLoading) {
-              return const SizedBox();
-            } else if (state is ForecastSuccess) {
-              WeatherData forecast = state.forecastWeather;
-              return Text(
-                widget.cityName,
-                style: whiteTextStyle.copyWith(
-                  fontWeight: medium,
-                  fontSize: 16,
-                ),
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
+        title: Text(
+          widget.cityName,
+          style: whiteTextStyle.copyWith(
+            fontWeight: medium,
+            fontSize: 16,
+          ),
         ),
+      );
+    }
+
+    // Cuaca saat ini
+    Widget currentWeather() {
+      return BlocBuilder<ForecastBloc, ForecastState>(
+        builder: (context, state) {
+          if (state is ForecastLoading) {
+            return Center(
+              child: CircularProgressIndicator(color: whiteColor),
+            );
+          } else if (state is ForecastSuccess) {
+            WeatherData forecast = state.forecastWeather;
+            return Container(
+              color: blueColor,
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
+              child: Center(
+                child: Column(
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: dateFormat,
+                        style: whiteTextStyle,
+                        children: [
+                          TextSpan(
+                            text: ' - $timeFormat',
+                            style: whiteTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: defaultVerticalMargin),
+                    Image.asset(
+                        'assets/icons/weathers/${forecast.current!.current.weather![0].icon}.png',
+                        width: 64),
+                    const SizedBox(height: 18),
+                    Text(
+                      '${forecast.current!.current.temp}°C',
+                      style: whiteTextStyle.copyWith(fontSize: 20),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      forecast.current!.current.weather![0].description!
+                          .toTitleCase(),
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 20,
+                        fontWeight: semibold,
+                      ),
+                    ),
+                    SizedBox(height: defaultVerticalMargin),
+                    Text(
+                      'Feels Like ${forecast.current!.current.feelsLike}°C',
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: light,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            print(state.toString());
+            return const SizedBox();
+          }
+        },
       );
     }
 
     // Widget untuk konten hourly, dan detail informasi
     Widget content() {
-      // Cuaca saat ini
-      Widget currentWeather() {
+      Widget hourly() {
         return BlocBuilder<ForecastBloc, ForecastState>(
           builder: (context, state) {
             if (state is ForecastLoading) {
@@ -96,46 +150,43 @@ class _SearchResultPageState extends State<SearchResultPage> {
             } else if (state is ForecastSuccess) {
               WeatherData forecast = state.forecastWeather;
               return Container(
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
-                child: Center(
-                  child: Column(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          text: dateFormat,
-                          style: whiteTextStyle,
-                          children: [
-                            TextSpan(
-                              text: ' - $timeFormat',
-                              style: whiteTextStyle,
-                            ),
-                          ],
-                        ),
+                margin: EdgeInsets.only(top: defaultVerticalMargin),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hourly',
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 20,
+                        fontWeight: medium,
                       ),
-                      SizedBox(height: defaultVerticalMargin),
-                      Image.asset(
-                          'assets/icons/weathers/${forecast.current!.current.weather![0].icon}.png',
-                          width: 64),
-                      const SizedBox(height: 18),
-                      Text(
-                        '${forecast.current!.current.temp}°C',
-                        style: whiteTextStyle.copyWith(fontSize: 20),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        forecast.current!.current.weather![0].description!,
-                        style: whiteTextStyle.copyWith(
-                          fontSize: 20,
-                          fontWeight: semibold,
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      height: 111,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return HourlyExample(
+                            temp: forecast.hourly!.hourly[index].temp!,
+                            timeStamp: forecast.hourly!.hourly[index].dt!,
+                            imgUrl: forecast
+                                .hourly!.hourly[index].weather![0].icon!,
+                          );
+                        },
+                        separatorBuilder: (context, index) => VerticalDivider(
+                          color: transparent,
+                          width: 10,
                         ),
-                      )
-                    ],
-                  ),
+                        itemCount: forecast.hourly!.hourly.length >= 6
+                            ? 6
+                            : forecast.hourly!.hourly.length,
+                      ),
+                    ),
+                  ],
                 ),
               );
             } else {
-              print(state.toString());
               return const SizedBox();
             }
           },
@@ -219,7 +270,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  currentWeather(),
+                  hourly(),
                   detailInfo(),
                 ],
               ),
@@ -242,6 +293,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                currentWeather(),
                 content(),
               ],
             ),
