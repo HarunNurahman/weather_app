@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/search_weather/search_weather_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/search_weather_model.dart';
-import 'package:weather_app/pages/search_result_page.dart';
+import 'package:weather_app/pages/widgets/search_result/search_result_page.dart';
 
 class MySearchDelegate extends SearchDelegate {
   String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
@@ -178,7 +178,15 @@ class MySearchDelegate extends SearchDelegate {
             return Container(
               color: blackColor,
               child: Center(
-                child: Text('Kota Tidak Ditemukan', style: whiteTextStyle),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/city-error-state.svg',
+                      width: 196,
+                    )
+                  ],
+                ),
               ),
             );
           }

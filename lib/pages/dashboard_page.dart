@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
-import 'package:weather_app/models/search_weather_model.dart';
-import 'package:weather_app/pages/search_result_page.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
 import 'package:weather_app/pages/widgets/current/weather_info_box.dart';
 import 'package:weather_app/pages/widgets/detail/detail_info_widget.dart';
@@ -93,6 +91,11 @@ class _DashboardPageState extends State<DashboardPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      CircularProgressIndicator(
+                        color: whiteColor,
+                        strokeWidth: 0.5,
+                      ),
+                      SizedBox(height: defaultVerticalMargin),
                       Text(
                         'Mengambil Data...',
                         style: whiteTextStyle.copyWith(
@@ -100,8 +103,6 @@ class _DashboardPageState extends State<DashboardPage> {
                           fontWeight: light,
                         ),
                       ),
-                      SizedBox(height: defaultVerticalMargin),
-                      CircularProgressIndicator(color: blueColor),
                     ],
                   ),
                 )

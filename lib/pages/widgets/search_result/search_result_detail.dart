@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/config/styles.dart';
 
-class DetailExample extends StatelessWidget {
+class SearchResultDetail extends StatelessWidget {
   final String imgUrl;
   final String title;
   final String value;
-  const DetailExample({
+  const SearchResultDetail({
     super.key,
     required this.imgUrl,
     required this.title,

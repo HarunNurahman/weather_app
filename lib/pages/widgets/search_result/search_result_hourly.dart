@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
 
-class HourlyExample extends StatelessWidget {
+class SearchResultHourly extends StatelessWidget {
   final int temp;
   final int timeStamp;
   final String imgUrl;
-  const HourlyExample({
+  const SearchResultHourly({
     super.key,
     required this.temp,
     required this.timeStamp,

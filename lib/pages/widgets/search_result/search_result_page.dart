@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/forecast/forecast_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/weather_data.dart';
-import 'package:weather_app/pages/detail_example.dart';
-import 'package:weather_app/pages/hourly_example.dart';
+import 'package:weather_app/pages/widgets/search_result/search_result_detail.dart';
+import 'package:weather_app/pages/widgets/search_result/search_result_hourly.dart';
 
 class SearchResultPage extends StatefulWidget {
   final double lat;
@@ -167,7 +168,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return HourlyExample(
+                          return SearchResultHourly(
                             temp: forecast.hourly!.hourly[index].temp!,
                             timeStamp: forecast.hourly!.hourly[index].dt!,
                             imgUrl: forecast
@@ -214,13 +215,13 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     SizedBox(height: defaultHorizontalMargin),
                     Row(
                       children: [
-                        DetailExample(
+                        SearchResultDetail(
                           imgUrl: 'assets/icons/ic_humid.png',
                           value: '${forecast.current!.current.humidity}%',
                           title: 'Humidity',
                         ),
                         SizedBox(width: defaultHorizontalMargin),
-                        DetailExample(
+                        SearchResultDetail(
                           imgUrl: 'assets/icons/ic_pressure.png',
                           value: '${forecast.current!.current.pressure} hPa',
                           title: 'Pressure',
@@ -230,13 +231,13 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     SizedBox(height: defaultHorizontalMargin),
                     Row(
                       children: [
-                        DetailExample(
+                        SearchResultDetail(
                           imgUrl: 'assets/icons/ic_wind_speed.png',
                           value: '${forecast.current!.current.windSpeed} km/h',
                           title: 'Wind Speed',
                         ),
                         SizedBox(width: defaultHorizontalMargin),
-                        DetailExample(
+                        SearchResultDetail(
                           imgUrl: 'assets/icons/ic_fog.png',
                           value:
                               '${forecast.current!.current.visibility! / 1000} km',
