@@ -1,16 +1,16 @@
 # weather_app
 
-A new Flutter project.
+Weather Forecast application build with Dart/Flutter and uses OpenWeatherAPI as data source. For this project I used GetX and Flutter_Bloc as state management. 
 
-## Getting Started
+UI Design https://www.figma.com/community/file/1055880209981553884 by [Reynaldi Daniel](https://www.figma.com/@heyrey)
 
-This project is a starting point for a Flutter application.
+## Features
+1. Showing current weather by your current location using geolocator or GPS on your phone (permission is required)
+2. Showing hourly (up to 12 hour(s)) and daily weather
+3. Search based on city name
 
-A few resources to get you started if this is your first Flutter project:
+## Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Demo App
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Dependencies
