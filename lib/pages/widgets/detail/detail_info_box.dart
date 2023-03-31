@@ -16,7 +16,7 @@ class DetailInfoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 156,
+      width: MediaQuery.of(context).size.width * 0.438,
       padding: EdgeInsets.all(defaultHorizontalMargin),
       decoration: BoxDecoration(
         color: blackColor4,
