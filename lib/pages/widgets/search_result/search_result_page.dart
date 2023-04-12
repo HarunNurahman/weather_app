@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/forecast/forecast_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/weather_data.dart';
+import 'package:weather_app/pages/widgets/search_result/search_result_daily.dart';
 import 'package:weather_app/pages/widgets/search_result/search_result_detail.dart';
 import 'package:weather_app/pages/widgets/search_result/search_result_hourly.dart';
 
@@ -194,6 +195,52 @@ class _SearchResultPageState extends State<SearchResultPage> {
         );
       }
 
+      Widget daily() {
+        return BlocBuilder<ForecastBloc, ForecastState>(
+          builder: (context, state) {
+            if (state is ForecastLoading) {
+              return const SizedBox();
+            } else if (state is ForecastSuccess) {
+              WeatherData forecast = state.forecastWeather;
+
+              return Container(
+                margin: EdgeInsets.only(top: defaultVerticalMargin),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Daily',
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 20,
+                        fontWeight: medium,
+                      ),
+                    ),
+                    SizedBox(height: defaultHorizontalMargin),
+                    SizedBox(
+                      height: 240,
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => SearchResultDaily(
+                          day: forecast.daily!.daily[index].dt!,
+                          imgUrl:
+                              forecast.daily!.daily[index].weather![0].icon!,
+                          weather: forecast
+                              .daily!.daily[index].weather![0].description!,
+                          minTemp: forecast.daily!.daily[index].temp!.min!,
+                          maxTemp: forecast.daily!.daily[index].temp!.max!,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        );
+      }
+
       // Widget untuk detail informasi (humidity, air pressure, wind speed, visibility)
       Widget detailInfo() {
         return BlocBuilder<ForecastBloc, ForecastState>(
@@ -272,6 +319,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   hourly(),
+                  daily(),
                   detailInfo(),
                 ],
               ),
