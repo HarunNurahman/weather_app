@@ -8,7 +8,6 @@ class GlobalController extends GetxController {
   final RxDouble _lat = 0.0.obs;
   final RxDouble _lon = 0.0.obs;
 
-  // Contoh untuk dipanggil
   RxBool checkLoading() => isLoading;
   RxDouble getLat() => _lat;
   RxDouble getLon() => _lon;
