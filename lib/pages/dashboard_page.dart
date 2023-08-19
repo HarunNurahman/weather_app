@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/config/styles.dart';
+import 'package:weather_app/pages/notification_setting_page.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
 import 'package:weather_app/pages/widgets/current/weather_info_box.dart';
 import 'package:weather_app/pages/widgets/detail/detail_info_widget.dart';
@@ -242,8 +243,38 @@ class _DashboardPageState extends State<DashboardPage> {
       );
     }
 
+    // Drawer Widget
+    Widget buildDrawer() {
+      return Drawer(
+        backgroundColor: blackColor,
+        elevation: 0,
+        child: ListView(
+          padding: EdgeInsets.symmetric(
+            horizontal: defaultHorizontalMargin,
+            vertical: defaultVerticalMargin,
+          ),
+          children: [
+            ListTile(
+              leading: Icon(Icons.notification_add, color: blueColor, size: 24),
+              title: Text(
+                'Notification Setting',
+                style: whiteTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: medium,
+                ),
+              ),
+              onTap: () => Get.to(NotificationSettingPage()),
+            )
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: blackColor,
+      drawer: Drawer(
+        child: buildDrawer(),
+      ),
       body: SafeArea(
         child: Obx(
           () => globalController.isLoading.isTrue

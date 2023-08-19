@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/pages/dashboard_page.dart';
+import 'package:weather_app/services/notification_services.dart';
 
 void main() {
-  runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

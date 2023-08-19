@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:weather_app/bloc/forecast/forecast_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/weather_data.dart';
@@ -79,8 +80,15 @@ class _SearchResultPageState extends State<SearchResultPage> {
       return BlocBuilder<ForecastBloc, ForecastState>(
         builder: (context, state) {
           if (state is ForecastLoading) {
-            return Center(
-              child: CircularProgressIndicator(color: whiteColor),
+            return Shimmer.fromColors(
+              baseColor: blueColor,
+              highlightColor: blueColor3,
+              child: Container(
+                color: blueColor,
+                width: double.infinity,
+                height: 375,
+                margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
+              ),
             );
           } else if (state is ForecastSuccess) {
             WeatherData forecast = state.forecastWeather;
@@ -259,30 +267,25 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           fontSize: 20, fontWeight: medium),
                     ),
                     SizedBox(height: defaultHorizontalMargin),
-                    Row(
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
                       children: [
                         SearchResultDetail(
                           imgUrl: 'assets/icons/ic_humid.png',
                           value: '${forecast.current!.current.humidity}%',
                           title: 'Humidity',
                         ),
-                        SizedBox(width: defaultHorizontalMargin),
                         SearchResultDetail(
                           imgUrl: 'assets/icons/ic_pressure.png',
                           value: '${forecast.current!.current.pressure} hPa',
                           title: 'Pressure',
                         ),
-                      ],
-                    ),
-                    SizedBox(height: defaultHorizontalMargin),
-                    Row(
-                      children: [
                         SearchResultDetail(
                           imgUrl: 'assets/icons/ic_wind_speed.png',
                           value: '${forecast.current!.current.windSpeed} km/h',
                           title: 'Wind Speed',
                         ),
-                        SizedBox(width: defaultHorizontalMargin),
                         SearchResultDetail(
                           imgUrl: 'assets/icons/ic_fog.png',
                           value:
@@ -290,7 +293,39 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           title: 'Visibility',
                         ),
                       ],
-                    ),
+                    )
+                    // Row(
+                    //   children: [
+                    //     SearchResultDetail(
+                    //       imgUrl: 'assets/icons/ic_humid.png',
+                    //       value: '${forecast.current!.current.humidity}%',
+                    //       title: 'Humidity',
+                    //     ),
+                    //     SizedBox(width: defaultHorizontalMargin),
+                    //     SearchResultDetail(
+                    //       imgUrl: 'assets/icons/ic_pressure.png',
+                    //       value: '${forecast.current!.current.pressure} hPa',
+                    //       title: 'Pressure',
+                    //     ),
+                    //   ],
+                    // ),
+                    // SizedBox(height: defaultHorizontalMargin),
+                    // Row(
+                    //   children: [
+                    //     SearchResultDetail(
+                    //       imgUrl: 'assets/icons/ic_wind_speed.png',
+                    //       value: '${forecast.current!.current.windSpeed} km/h',
+                    //       title: 'Wind Speed',
+                    //     ),
+                    //     SizedBox(width: defaultHorizontalMargin),
+                    //     SearchResultDetail(
+                    //       imgUrl: 'assets/icons/ic_fog.png',
+                    //       value:
+                    //           '${forecast.current!.current.visibility! / 1000} km',
+                    //       title: 'Visibility',
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               );
