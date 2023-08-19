@@ -7,6 +7,7 @@ import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
 import 'package:weather_app/pages/widgets/current/weather_info_box.dart';
 import 'package:weather_app/pages/widgets/detail/detail_info_widget.dart';
+import 'package:weather_app/pages/widgets/detail/skeleton_detail_info_box.dart';
 import 'package:weather_app/pages/widgets/hourly/skeleton_weather_hourly_box.dart';
 import 'package:weather_app/pages/widgets/hourly/weather_hourly_widget.dart';
 import 'package:weather_app/services/global_controller.dart';
@@ -95,7 +96,7 @@ class _DashboardPageState extends State<DashboardPage> {
               // Lokasi
               Shimmer.fromColors(
                 baseColor: whiteColor,
-                highlightColor: grayColor,
+                highlightColor: whiteColor2,
                 child: Container(
                   width: 152,
                   height: 17,
@@ -119,97 +120,23 @@ class _DashboardPageState extends State<DashboardPage> {
 
     // Skeleton Loading Animation untuk currentWeather
     Widget skeletonCurrentWeather() {
-      return Container(
-        margin: EdgeInsets.only(top: defaultVerticalMargin),
-        padding: EdgeInsets.all(defaultVerticalMargin),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(defaultRadius),
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFF4F7FFA),
-              Color(0xFF335FD1),
-            ],
+      return Shimmer.fromColors(
+        baseColor: const Color(0xFF4F7FFA),
+        highlightColor: const Color(0xFF335FD1),
+        child: Container(
+          width: double.infinity,
+          height: 193,
+          margin: EdgeInsets.only(top: defaultVerticalMargin),
+          padding: EdgeInsets.all(defaultVerticalMargin),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(defaultRadius),
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFF4F7FFA),
+                Color(0xFF335FD1),
+              ],
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Tanggal dan Waktu
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(dateFormat, style: whiteTextStyle),
-                StreamBuilder(
-                  stream: Stream.periodic(const Duration(seconds: 1)),
-                  builder: (context, snapshot) {
-                    return Text(
-                      timeFormat,
-                      style: whiteTextStyle,
-                    );
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: defaultVerticalMargin),
-            // Suhu dan Status Cuaca
-            Row(
-              children: [
-                // Icon cuaca
-                Shimmer.fromColors(
-                  baseColor: whiteColor,
-                  highlightColor: blueColor5,
-                  child: Container(
-                    width: 64,
-                    height: 64,
-                    color: whiteColor,
-                  ),
-                ),
-                SizedBox(width: defaultRadius),
-                // Divider
-                Container(
-                  height: 50,
-                  width: 1,
-                  color: whiteColor.withOpacity(0.5),
-                ),
-                SizedBox(width: defaultRadius),
-                // Informasi cuaca
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Shimmer.fromColors(
-                      baseColor: whiteColor,
-                      highlightColor: blueColor5,
-                      child: Container(
-                        width: 46,
-                        height: 24,
-                        color: whiteColor,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Shimmer.fromColors(
-                      baseColor: whiteColor,
-                      highlightColor: blueColor5,
-                      child: Container(
-                        width: 134,
-                        height: 64,
-                        color: whiteColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: defaultVerticalMargin),
-            Shimmer.fromColors(
-              baseColor: whiteColor,
-              highlightColor: blueColor5,
-              child: Container(
-                width: 164,
-                height: 17,
-                color: whiteColor,
-              ),
-            ),
-          ],
         ),
       );
     }
@@ -230,12 +157,85 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             const SizedBox(height: 16),
             const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SkeletonWeatherHourlyBox(),
                 SkeletonWeatherHourlyBox(),
                 SkeletonWeatherHourlyBox(),
                 SkeletonWeatherHourlyBox(),
               ],
+            )
+          ],
+        ),
+      );
+    }
+
+    // Skeleton Loading Animation untuk dailyWeather
+    Widget skeletonDailyWeather() {
+      return Container(
+        margin: EdgeInsets.only(top: defaultVerticalMargin),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Daily',
+              style: whiteTextStyle.copyWith(
+                fontSize: 20,
+                fontWeight: medium,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Column(
+              children: [
+                Shimmer.fromColors(
+                  baseColor: blueColor4,
+                  highlightColor: blueColor5,
+                  child: Container(
+                    width: double.infinity,
+                    height: 72,
+                    padding: EdgeInsets.all(defaultHorizontalMargin),
+                    margin: EdgeInsets.only(bottom: defaultRadius),
+                    decoration: BoxDecoration(
+                      color: blueColor4,
+                      borderRadius: BorderRadius.circular(defaultRadius),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    }
+
+    // Skeleton Loading Animation untuk detailWeatherInfo
+    Widget skeletonDetailInfo() {
+      return Container(
+        margin: EdgeInsets.only(top: defaultVerticalMargin),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Detail Information',
+              style: whiteTextStyle.copyWith(
+                fontSize: 20,
+                fontWeight: medium,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Shimmer.fromColors(
+              baseColor: blackColor4,
+              highlightColor: grayColor,
+              child: const Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: [
+                  SkeletonDetailInfoBox(),
+                  SkeletonDetailInfoBox(),
+                  SkeletonDetailInfoBox(),
+                  SkeletonDetailInfoBox(),
+                ],
+              ),
             )
           ],
         ),
@@ -279,6 +279,8 @@ class _DashboardPageState extends State<DashboardPage> {
                         skeletonHeader(),
                         skeletonCurrentWeather(),
                         skeletonHourlyWeather(),
+                        skeletonDailyWeather(),
+                        skeletonDetailInfo(),
                       ],
                     ),
                   ),
