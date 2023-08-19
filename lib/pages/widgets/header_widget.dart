@@ -50,8 +50,10 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             RichText(
               text: TextSpan(
                 text: city,
-                style:
-                    whiteTextStyle.copyWith(fontSize: 14, fontWeight: medium),
+                style: whiteTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: medium,
+                ),
                 children: [
                   TextSpan(
                     text: ', $subcity',
