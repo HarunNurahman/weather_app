@@ -21,6 +21,7 @@ class _NotificationSettingPageState extends State<NotificationSettingPage> {
   String subcity = '';
 
   final GlobalController weatherController = Get.put(GlobalController());
+  final TextEditingController dateTimeController = TextEditingController();
 
   getAddress(lat, lon) async {
     List<Placemark> placemark = await placemarkFromCoordinates(lat, lon);
@@ -43,66 +44,87 @@ class _NotificationSettingPageState extends State<NotificationSettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: blackColor,
+        elevation: 0,
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Icon(
+            Icons.arrow_back_ios_rounded,
+            size: 16,
+            color: whiteColor,
+          ),
+        ),
+        title: Text(
+          'Notification Setting',
+          style: whiteTextStyle.copyWith(
+            fontWeight: medium,
+            fontSize: 16,
+          ),
+        ),
+      ),
       backgroundColor: blackColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              child: const Text('Show notifications'),
-              onPressed: () {
-                NotificationService().showNotification(
-                  title: '$city, $subcity',
-                  body:
-                      '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()}: ${weatherController.getData().current!.current.temp}°C',
-                );
-              },
+      body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: defaultVerticalMargin),
+        children: [
+          const SizedBox(height: 30),
+          TextFormField(
+            showCursor: false,
+            readOnly: true,
+            onTap: () {
+              DatePicker.showDateTimePicker(
+                context,
+                showTitleActions: true,
+                onChanged: (dateTime) => scheduleTime = dateTime,
+                onConfirm: (dateTime) {
+                  debugPrint('Notification Scheduled for $scheduleTime');
+                  NotificationService().scheduledNotification(
+                    title:
+                        'Weather $city at ${scheduleTime!.hour}:${scheduleTime!.minute}',
+                    body:
+                        '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()}: ${weatherController.getData().current!.current.temp}°C/${weatherController.getData().daily!.daily[0].temp!.max}°C',
+                    scheduledNotificationDateTime: scheduleTime!,
+                  );
+                },
+              );
+            },
+            decoration: InputDecoration(
+              hintText: 'Select Date & Time',
+              hintStyle: whiteTextStyle.copyWith(
+                fontSize: 12,
+                fontWeight: semibold,
+              ),
+              contentPadding: EdgeInsets.all(defaultRadius),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: whiteColor),
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: whiteColor),
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: whiteColor),
+                borderRadius: BorderRadius.circular(defaultRadius),
+              ),
             ),
-            DateTimePickerText(),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              child: const Text('Scheduled Notification'),
-              onPressed: () {
-                debugPrint('Notification Scheduled for $scheduleTime');
-                NotificationService().scheduledNotification(
-                  title: '',
-                  body: '$scheduleTime',
-                  scheduledNotificationDateTime: scheduleTime!,
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class DateTimePickerText extends StatefulWidget {
-  const DateTimePickerText({super.key});
-
-  @override
-  State<DateTimePickerText> createState() => _DateTimePickerTextState();
-}
-
-class _DateTimePickerTextState extends State<DateTimePickerText> {
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        DatePicker.showDateTimePicker(
-          context,
-          showTitleActions: true,
-          onChanged: (dateTime) => scheduleTime = dateTime,
-          onConfirm: (dateTime) {},
-        );
-      },
-      child: Text(
-        'Select Date & Time',
-        style: whiteTextStyle.copyWith(
-          color: blueColor,
-        ),
-      ),
-    );
-  }
-}
+// ElevatedButton(
+//   child: const Text('Show notifications'),
+//   onPressed: () {
+//     NotificationService().showNotification(
+//       title: '$city, $subcity',
+//       body:
+//           '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()}: ${weatherController.getData().current!.current.temp}°C',
+//     );
+//   },
+// ),

@@ -259,26 +259,6 @@ class _DashboardPageState extends State<DashboardPage> {
       body: SafeArea(
         child: Obx(
           () => globalController.isLoading.isTrue
-              // ? Center(
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: [
-              //         CircularProgressIndicator(
-              //           color: whiteColor,
-              //           strokeWidth: 0.5,
-              //         ),
-              //         SizedBox(height: defaultVerticalMargin),
-              //         Text(
-              //           'Mengambil Data...',
-              //           style: whiteTextStyle.copyWith(
-              //             fontSize: 12,
-              //             fontWeight: light,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   )
               ? SingleChildScrollView(
                   child: Container(
                     margin: EdgeInsets.symmetric(
