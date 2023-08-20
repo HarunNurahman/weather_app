@@ -88,7 +88,6 @@ class _DashboardPageState extends State<DashboardPage> {
     // Skeleton Loading Animation untuk header
     Widget skeletonHeader() {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -106,11 +105,23 @@ class _DashboardPageState extends State<DashboardPage> {
               )
             ],
           ),
+          const Spacer(),
           // Search button
           GestureDetector(
             onTap: () {},
             child: Icon(
               Icons.search,
+              size: 24,
+              color: whiteColor,
+            ),
+          ),
+          const SizedBox(width: 8),
+          GestureDetector(
+            onTap: () => Get.to(
+              NotificationSettingPage(),
+            ),
+            child: Icon(
+              Icons.settings,
               size: 24,
               color: whiteColor,
             ),
@@ -243,38 +254,8 @@ class _DashboardPageState extends State<DashboardPage> {
       );
     }
 
-    // Drawer Widget
-    Widget buildDrawer() {
-      return Drawer(
-        backgroundColor: blackColor,
-        elevation: 0,
-        child: ListView(
-          padding: EdgeInsets.symmetric(
-            horizontal: defaultHorizontalMargin,
-            vertical: defaultVerticalMargin,
-          ),
-          children: [
-            ListTile(
-              leading: Icon(Icons.notification_add, color: blueColor, size: 24),
-              title: Text(
-                'Notification Setting',
-                style: whiteTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: medium,
-                ),
-              ),
-              onTap: () => Get.to(NotificationSettingPage()),
-            )
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: blackColor,
-      drawer: Drawer(
-        child: buildDrawer(),
-      ),
       body: SafeArea(
         child: Obx(
           () => globalController.isLoading.isTrue

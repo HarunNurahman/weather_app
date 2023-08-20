@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:weather_app/pages/notification_setting_page.dart';
 import 'package:weather_app/pages/widgets/search_delegate.dart';
 
 import '../../config/styles.dart';
@@ -40,7 +41,6 @@ class _HeaderWidgetState extends State<HeaderWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
@@ -67,6 +67,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             ),
           ],
         ),
+        const Spacer(),
         // Search button
         GestureDetector(
           onTap: () {
@@ -77,6 +78,17 @@ class _HeaderWidgetState extends State<HeaderWidget> {
           },
           child: Icon(
             Icons.search,
+            size: 24,
+            color: whiteColor,
+          ),
+        ),
+        const SizedBox(width: 8),
+        GestureDetector(
+          onTap: () => Get.to(
+            NotificationSettingPage(),
+          ),
+          child: Icon(
+            Icons.settings,
             size: 24,
             color: whiteColor,
           ),
