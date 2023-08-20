@@ -96,7 +96,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                               'Notification Scheduled for $scheduleTime');
                           NotificationService().scheduledNotification(
                             title:
-                                'Weather ${widget.cityName} at ${scheduleTime!.hour}:${scheduleTime!.minute}',
+                                '${widget.cityName} at ${scheduleTime!.hour}:${scheduleTime!.minute}',
                             body:
                                 '${forecast.current!.current.weather![0].description!.toTitleCase()}: ${forecast.current!.current.temp}°C',
                             scheduledNotificationDateTime: scheduleTime!,

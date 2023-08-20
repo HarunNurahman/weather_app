@@ -83,7 +83,7 @@ class _NotificationSettingPageState extends State<NotificationSettingPage> {
                   debugPrint('Notification Scheduled for $scheduleTime');
                   NotificationService().scheduledNotification(
                     title:
-                        'Weather $city at ${scheduleTime!.hour}:${scheduleTime!.minute}',
+                        '$city at ${scheduleTime!.hour}:${scheduleTime!.minute}',
                     body:
                         '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()}: ${weatherController.getData().current!.current.temp}°C/${weatherController.getData().daily!.daily[0].temp!.max}°C',
                     scheduledNotificationDateTime: scheduleTime!,
