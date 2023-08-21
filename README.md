@@ -12,5 +12,20 @@ UI Design https://www.figma.com/community/file/1055880209981553884 by [Reynaldi 
 ## Installation
 
 ## Demo App
+-
 
 ## Dependencies
+[`dio`]: ^5.0.0
+[`equatable`]: ^2.0.5
+[`flutter_bloc`]: ^8.1.2
+[`flutter_datetime_picker_plus`]: ^2.0.1
+[`flutter_local_notifications`]: ^15.1.0+1
+[`flutter_svg`]: ^2.0.2
+[`geocoding`]: ^2.0.5
+[`geolocator`]: ^9.0.2
+[`get`]: ^4.6.5
+[`google_fonts`]: ^4.0.3
+[`http`]: ^0.13.5
+[`intl`]: ^0.18.0
+[`location`]: ^4.4.0
+[`shimmer`]: ^3.0.0
