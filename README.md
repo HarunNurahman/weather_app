@@ -10,9 +10,9 @@ UI Design https://www.figma.com/community/file/1055880209981553884 by [Reynaldi 
 3. Search based on city name
 
 ## Installation
+You can go to  ```lib/services/api_services.dart``` and change ```apiKey``` to your API key
 
-## Demo App
--
+```String apiKey = YOUR_API_KEY```
 
 ## Dependencies
 - [`dio`](): ^5.0.0
