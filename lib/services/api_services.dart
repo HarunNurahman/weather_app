@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/models/air_pollution_model.dart';
 import 'package:weather_app/models/forecast_weather_model.dart';
 import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/models/weather_data.dart';
@@ -45,6 +46,7 @@ class ApiServices {
     }
   }
 
+  // API Pencarian cuaca berdasarkan query kota
   Future<SearchWeatherModel> searchWeather(String query) async {
     try {
       final response = await _dio
@@ -58,16 +60,34 @@ class ApiServices {
     }
   }
 
+  // API untuk search result
   Future<List<ForecastWeatherModel>> getWeatherForecast(
     String cityName,
   ) async {
     try {
-      final response = await _dio.get(
-          '$searchUrl/forecast?q=$cityName&appid=$apiKey&units=metric');
+      final response = await _dio
+          .get('$searchUrl/forecast?q=$cityName&appid=$apiKey&units=metric');
       var forecast = response.data["list"] as List;
       List<ForecastWeatherModel> weatherForecast =
           forecast.map((e) => ForecastWeatherModel.fromJson(e)).toList();
       return weatherForecast;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // API untuk polusi udara berdasarkan lat & lon
+  Future<List<AirPollutionModel>> getAirPollutionD(
+    String lat,
+    String lon,
+  ) async {
+    try {
+      final response = await _dio
+          .get('$searchUrl/air_pollution?lat=$lat&lon=$lon&appid=$apiKey');
+      var airPollution = response.data["list"] as List;
+      List<AirPollutionModel> airPollutionResult =
+          airPollution.map((e) => AirPollutionModel.fromJson(e)).toList();
+      return airPollutionResult;
     } catch (e) {
       throw Exception(e.toString());
     }
