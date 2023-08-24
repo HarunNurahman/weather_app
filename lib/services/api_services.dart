@@ -77,7 +77,7 @@ class ApiServices {
   }
 
   // API untuk polusi udara berdasarkan lat & lon
-  Future<AirPollutionModel> getAirPollution(
+  Future<List<AirPollutionModel>> getAirPollution(
     double lat,
     double lon,
   ) async {
@@ -85,8 +85,9 @@ class ApiServices {
       final response = await _dio.get(
         '$searchUrl/air_pollution?lat=$lat&lon=$lon&appid=$apiKey',
       );
-      AirPollutionModel result = AirPollutionModel.fromJson(response.data);
-
+      var data = response.data["list"] as List;
+      List<AirPollutionModel> result =
+          data.map((e) => AirPollutionModel.fromJson(e)).toList();
       return result;
     } catch (e) {
       throw Exception(e.toString());
