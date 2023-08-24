@@ -44,6 +44,7 @@ dependencies:
   http: ^0.13.5
   intl: ^0.18.0
   location: ^4.4.0
+  percent_indicator: ^4.2.3
   shimmer: ^3.0.0
 
 dev_dependencies:

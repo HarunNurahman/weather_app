@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/weather_data_current.dart';
 import 'package:weather_app/pages/widgets/detail/detail_info_box.dart';
@@ -28,7 +29,49 @@ class DetailInfoWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(defaultRadius),
             ),
             child: Row(
-              children: [],
+              children: [
+                CircularPercentIndicator(
+                  radius: 42,
+                  lineWidth: 6,
+                  arcType: ArcType.FULL,
+                  arcBackgroundColor: const Color(0xFFE4E4E4),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: greenColor,
+                  percent: 0.12,
+                  center: Text(
+                    '12',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: bold,
+                      color: greenColor,
+                    ),
+                  ),
+                  footer: Text(
+                    'PM 2.5',
+                    style: whiteTextStyle.copyWith(fontWeight: semibold),
+                  ),
+                ),
+                const SizedBox(width: 19),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Very Good',
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: semibold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'The air quality is good and clean, and there is almost no danger',
+                        style: whiteTextStyle,
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: defaultHorizontalMargin),
