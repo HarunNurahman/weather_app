@@ -22,6 +22,11 @@ Color greenColor = const Color(0xFF2AA837);
 
 Color transparent = Colors.transparent;
 
+Color yellowColor = Colors.yellow;
+Color orangeColor = Colors.deepOrange;
+Color redColor = Colors.redAccent;
+Color purpleColor = Colors.deepPurple;
+
 // Text Style List
 TextStyle whiteTextStyle = TextStyle(
   fontFamily: 'SF Pro Display',

@@ -1,120 +1,133 @@
-class AirPollutionModel {
-  Coord? coord;
-  List<ListElement>? listElement;
+/* 
+// Example Usage
+Map<String, dynamic> map = jsonDecode(<myJSONString>);
+var myRootNode = Root.fromJson(map);
+*/
+class Components {
+  double? co;
+  double? no;
+  double? no2;
+  double? o3;
+  double? so2;
+  double? pm25;
+  double? pm10;
+  double? nh3;
 
-  AirPollutionModel({
-    this.coord,
-    this.listElement,
-  });
+  Components(
+      {this.co,
+      this.no,
+      this.no2,
+      this.o3,
+      this.so2,
+      this.pm25,
+      this.pm10,
+      this.nh3}); 
 
-  factory AirPollutionModel.fromJson(Map<String, dynamic> json) =>
-      AirPollutionModel(
-        coord: Coord.fromJson(json["coord"]),
-        listElement: List<ListElement>.from(
-            json["list"].map((x) => AirPollutionModel.fromJson(x))),
-      );
+  Components.fromJson(Map<String, dynamic> json) {
+    co = json['co'];
+    no = json['no'];
+    no2 = json['no2'];
+    o3 = json['o3'];
+    so2 = json['so2'];
+    pm25 = json['pm2_5'];
+    pm10 = json['pm10'];
+    nh3 = json['nh3'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "coord": coord,
-        "list": List<dynamic>.from(listElement!.map((e) => e.toJson()))
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['co'] = co;
+    data['no'] = no;
+    data['no2'] = no2;
+    data['o3'] = o3;
+    data['so2'] = so2;
+    data['pm2_5'] = pm25;
+    data['pm10'] = pm10;
+    data['nh3'] = nh3;
+    return data;
+  }
 }
 
 class Coord {
   double? lon;
   double? lat;
 
-  Coord({
-    this.lon,
-    this.lat,
-  });
+  Coord({this.lon, this.lat}); 
 
-  factory Coord.fromJson(Map<String, dynamic> json) => Coord(
-        lon: json["lon"]?.toDouble(),
-        lat: json["lat"]?.toDouble(),
-      );
+  Coord.fromJson(Map<String, dynamic> json) {
+    lon = json['lon'];
+    lat = json['lat'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "lon": lon,
-        "lat": lat,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['lon'] = lon;
+    data['lat'] = lat;
+    return data;
+  }
 }
 
-class ListElement {
+class ListData {
   Main? main;
-  Component? component;
+  Components? components;
   int? dt;
 
-  ListElement({
-    this.main,
-    this.component,
-    this.dt,
-  });
+  ListData({this.main, this.components, this.dt}); 
 
-  factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
-        dt: json["dt"],
-        main: Main.fromJson(json["main"]),
-        component: Component.fromJson(json["components"]),
-      );
+  ListData.fromJson(Map<String, dynamic> json) {
+    main = json['main'] != null ? Main?.fromJson(json['main']) : null;
+    components = json['components'] != null
+        ? Components?.fromJson(json['components'])
+        : null;
+    dt = json['dt'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "dt": dt,
-        "main": main,
-        "component": component,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['main'] = main!.toJson();
+    data['components'] = components!.toJson();
+    data['dt'] = dt;
+    return data;
+  }
 }
 
 class Main {
   int? aqi;
-  Main({this.aqi});
 
-  factory Main.fromJson(Map<String, dynamic> json) => Main(
-        aqi: json["aqi"],
-      );
+  Main({this.aqi}); 
 
-  Map<String, dynamic> toJson() => {"aqi": aqi};
+  Main.fromJson(Map<String, dynamic> json) {
+    aqi = json['aqi'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['aqi'] = aqi;
+    return data;
+  }
 }
 
-class Component {
-  double? co;
-  double? no;
-  double? no2;
-  double? o3;
-  double? so2;
-  double? pm2_5;
-  double? pm10;
-  double? nh3;
+class AirPollutionModel {
+  Coord? coord;
+  List<ListData?>? list;
 
-  Component({
-    this.co,
-    this.no,
-    this.no2,
-    this.o3,
-    this.so2,
-    this.pm2_5,
-    this.pm10,
-    this.nh3,
-  });
+  AirPollutionModel({this.coord, this.list}); 
 
-  factory Component.fromJson(Map<String, dynamic> json) => Component(
-        co: json["co"].toDouble(),
-        no: json["no"].toDouble(),
-        no2: json["no2"].toDouble(),
-        o3: json["o3"].toDouble(),
-        so2: json["so2"].toDouble(),
-        pm2_5: json["pm2_5"].toDouble(),
-        pm10: json["pm10"].toDouble(),
-        nh3: json["nh3"].toDouble(),
-      );
+  AirPollutionModel.fromJson(Map<String, dynamic> json) {
+    coord = json['coord'] != null ? Coord?.fromJson(json['coord']) : null;
+    if (json['list'] != null) {
+      list = <ListData>[];
+      json['list'].forEach((v) {
+        list!.add(ListData.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-        "co": co,
-        "no": no,
-        "no2": no2,
-        "o3": o3,
-        "so2": so2,
-        "pm2_5": pm2_5,
-        "pm10": pm10,
-        "nh3": nh3,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['coord'] = coord!.toJson();
+    data['list'] = list != null ? list!.map((v) => v?.toJson()).toList() : null;
+    return data;
+  }
 }
+
