@@ -40,6 +40,7 @@ class DetailInfoWidget extends StatelessWidget {
                   return const SizedBox();
                 } else if (state is AirPollutionSuccess) {
                   AirPollutionModel airPollutionModel = state.airPollutionModel;
+
                   return Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
@@ -55,26 +56,19 @@ class DetailInfoWidget extends StatelessWidget {
                           arcType: ArcType.FULL,
                           arcBackgroundColor: const Color(0xFFE4E4E4),
                           circularStrokeCap: CircularStrokeCap.round,
-                          progressColor: airPollutionModel
-                                      .data.current.pollution.aqius <=
+                          progressColor: airPollutionModel.data.current.pollution.aqius <=
                                   50
                               ? greenColor
-                              : airPollutionModel.data.current.pollution.aqius >
-                                          50 &&
-                                      airPollutionModel
-                                              .data.current.pollution.aqius <=
+                              : airPollutionModel.data.current.pollution.aqius > 50 &&
+                                      airPollutionModel.data.current.pollution.aqius <=
                                           100
                                   ? yellowColor
-                                  : airPollutionModel.data.current.pollution
-                                                  .aqius >
-                                              100 &&
+                                  : airPollutionModel.data.current.pollution.aqius > 100 &&
                                           airPollutionModel.data.current
                                                   .pollution.aqius <=
                                               150
                                       ? orangeColor
-                                      : airPollutionModel.data.current.pollution
-                                                      .aqius >
-                                                  150 &&
+                                      : airPollutionModel.data.current.pollution.aqius > 150 &&
                                               airPollutionModel.data.current
                                                       .pollution.aqius <=
                                                   200
@@ -86,41 +80,43 @@ class DetailInfoWidget extends StatelessWidget {
                                                           .pollution.aqius <=
                                                       300
                                               ? purpleColor
-                                              : null,
-                          percent: 0.13,
+                                              : airPollutionModel.data.current
+                                                              .pollution.aqius >
+                                                          300 &&
+                                                      airPollutionModel
+                                                              .data
+                                                              .current
+                                                              .pollution
+                                                              .aqius <=
+                                                          500
+                                                  ? maroonColor
+                                                  : null,
+                          percent:
+                              airPollutionModel.data.current.pollution.aqius /
+                                  500,
                           center: Text(
                             '${airPollutionModel.data.current.pollution.aqius}',
                             style: whiteTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: bold,
-                              color: airPollutionModel
-                                          .data.current.pollution.aqius <=
+                              color: airPollutionModel.data.current.pollution.aqius <=
                                       50
                                   ? greenColor
-                                  : airPollutionModel.data.current.pollution
-                                                  .aqius >
-                                              50 &&
-                                          airPollutionModel.data.current
-                                                  .pollution.aqius <=
+                                  : airPollutionModel.data.current.pollution.aqius > 50 &&
+                                          airPollutionModel.data.current.pollution.aqius <=
                                               100
                                       ? yellowColor
-                                      : airPollutionModel.data.current.pollution
-                                                      .aqius >
-                                                  100 &&
+                                      : airPollutionModel.data.current.pollution.aqius > 100 &&
                                               airPollutionModel.data.current
                                                       .pollution.aqius <=
                                                   150
                                           ? orangeColor
-                                          : airPollutionModel.data.current
-                                                          .pollution.aqius >
-                                                      150 &&
+                                          : airPollutionModel.data.current.pollution.aqius > 150 &&
                                                   airPollutionModel.data.current
                                                           .pollution.aqius <=
                                                       200
                                               ? redColor
-                                              : airPollutionModel.data.current
-                                                              .pollution.aqius >
-                                                          200 &&
+                                              : airPollutionModel.data.current.pollution.aqius > 200 &&
                                                       airPollutionModel
                                                               .data
                                                               .current
@@ -128,32 +124,171 @@ class DetailInfoWidget extends StatelessWidget {
                                                               .aqius <=
                                                           300
                                                   ? purpleColor
-                                                  : null,
+                                                  : airPollutionModel
+                                                                  .data
+                                                                  .current
+                                                                  .pollution
+                                                                  .aqius >
+                                                              300 &&
+                                                          airPollutionModel
+                                                                  .data
+                                                                  .current
+                                                                  .pollution
+                                                                  .aqius <=
+                                                              500
+                                                      ? maroonColor
+                                                      : null,
                             ),
                           ),
-                          // footer: Text(
-                          //   'PM 2.5',
-                          //   style:
-                          //       whiteTextStyle.copyWith(fontWeight: semibold),
-                          // ),
                         ),
                         const SizedBox(width: 19),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'AQI - Very Good',
-                                style: whiteTextStyle.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: semibold,
+                              if (airPollutionModel
+                                      .data.current.pollution.aqius <=
+                                  50) ...[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'AQI - Very Good',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 16,
+                                        fontWeight: semibold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'The air quality is good and clean, and there is almost no danger.',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'The air quality is good and clean, and there is almost no danger',
-                                style: whiteTextStyle,
-                              )
+                              ] else if (airPollutionModel
+                                          .data.current.pollution.aqius >
+                                      50 &&
+                                  airPollutionModel
+                                          .data.current.pollution.aqius <=
+                                      100) ...[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'AQI - Moderate',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 16,
+                                        fontWeight: semibold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'The air is in good shape. However, a small percentage of highly sensitive individuals may experience some health issue.',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ] else if (airPollutionModel
+                                          .data.current.pollution.aqius >
+                                      100 &&
+                                  airPollutionModel
+                                          .data.current.pollution.aqius <=
+                                      150) ...[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'AQI - Unhealthy for Sensitive Groups',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 16,
+                                        fontWeight: semibold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Members of sensitive groups may experience health effects, The general public is less likely to be affected.',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ] else if (airPollutionModel
+                                          .data.current.pollution.aqius >
+                                      150 &&
+                                  airPollutionModel
+                                          .data.current.pollution.aqius <=
+                                      200) ...[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'AQI - Unhealthy',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 16,
+                                        fontWeight: semibold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Some members of the general public may suffer from health effects, while members of vulnerable groups may suffer from more serious health.',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ] else if (airPollutionModel
+                                          .data.current.pollution.aqius >
+                                      200 &&
+                                  airPollutionModel
+                                          .data.current.pollution.aqius <=
+                                      300) ...[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'AQI - Very Unhealthy',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 16,
+                                        fontWeight: semibold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Health alert: The risk of health effects is increased for everyone.',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ] else ...[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'AQI - Hazardous',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 16,
+                                        fontWeight: semibold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Health warning of emergency conditions: everyone is more likely to be affected.',
+                                      style: whiteTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ]
                             ],
                           ),
                         ),
@@ -161,7 +296,6 @@ class DetailInfoWidget extends StatelessWidget {
                     ),
                   );
                 } else {
-                  print(state.toString());
                   return const SizedBox();
                 }
               },
@@ -194,38 +328,6 @@ class DetailInfoWidget extends StatelessWidget {
                 ),
               ],
             ),
-            // Row(
-            //   children: [
-            //     DetailInfoBox(
-            //       imgUrl: 'assets/icons/ic_humid.png',
-            //       value: '${detailInfo.current.humidity}%',
-            //       title: 'Humidity',
-            //     ),
-            //     SizedBox(width: defaultHorizontalMargin),
-            //     DetailInfoBox(
-            //       imgUrl: 'assets/icons/ic_pressure.png',
-            //       value: '${detailInfo.current.pressure} hPa',
-            //       title: 'Pressure',
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: defaultHorizontalMargin),
-            // Row(
-            //   children: [
-            //     DetailInfoBox(
-            //       imgUrl: 'assets/icons/ic_wind_speed.png',
-            //       value: '${detailInfo.current.windSpeed} km/h',
-            //       title: 'Wind Speed',
-            //     ),
-            //     SizedBox(width: defaultHorizontalMargin),
-            //     DetailInfoBox(
-            //       imgUrl: 'assets/icons/ic_fog.png',
-            //       value:
-            //           '${detailInfo.current.visibility!.roundToDouble() / 1000} Km',
-            //       title: 'Visibility',
-            //     ),
-            //   ],
-            // ),
           ],
         ),
       ),

@@ -22,10 +22,11 @@ Color greenColor = const Color(0xFF2AA837);
 
 Color transparent = Colors.transparent;
 
-Color yellowColor = Colors.yellow;
-Color orangeColor = Colors.deepOrange;
-Color redColor = Colors.redAccent;
-Color purpleColor = Colors.deepPurple;
+Color yellowColor = const Color(0xFFBD9801);
+Color orangeColor = const Color(0xFFEB4700);
+Color redColor = const Color(0xFFAE0001);
+Color purpleColor = const Color(0xFF2B0157);
+Color maroonColor = const Color(0xFF2D0209);
 
 // Text Style List
 TextStyle whiteTextStyle = TextStyle(
