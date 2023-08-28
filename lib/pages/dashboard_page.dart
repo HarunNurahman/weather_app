@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/pages/notification_setting_page.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
@@ -63,6 +64,13 @@ class _DashboardPageState extends State<DashboardPage> {
     Widget weatherInfo() {
       return WeatherInfoWidget(
         currentWeather: globalController.getData().getCurrentWeather(),
+        onTap: () async {
+          await launchUrl(
+            Uri.parse(
+              'https://openweathermap.org/weathermap?basemap=map&cities=false&layer=pressure&lat=${weatherController.getLat().value}&lon=${weatherController.getLon().value}&zoom=9',
+            ),
+          );
+        },
       );
     }
 
