@@ -5,6 +5,10 @@ abstract class AirPollutionEvent extends Equatable {
 }
 
 class AirPollutionEventStarted extends AirPollutionEvent {
+  final double lat;
+  final double lon;
+
+  const AirPollutionEventStarted(this.lat, this.lon);
   @override
   List<Object?> get props => [];
 }

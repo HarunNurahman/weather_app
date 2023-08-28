@@ -14,7 +14,7 @@ class AirPollutionBloc extends Bloc<AirPollutionEvent, AirPollutionState> {
         try {
           AirPollutionModel airPollution;
           airPollution =
-              (await ApiServices().getAirPollution()) as AirPollutionModel;
+              (await ApiServices().getAirPollution(event.lat, event.lon));
 
           emit(AirPollutionSuccess(airPollution));
         } catch (e) {

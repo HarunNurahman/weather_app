@@ -24,6 +24,8 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  final GlobalController weatherController = Get.put(GlobalController());
+
   String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
   String timeFormat = DateFormat.Hms().format(DateTime.now());
 
@@ -82,6 +84,8 @@ class _DashboardPageState extends State<DashboardPage> {
     Widget detailInformation() {
       return DetailInfoWidget(
         detailInfo: globalController.getData().getCurrentWeather(),
+        lat: weatherController.getLat().value,
+        lon: weatherController.getLon().value,
       );
     }
 

@@ -9,12 +9,20 @@ import 'package:weather_app/pages/widgets/detail/detail_info_box.dart';
 
 class DetailInfoWidget extends StatelessWidget {
   final WeatherDataCurrent detailInfo;
-  const DetailInfoWidget({super.key, required this.detailInfo});
+  final double lat;
+  final double lon;
+  const DetailInfoWidget({
+    super.key,
+    required this.detailInfo,
+    required this.lat,
+    required this.lon,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AirPollutionBloc()..add(AirPollutionEventStarted()),
+      create: (context) =>
+          AirPollutionBloc()..add(AirPollutionEventStarted(lat, lon)),
       child: Container(
         margin: EdgeInsets.only(top: defaultVerticalMargin),
         child: Column(
@@ -48,53 +56,86 @@ class DetailInfoWidget extends StatelessWidget {
                           arcBackgroundColor: const Color(0xFFE4E4E4),
                           circularStrokeCap: CircularStrokeCap.round,
                           progressColor: airPollutionModel
-                                      .list![0]!.main!.aqi! ==
-                                  1
+                                      .data.current.pollution.aqius <=
+                                  50
                               ? greenColor
-                              : airPollutionModel.list![0]!.main!.aqi! == 2
+                              : airPollutionModel.data.current.pollution.aqius >
+                                          50 &&
+                                      airPollutionModel
+                                              .data.current.pollution.aqius <=
+                                          100
                                   ? yellowColor
-                                  : airPollutionModel.list![0]!.main!.aqi! == 3
+                                  : airPollutionModel.data.current.pollution
+                                                  .aqius >
+                                              100 &&
+                                          airPollutionModel.data.current
+                                                  .pollution.aqius <=
+                                              150
                                       ? orangeColor
-                                      : airPollutionModel
-                                                  .list![0]!.main!.aqi! ==
-                                              4
+                                      : airPollutionModel.data.current.pollution
+                                                      .aqius >
+                                                  150 &&
+                                              airPollutionModel.data.current
+                                                      .pollution.aqius <=
+                                                  200
                                           ? redColor
-                                          : airPollutionModel
-                                                      .list![0]!.main!.aqi! ==
-                                                  5
+                                          : airPollutionModel.data.current
+                                                          .pollution.aqius >
+                                                      200 &&
+                                                  airPollutionModel.data.current
+                                                          .pollution.aqius <=
+                                                      300
                                               ? purpleColor
                                               : null,
-                          percent: airPollutionModel.list![0]!.main!.aqi! /
-                              airPollutionModel.list![0]!.main!.aqi!,
+                          percent: 0.13,
                           center: Text(
-                            '${airPollutionModel.list![0]!.components!.pm25!}',
+                            '${airPollutionModel.data.current.pollution.aqius}',
                             style: whiteTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: bold,
-                              color: airPollutionModel.list![0]!.main!.aqi! == 1
+                              color: airPollutionModel
+                                          .data.current.pollution.aqius <=
+                                      50
                                   ? greenColor
-                                  : airPollutionModel.list![0]!.main!.aqi! == 2
+                                  : airPollutionModel.data.current.pollution
+                                                  .aqius >
+                                              50 &&
+                                          airPollutionModel.data.current
+                                                  .pollution.aqius <=
+                                              100
                                       ? yellowColor
-                                      : airPollutionModel
-                                                  .list![0]!.main!.aqi! ==
-                                              3
+                                      : airPollutionModel.data.current.pollution
+                                                      .aqius >
+                                                  100 &&
+                                              airPollutionModel.data.current
+                                                      .pollution.aqius <=
+                                                  150
                                           ? orangeColor
-                                          : airPollutionModel
-                                                      .list![0]!.main!.aqi! ==
-                                                  4
+                                          : airPollutionModel.data.current
+                                                          .pollution.aqius >
+                                                      150 &&
+                                                  airPollutionModel.data.current
+                                                          .pollution.aqius <=
+                                                      200
                                               ? redColor
-                                              : airPollutionModel.list![0]!
-                                                          .main!.aqi! ==
-                                                      5
+                                              : airPollutionModel.data.current
+                                                              .pollution.aqius >
+                                                          200 &&
+                                                      airPollutionModel
+                                                              .data
+                                                              .current
+                                                              .pollution
+                                                              .aqius <=
+                                                          300
                                                   ? purpleColor
                                                   : null,
                             ),
                           ),
-                          footer: Text(
-                            'PM 2.5',
-                            style:
-                                whiteTextStyle.copyWith(fontWeight: semibold),
-                          ),
+                          // footer: Text(
+                          //   'PM 2.5',
+                          //   style:
+                          //       whiteTextStyle.copyWith(fontWeight: semibold),
+                          // ),
                         ),
                         const SizedBox(width: 19),
                         Expanded(
@@ -102,7 +143,7 @@ class DetailInfoWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Very Good',
+                                'AQI - Very Good',
                                 style: whiteTextStyle.copyWith(
                                   fontSize: 16,
                                   fontWeight: semibold,

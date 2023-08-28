@@ -77,11 +77,11 @@ class ApiServices {
   }
 
   // API untuk polusi udara berdasarkan lat & lon
-  Future<AirPollutionModel> getAirPollution() async {
+  Future<AirPollutionModel> getAirPollution(double lat, double lon) async {
     try {
       print("getAirPollution Called");
       final response = await _dio.get(
-        '$searchUrl/air_pollution?lat=-6.9396&lon=107.6203&appid=$apiKey',
+        'http://api.airvisual.com/v2/nearest_city?lat=$lat&lon=$lon&key=4d51d89e-cf0a-4ee5-960c-f37bbb0a0131',
       );
       AirPollutionModel airPollutionResult =
           AirPollutionModel.fromJson(response.data);
