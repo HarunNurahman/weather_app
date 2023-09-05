@@ -113,6 +113,8 @@ class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
                     )
                   ],
                 ),
+                const Spacer(),
+                Icon(Icons.chevron_right, color: whiteColor, size: 24)
               ],
             ),
             SizedBox(height: defaultVerticalMargin),
