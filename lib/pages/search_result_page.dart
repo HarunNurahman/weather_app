@@ -216,7 +216,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     ),
                     const SizedBox(height: 16),
                     SizedBox(
-                      height: 111,
+                      height: 115,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
@@ -603,8 +603,8 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     ),
                     SizedBox(height: defaultHorizontalMargin),
                     Wrap(
-                      spacing: 16,
-                      runSpacing: 16,
+                      spacing: 14,
+                      runSpacing: 14,
                       children: [
                         SearchResultDetail(
                           imgUrl: 'assets/icons/ic_humid.png',

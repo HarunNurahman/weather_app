@@ -16,7 +16,7 @@ class _WeatherHourlyWidgetState extends State<WeatherHourlyWidget> {
   Widget build(BuildContext context) {
     Widget weatherHourlyList() {
       return SizedBox(
-        height: 111,
+        height: 115,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {

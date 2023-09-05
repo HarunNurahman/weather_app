@@ -314,8 +314,8 @@ class DetailInfoWidget extends StatelessWidget {
             ),
             SizedBox(height: defaultHorizontalMargin),
             Wrap(
-              spacing: 16,
-              runSpacing: 16,
+              spacing: 14,
+              runSpacing: 14,
               children: [
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_humid.png',
