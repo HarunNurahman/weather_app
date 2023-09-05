@@ -23,7 +23,7 @@ class SearchResultDetail extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(imgUrl, width: 24),
+          Image.asset(imgUrl, width: 24, color: blueColor),
           SizedBox(width: defaultRadius),
           Expanded(
             child: Column(

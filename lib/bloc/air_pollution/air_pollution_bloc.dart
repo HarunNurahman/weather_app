@@ -7,10 +7,10 @@ part 'air_pollution_event.dart';
 part 'air_pollution_state.dart';
 
 class AirPollutionBloc extends Bloc<AirPollutionEvent, AirPollutionState> {
-  AirPollutionBloc() : super(AirPollutionBlocInitial()) {
+  AirPollutionBloc() : super(AirPollutionInitial()) {
     on<AirPollutionEvent>((event, emit) async {
       if (event is AirPollutionEventStarted) {
-        emit(AirPollutionBlocLoading());
+        emit(AirPollutionLoading());
         try {
           AirPollutionModel airPollution;
           airPollution =

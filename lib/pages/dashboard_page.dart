@@ -130,7 +130,7 @@ class _DashboardPageState extends State<DashboardPage> {
           const SizedBox(width: 8),
           GestureDetector(
             onTap: () => Get.to(
-              NotificationSettingPage(),
+              () => const NotificationSettingPage(),
             ),
             child: Icon(
               Icons.settings,
@@ -244,6 +244,19 @@ class _DashboardPageState extends State<DashboardPage> {
               style: whiteTextStyle.copyWith(
                 fontSize: 20,
                 fontWeight: medium,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Shimmer.fromColors(
+              baseColor: blackColor4,
+              highlightColor: grayColor,
+              child: Container(
+                width: double.infinity,
+                height: 110,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(defaultRadius),
+                  color: blackColor4,
+                ),
               ),
             ),
             const SizedBox(height: 16),

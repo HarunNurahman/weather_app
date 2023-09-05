@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:weather_app/bloc/air_pollution/air_pollution_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/air_pollution_model.dart';
@@ -36,8 +37,19 @@ class DetailInfoWidget extends StatelessWidget {
             // Widget polusi udara
             BlocBuilder<AirPollutionBloc, AirPollutionState>(
               builder: (context, state) {
-                if (state is AirPollutionBlocLoading) {
-                  return const SizedBox();
+                if (state is AirPollutionLoading) {
+                  return Shimmer.fromColors(
+                    baseColor: blackColor4,
+                    highlightColor: grayColor,
+                    child: Container(
+                      width: 345,
+                      height: 110,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(defaultRadius),
+                        color: blackColor4,
+                      ),
+                    ),
+                  );
                 } else if (state is AirPollutionSuccess) {
                   AirPollutionModel airPollutionModel = state.airPollutionModel;
 
@@ -153,7 +165,7 @@ class DetailInfoWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'AQI - Very Good',
+                                      'Very Good',
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 16,
                                         fontWeight: semibold,
@@ -178,7 +190,7 @@ class DetailInfoWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'AQI - Moderate',
+                                      'Moderate',
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 16,
                                         fontWeight: semibold,
@@ -203,7 +215,7 @@ class DetailInfoWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'AQI - Unhealthy for Sensitive Groups',
+                                      'Unhealthy for Sensitive Groups',
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 16,
                                         fontWeight: semibold,
@@ -228,7 +240,7 @@ class DetailInfoWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'AQI - Unhealthy',
+                                      'Unhealthy',
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 16,
                                         fontWeight: semibold,
@@ -253,7 +265,7 @@ class DetailInfoWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'AQI - Very Unhealthy',
+                                      'Very Unhealthy',
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 16,
                                         fontWeight: semibold,
@@ -273,7 +285,7 @@ class DetailInfoWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'AQI - Hazardous',
+                                      'Hazardous',
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 16,
                                         fontWeight: semibold,
@@ -313,7 +325,7 @@ class DetailInfoWidget extends StatelessWidget {
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_pressure.png',
                   value: '${detailInfo.current.pressure} hPa',
-                  title: 'Pressure',
+                  title: 'Air Pressure',
                 ),
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_wind_speed.png',
@@ -321,10 +333,10 @@ class DetailInfoWidget extends StatelessWidget {
                   title: 'Wind Speed',
                 ),
                 DetailInfoBox(
-                  imgUrl: 'assets/icons/ic_fog.png',
+                  imgUrl: 'assets/icons/ic_uvi.png',
                   value:
-                      '${detailInfo.current.visibility!.roundToDouble() / 1000} Km',
-                  title: 'Visibility',
+                      '${detailInfo.current.uvi}',
+                  title: 'UV Index',
                 ),
               ],
             ),

@@ -7,9 +7,9 @@ abstract class AirPollutionState extends Equatable {
   List<Object> get props => [];
 }
 
-class AirPollutionBlocInitial extends AirPollutionState {}
+class AirPollutionInitial extends AirPollutionState {}
 
-class AirPollutionBlocLoading extends AirPollutionState {}
+class AirPollutionLoading extends AirPollutionState {}
 
 class AirPollutionSuccess extends AirPollutionState {
   final AirPollutionModel airPollutionModel;
