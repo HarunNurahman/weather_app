@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weather_app/config/styles.dart';
-import 'package:weather_app/pages/notification_setting_page.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
 import 'package:weather_app/pages/widgets/current/weather_info_box.dart';
 import 'package:weather_app/pages/widgets/detail/detail_info_widget.dart';
@@ -106,15 +105,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Icon(Icons.location_on, color: whiteColor, size: 24),
               const SizedBox(width: 8),
               // Lokasi
-              Shimmer.fromColors(
-                baseColor: whiteColor,
-                highlightColor: whiteColor2,
-                child: Container(
-                  width: 152,
-                  height: 17,
-                  color: whiteColor,
-                ),
-              )
+              Text('Mencari Lokasi...', style: whiteTextStyle),
             ],
           ),
           const Spacer(),
@@ -129,9 +120,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           const SizedBox(width: 8),
           GestureDetector(
-            onTap: () => Get.to(
-              () => const NotificationSettingPage(),
-            ),
+            onTap: () {},
             child: Icon(
               Icons.settings,
               size: 24,
