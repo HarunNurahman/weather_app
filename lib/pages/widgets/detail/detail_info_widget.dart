@@ -22,8 +22,10 @@ class DetailInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          AirPollutionBloc()..add(AirPollutionEventStarted(lat, lon)),
+      create: (context) => AirPollutionBloc()
+        ..add(
+          AirPollutionEventStarted(lat, lon),
+        ),
       child: Container(
         margin: EdgeInsets.only(top: defaultVerticalMargin),
         child: Column(
@@ -111,45 +113,6 @@ class DetailInfoWidget extends StatelessWidget {
                             style: whiteTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: bold,
-                              color: airPollutionModel.data.current.pollution.aqius <=
-                                      50
-                                  ? greenColor
-                                  : airPollutionModel.data.current.pollution.aqius > 50 &&
-                                          airPollutionModel.data.current.pollution.aqius <=
-                                              100
-                                      ? yellowColor
-                                      : airPollutionModel.data.current.pollution.aqius > 100 &&
-                                              airPollutionModel.data.current
-                                                      .pollution.aqius <=
-                                                  150
-                                          ? orangeColor
-                                          : airPollutionModel.data.current.pollution.aqius > 150 &&
-                                                  airPollutionModel.data.current
-                                                          .pollution.aqius <=
-                                                      200
-                                              ? redColor
-                                              : airPollutionModel.data.current.pollution.aqius > 200 &&
-                                                      airPollutionModel
-                                                              .data
-                                                              .current
-                                                              .pollution
-                                                              .aqius <=
-                                                          300
-                                                  ? purpleColor
-                                                  : airPollutionModel
-                                                                  .data
-                                                                  .current
-                                                                  .pollution
-                                                                  .aqius >
-                                                              300 &&
-                                                          airPollutionModel
-                                                                  .data
-                                                                  .current
-                                                                  .pollution
-                                                                  .aqius <=
-                                                              500
-                                                      ? maroonColor
-                                                      : null,
                             ),
                           ),
                         ),
@@ -332,12 +295,19 @@ class DetailInfoWidget extends StatelessWidget {
                   value: '${detailInfo.current.windSpeed} km/h',
                   title: 'Wind Speed',
                 ),
-                DetailInfoBox(
-                  imgUrl: 'assets/icons/ic_uvi.png',
-                  value:
-                      '${detailInfo.current.uvi}',
-                  title: 'UV Index',
-                ),
+                if (DateTime.now().hour > 6 && DateTime.now().hour <= 18) ...[
+                  DetailInfoBox(
+                    imgUrl: 'assets/icons/ic_uvi.png',
+                    value: '${detailInfo.current.uvi}',
+                    title: 'UV Index',
+                  )
+                ] else ...[
+                  DetailInfoBox(
+                    imgUrl: 'assets/icons/ic_fog.png',
+                    value: '${detailInfo.current.clouds}%',
+                    title: 'Cloudiness',
+                  )
+                ]
               ],
             ),
           ],
