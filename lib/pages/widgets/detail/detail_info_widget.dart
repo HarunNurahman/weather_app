@@ -115,6 +115,12 @@ class DetailInfoWidget extends StatelessWidget {
                               fontWeight: bold,
                             ),
                           ),
+                          footer: Text(
+                            'AQI',
+                            style: whiteTextStyle.copyWith(
+                              fontWeight: bold,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 19),
                         Expanded(
