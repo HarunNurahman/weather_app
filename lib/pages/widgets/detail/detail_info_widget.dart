@@ -295,19 +295,17 @@ class DetailInfoWidget extends StatelessWidget {
                   value: '${detailInfo.current.windSpeed} km/h',
                   title: 'Wind Speed',
                 ),
-                if (DateTime.now().hour > 6 && DateTime.now().hour <= 18) ...[
-                  DetailInfoBox(
-                    imgUrl: 'assets/icons/ic_uvi.png',
-                    value: '${detailInfo.current.uvi}',
-                    title: 'UV Index',
-                  )
-                ] else ...[
-                  DetailInfoBox(
-                    imgUrl: 'assets/icons/ic_fog.png',
-                    value: '${detailInfo.current.clouds}%',
-                    title: 'Cloudiness',
-                  )
-                ]
+                DateTime.now().hour > 6 && DateTime.now().hour <= 18
+                    ? DetailInfoBox(
+                        imgUrl: 'assets/icons/ic_uvi.png',
+                        value: '${detailInfo.current.uvi}',
+                        title: 'UV Index',
+                      )
+                    : DetailInfoBox(
+                        imgUrl: 'assets/icons/ic_fog.png',
+                        value: '${detailInfo.current.clouds}%',
+                        title: 'Cloudiness',
+                      ),
               ],
             ),
           ],
