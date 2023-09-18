@@ -621,12 +621,20 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           value: '${forecast.current!.current.windSpeed} km/h',
                           title: 'Wind Speed',
                         ),
-                        SearchResultDetail(
-                          imgUrl: 'assets/icons/ic_uvi.png',
-                          value:
-                              '${forecast.current!.current.uvi}',
-                          title: 'UV Index',
-                        ),
+                        if (DateTime.now().hour > 6 &&
+                            DateTime.now().hour <= 18) ...[
+                          SearchResultDetail(
+                            imgUrl: 'assets/icons/ic_uvi.png',
+                            value: '${forecast.current!.current.uvi}',
+                            title: 'UV Index',
+                          )
+                        ] else ...[
+                          SearchResultDetail(
+                            imgUrl: 'assets/icons/ic_fog.png',
+                            value: '${forecast.current!.current.clouds}%',
+                            title: 'Cloudiness',
+                          )
+                        ]
                       ],
                     )
                   ],

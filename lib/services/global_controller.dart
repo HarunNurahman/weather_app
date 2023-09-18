@@ -25,6 +25,13 @@ class GlobalController extends GetxController {
     return weatherData.value;
   }
 
+  refreshData() async {
+    weatherData.value = await ApiServices().getWeather(_lat.value, _lon.value);
+    isLoading.value = false;
+    getLocation();
+    return weatherData.value;
+  }
+
   getLocation() async {
     bool isServiceEnabled;
     LocationPermission locationPermission;

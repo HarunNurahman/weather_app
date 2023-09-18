@@ -271,44 +271,52 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: blackColor,
       body: SafeArea(
-        child: Obx(
-          () => globalController.isLoading.isTrue
-              ? SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: defaultVerticalMargin,
-                      horizontal: defaultHorizontalMargin,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(
+              const Duration(seconds: 2),
+              () => weatherController.refreshData(),
+            );
+          },
+          child: Obx(
+            () => globalController.isLoading.isTrue
+                ? SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: defaultVerticalMargin,
+                        horizontal: defaultHorizontalMargin,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          skeletonHeader(),
+                          skeletonCurrentWeather(),
+                          skeletonHourlyWeather(),
+                          skeletonDailyWeather(),
+                          skeletonDetailInfo(),
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        skeletonHeader(),
-                        skeletonCurrentWeather(),
-                        skeletonHourlyWeather(),
-                        skeletonDailyWeather(),
-                        skeletonDetailInfo(),
-                      ],
+                  )
+                : SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: defaultVerticalMargin,
+                        horizontal: defaultHorizontalMargin,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          header(),
+                          weatherInfo(),
+                          weatherHourly(),
+                          weatherDaily(),
+                          detailInformation(),
+                        ],
+                      ),
                     ),
                   ),
-                )
-              : SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: defaultVerticalMargin,
-                      horizontal: defaultHorizontalMargin,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        header(),
-                        weatherInfo(),
-                        weatherHourly(),
-                        weatherDaily(),
-                        detailInformation(),
-                      ],
-                    ),
-                  ),
-                ),
+          ),
         ),
       ),
     );

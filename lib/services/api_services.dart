@@ -27,7 +27,7 @@ class ApiServices {
   // Mengambil data cuaca berdasarkan gps
   Future<WeatherData> getWeather(lat, lon) async {
     try {
-      print('Call getWeather');
+      // print('Call getWeather');
       // var response = await _dio.get(
       //   '$baseUrl?lat=$lat&lon=$lon&appid=$apiKey&units=metric&exclude=minutely',
       // );
@@ -50,7 +50,7 @@ class ApiServices {
   // API Pencarian cuaca berdasarkan query kota
   Future<SearchWeatherModel> searchWeather(String query) async {
     try {
-      print('Call searchWeather');
+      // print('Call searchWeather');
       final response = await _dio
           .get('$searchUrl/weather?q=$query&appid=$apiKey&units=metric');
       SearchWeatherModel searchResult =
@@ -67,7 +67,7 @@ class ApiServices {
     String cityName,
   ) async {
     try {
-      print('Call getWeatherForecast');
+      // print('Call getWeatherForecast');
 
       final response = await _dio
           .get('$searchUrl/forecast?q=$cityName&appid=$apiKey&units=metric');
@@ -83,7 +83,7 @@ class ApiServices {
   // API untuk polusi udara berdasarkan lat & lon
   Future<AirPollutionModel> getAirPollution(double lat, double lon) async {
     try {
-      print("Call getAirPollution");
+      // print("Call getAirPollution");
       final response = await _dio.get(
         'http://api.airvisual.com/v2/nearest_city?lat=$lat&lon=$lon&key=4d51d89e-cf0a-4ee5-960c-f37bbb0a0131',
       );
