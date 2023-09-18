@@ -392,46 +392,13 @@ class _SearchResultPageState extends State<SearchResultPage> {
                                     style: whiteTextStyle.copyWith(
                                       fontSize: 18,
                                       fontWeight: bold,
-                                      color: airPollutionModel.data.current.pollution.aqius <=
-                                              50
-                                          ? greenColor
-                                          : airPollutionModel.data.current.pollution.aqius > 50 &&
-                                                  airPollutionModel.data.current
-                                                          .pollution.aqius <=
-                                                      100
-                                              ? yellowColor
-                                              : airPollutionModel.data.current.pollution.aqius > 100 &&
-                                                      airPollutionModel
-                                                              .data
-                                                              .current
-                                                              .pollution
-                                                              .aqius <=
-                                                          150
-                                                  ? orangeColor
-                                                  : airPollutionModel.data.current.pollution.aqius > 150 &&
-                                                          airPollutionModel
-                                                                  .data
-                                                                  .current
-                                                                  .pollution
-                                                                  .aqius <=
-                                                              200
-                                                      ? redColor
-                                                      : airPollutionModel
-                                                                      .data
-                                                                      .current
-                                                                      .pollution
-                                                                      .aqius >
-                                                                  200 &&
-                                                              airPollutionModel
-                                                                      .data
-                                                                      .current
-                                                                      .pollution
-                                                                      .aqius <=
-                                                                  300
-                                                          ? purpleColor
-                                                          : airPollutionModel.data.current.pollution.aqius > 300 && airPollutionModel.data.current.pollution.aqius <= 500
-                                                              ? maroonColor
-                                                              : null,
+                                      color: whiteColor,
+                                    ),
+                                  ),
+                                  footer: Text(
+                                    'AQI',
+                                    style: whiteTextStyle.copyWith(
+                                      fontWeight: bold,
                                     ),
                                   ),
                                 ),
