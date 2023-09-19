@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:weather_app/bloc/air_pollution/air_pollution_bloc.dart';
@@ -8,7 +9,7 @@ import 'package:weather_app/models/air_pollution_model.dart';
 import 'package:weather_app/models/weather_data_current.dart';
 import 'package:weather_app/pages/widgets/detail/detail_info_box.dart';
 
-class DetailInfoWidget extends StatelessWidget {
+class DetailInfoWidget extends StatefulWidget {
   final WeatherDataCurrent detailInfo;
   final double lat;
   final double lon;
@@ -20,11 +21,24 @@ class DetailInfoWidget extends StatelessWidget {
   });
 
   @override
+  State<DetailInfoWidget> createState() => _DetailInfoWidgetState();
+}
+
+class _DetailInfoWidgetState extends State<DetailInfoWidget> {
+  String getTime(final timeStamp) {
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    String value = DateFormat('Hm').format(time);
+
+    return value;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // print(widget.detailInfo.current.sunrise);
     return BlocProvider(
       create: (context) => AirPollutionBloc()
         ..add(
-          AirPollutionEventStarted(lat, lon),
+          AirPollutionEventStarted(widget.lat, widget.lon),
         ),
       child: Container(
         margin: EdgeInsets.only(top: defaultVerticalMargin),
@@ -113,6 +127,45 @@ class DetailInfoWidget extends StatelessWidget {
                             style: whiteTextStyle.copyWith(
                               fontSize: 18,
                               fontWeight: bold,
+                              color: airPollutionModel.data.current.pollution.aqius <=
+                                      50
+                                  ? greenColor
+                                  : airPollutionModel.data.current.pollution.aqius > 50 &&
+                                          airPollutionModel.data.current.pollution.aqius <=
+                                              100
+                                      ? yellowColor
+                                      : airPollutionModel.data.current.pollution.aqius > 100 &&
+                                              airPollutionModel.data.current
+                                                      .pollution.aqius <=
+                                                  150
+                                          ? orangeColor
+                                          : airPollutionModel.data.current.pollution.aqius > 150 &&
+                                                  airPollutionModel.data.current
+                                                          .pollution.aqius <=
+                                                      200
+                                              ? redColor
+                                              : airPollutionModel.data.current.pollution.aqius > 200 &&
+                                                      airPollutionModel
+                                                              .data
+                                                              .current
+                                                              .pollution
+                                                              .aqius <=
+                                                          300
+                                                  ? purpleColor
+                                                  : airPollutionModel
+                                                                  .data
+                                                                  .current
+                                                                  .pollution
+                                                                  .aqius >
+                                                              300 &&
+                                                          airPollutionModel
+                                                                  .data
+                                                                  .current
+                                                                  .pollution
+                                                                  .aqius <=
+                                                              500
+                                                      ? maroonColor
+                                                      : null,
                             ),
                           ),
                           footer: Text(
@@ -146,6 +199,7 @@ class DetailInfoWidget extends StatelessWidget {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
+                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -171,6 +225,7 @@ class DetailInfoWidget extends StatelessWidget {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
+                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -196,6 +251,7 @@ class DetailInfoWidget extends StatelessWidget {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
+                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -221,6 +277,7 @@ class DetailInfoWidget extends StatelessWidget {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
+                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -246,6 +303,7 @@ class DetailInfoWidget extends StatelessWidget {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
+                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -266,6 +324,7 @@ class DetailInfoWidget extends StatelessWidget {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
+                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -288,28 +347,35 @@ class DetailInfoWidget extends StatelessWidget {
               children: [
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_humid.png',
-                  value: '${detailInfo.current.humidity}%',
+                  value: '${widget.detailInfo.current.humidity}%',
                   title: 'Humidity',
                 ),
                 DetailInfoBox(
-                  imgUrl: 'assets/icons/ic_pressure.png',
-                  value: '${detailInfo.current.pressure} hPa',
-                  title: 'Air Pressure',
+                  imgUrl: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
+                      ? 'assets/icons/ic_sunrise.png'
+                      : 'assets/icons/ic_sunset.png',
+                  value: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
+                      ? getTime(widget.detailInfo.current.sunrise!)
+                      : getTime(widget.detailInfo.current.sunset!),
+                  title: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
+                      ? 'Sunrise'
+                      : 'Sunset',
                 ),
+
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_wind_speed.png',
-                  value: '${detailInfo.current.windSpeed} km/h',
+                  value: '${widget.detailInfo.current.windSpeed} km/h',
                   title: 'Wind Speed',
                 ),
                 DateTime.now().hour > 6 && DateTime.now().hour <= 18
                     ? DetailInfoBox(
                         imgUrl: 'assets/icons/ic_uvi.png',
-                        value: '${detailInfo.current.uvi}',
+                        value: '${widget.detailInfo.current.uvi}',
                         title: 'UV Index',
                       )
                     : DetailInfoBox(
                         imgUrl: 'assets/icons/ic_fog.png',
-                        value: '${detailInfo.current.clouds}%',
+                        value: '${widget.detailInfo.current.clouds}%',
                         title: 'Cloudiness',
                       ),
               ],

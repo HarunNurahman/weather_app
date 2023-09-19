@@ -27,6 +27,24 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
             ),
           ),
           SizedBox(height: defaultHorizontalMargin),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(defaultHorizontalMargin),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(defaultRadius),
+              color: blueColor,
+            ),
+            child: Center(
+              child: Text(
+                widget.dailyWeather.daily[0].summary!,
+                style: whiteTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: medium,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: defaultHorizontalMargin),
           SizedBox(
             height: 240,
             child: ListView.builder(
