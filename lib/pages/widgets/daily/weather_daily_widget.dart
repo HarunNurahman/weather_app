@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/weather_data_daily.dart';
@@ -12,6 +13,7 @@ class WeatherDailyWidget extends StatefulWidget {
 }
 
 class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,6 +29,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
             ),
           ),
           SizedBox(height: defaultHorizontalMargin),
+          // MESSAGE BOX
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(defaultHorizontalMargin),
@@ -35,15 +38,49 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
               color: blueColor,
             ),
             child: Center(
-              child: Text(
-                widget.dailyWeather.daily[0].summary!,
-                style: whiteTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: medium,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CarouselSlider(
+                    items: [
+                      Center(
+                        child: Text(
+                          widget.dailyWeather.daily[0].summary!,
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          widget.dailyWeather.daily[0].summary!,
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: medium,
+                          ),
+                        ),
+                      ),
+                    ],
+                    options: CarouselOptions(
+                      height: 40,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 4),
+                      pauseAutoPlayInFiniteScroll: true,
+                      viewportFraction: 1,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          currentIndex = index;
+                        });
+                      },
+                    ),
+                  )
+                ],
               ),
             ),
           ),
+
           SizedBox(height: defaultHorizontalMargin),
           SizedBox(
             height: 240,
