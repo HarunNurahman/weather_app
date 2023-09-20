@@ -328,7 +328,7 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                                     ),
                                   ],
                                 ),
-                              ]
+                              ],
                             ],
                           ),
                         ),
