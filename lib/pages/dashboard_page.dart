@@ -84,6 +84,7 @@ class _DashboardPageState extends State<DashboardPage> {
     Widget weatherDaily() {
       return WeatherDailyWidget(
         dailyWeather: globalController.getData().getDailyWeather(),
+        currentWeather: globalController.getData().getCurrentWeather(),
         lat: weatherController.getLat().value,
         lon: weatherController.getLon().value,
       );

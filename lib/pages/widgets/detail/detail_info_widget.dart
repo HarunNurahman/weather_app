@@ -199,7 +199,6 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
-                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -225,7 +224,6 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
-                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -251,7 +249,6 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
-                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -277,7 +274,6 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
-                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -303,7 +299,6 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
-                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -324,7 +319,6 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                                       style: whiteTextStyle.copyWith(
                                         fontSize: 12,
                                       ),
-                                      textAlign: TextAlign.justify,
                                     ),
                                   ],
                                 ),
@@ -350,17 +344,30 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                   value: '${widget.detailInfo.current.humidity}%',
                   title: 'Humidity',
                 ),
-                DetailInfoBox(
-                  imgUrl: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
-                      ? 'assets/icons/ic_sunrise.png'
-                      : 'assets/icons/ic_sunset.png',
-                  value: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
-                      ? getTime(widget.detailInfo.current.sunrise!)
-                      : getTime(widget.detailInfo.current.sunset!),
-                  title: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
-                      ? 'Sunrise'
-                      : 'Sunset',
-                ),
+                if (DateTime.now().hour <= 6 && DateTime.now().hour > 18) ...[
+                  DetailInfoBox(
+                    imgUrl: 'assets/icons/ic_sunrise.png',
+                    title: 'Sunrise',
+                    value: getTime(widget.detailInfo.current.sunrise!),
+                  ),
+                ] else ...[
+                  DetailInfoBox(
+                    imgUrl: 'assets/icons/ic_sunset.png',
+                    title: 'Sunset',
+                    value: getTime(widget.detailInfo.current.sunset!),
+                  ),
+                ],
+                // DetailInfoBox(
+                //   imgUrl: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
+                //       ? 'assets/icons/ic_sunrise.png'
+                //       : 'assets/icons/ic_sunset.png',
+                //   value: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
+                //       ? getTime(widget.detailInfo.current.sunrise!)
+                //       : getTime(widget.detailInfo.current.sunset!),
+                //   title: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
+                //       ? 'Sunrise'
+                //       : 'Sunset',
+                // ),
 
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_wind_speed.png',

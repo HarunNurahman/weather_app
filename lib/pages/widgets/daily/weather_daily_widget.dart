@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/bloc/air_pollution/air_pollution_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/air_pollution_model.dart';
+import 'package:weather_app/models/weather_data_current.dart';
 import 'package:weather_app/models/weather_data_daily.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_box.dart';
 
 class WeatherDailyWidget extends StatefulWidget {
   final WeatherDataDaily dailyWeather;
+  final WeatherDataCurrent currentWeather;
   final double lat;
   final double lon;
   const WeatherDailyWidget({
@@ -16,6 +18,7 @@ class WeatherDailyWidget extends StatefulWidget {
     required this.dailyWeather,
     required this.lat,
     required this.lon,
+    required this.currentWeather,
   });
 
   @override
@@ -61,11 +64,10 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                     ),
                     child: Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CarouselSlider(
                             items: [
+                              // WEATHER SUMMARY MESSAGE
                               Center(
                                 child: Text(
                                   widget.dailyWeather.daily[0].summary!,
@@ -73,35 +75,94 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                                     fontSize: 16,
                                     fontWeight: medium,
                                   ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
+                              // AIR POLLUTION MESSAGE
                               Center(
                                 child: Text(
                                   airPollutionModel
                                               .data.current.pollution.aqius <=
                                           50
-                                      ? 'The air quality is good and clean, and there is almost no danger.'
+                                      ? 'The air quality is satisfactory and poses little or no health risk.'
                                       : airPollutionModel.data.current.pollution
                                                       .aqius >
                                                   50 &&
                                               airPollutionModel.data.current
                                                       .pollution.aqius <=
                                                   100
-                                          ? 'The air is in good shape. However, a small percentage of highly sensitive individuals may experience some health issue.'
+                                          ? 'It\'s good day for low-intensity activities outside.'
                                           : airPollutionModel.data.current
                                                           .pollution.aqius >
                                                       100 &&
                                                   airPollutionModel.data.current
                                                           .pollution.aqius <=
                                                       150
-                                              ? 'Members of sensitive groups may experience health effects, The general public is less likely to be affected.'
-                                              : '',
+                                              ? 'It\'s ok to hang out outside, just not too long.'
+                                              : airPollutionModel.data.current
+                                                              .pollution.aqius >
+                                                          150 &&
+                                                      airPollutionModel
+                                                              .data
+                                                              .current
+                                                              .pollution
+                                                              .aqius <=
+                                                          200
+                                                  ? 'Make sure to wear a mask if you are outside'
+                                                  : airPollutionModel
+                                                                  .data
+                                                                  .current
+                                                                  .pollution
+                                                                  .aqius >
+                                                              200 &&
+                                                          airPollutionModel
+                                                                  .data
+                                                                  .current
+                                                                  .pollution
+                                                                  .aqius <=
+                                                              300
+                                                      ? 'Air quality can cause health effects for everyone.'
+                                                      : 'Air quality is hazardous.',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 16,
                                     fontWeight: medium,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
                                 ),
                               ),
+                              // UVI INDEX MESSAGE
+                              if (DateTime.now().hour > 6 &&
+                                  DateTime.now().hour <= 18) ...[
+                                Center(
+                                  child: Text(
+                                    widget.currentWeather.current.uvi! <= 2
+                                        ? 'UV index is low\nIt\'s great time to sunbathing outside'
+                                        : widget.currentWeather.current.uvi! >
+                                                    2 &&
+                                                widget.currentWeather.current
+                                                        .uvi! <=
+                                                    5
+                                            ? 'UV index is moderate\nTry wear sunscreen or hat if you are going outside'
+                                            : widget.currentWeather.current
+                                                            .uvi! >
+                                                        5 &&
+                                                    widget.currentWeather
+                                                            .current.uvi! <=
+                                                        7
+                                                ? 'UV index is high\nSeek a shade, use sunscreen, slip on shirt and a hat'
+                                                : 'UV index is extreme\nJacket, sunscreen, and hat are must!',
+                                    style: whiteTextStyle.copyWith(
+                                      fontSize: 16,
+                                      fontWeight: medium,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ],
                             ],
                             options: CarouselOptions(
                               height: 40,
