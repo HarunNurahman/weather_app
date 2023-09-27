@@ -315,6 +315,15 @@ class _DashboardPageState extends State<DashboardPage> {
                           weatherHourly(),
                           weatherDaily(),
                           detailInformation(),
+                          SizedBox(height: defaultVerticalMargin),
+                          Center(
+                            child: Text(
+                              'Weather App (v.0.2) - Harun Nurahman',
+                              style: blackTextStyle.copyWith(
+                                color: grayColor,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

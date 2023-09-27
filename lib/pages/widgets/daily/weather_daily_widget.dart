@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/air_pollution/air_pollution_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/air_pollution_model.dart';
@@ -27,6 +28,14 @@ class WeatherDailyWidget extends StatefulWidget {
 
 class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
   int currentIndex = 0;
+
+  String getTime(final timeStamp) {
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    String value = DateFormat('Hm').format(time);
+
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -163,6 +172,22 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                                   ),
                                 ),
                               ],
+                              // SUNRISE AND SUNSET MESSAGE
+                              Center(
+                                child: Text(
+                                  DateTime.now().hour > 6 &&
+                                          DateTime.now().hour <= 18
+                                      ? 'Don\'t miss the sunset!\nSunset will be at ${getTime(widget.currentWeather.current.sunset!)}'
+                                      : 'Rise and shine!\nSunrise will be at ${getTime(widget.currentWeather.current.sunrise!)}',
+                                  style: whiteTextStyle.copyWith(
+                                    fontSize: 16,
+                                    fontWeight: medium,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                ),
+                              ),
                             ],
                             options: CarouselOptions(
                               height: 40,

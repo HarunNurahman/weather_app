@@ -344,31 +344,17 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                   value: '${widget.detailInfo.current.humidity}%',
                   title: 'Humidity',
                 ),
-                if (DateTime.now().hour <= 6 && DateTime.now().hour > 18) ...[
-                  DetailInfoBox(
-                    imgUrl: 'assets/icons/ic_sunrise.png',
-                    title: 'Sunrise',
-                    value: getTime(widget.detailInfo.current.sunrise!),
-                  ),
-                ] else ...[
-                  DetailInfoBox(
-                    imgUrl: 'assets/icons/ic_sunset.png',
-                    title: 'Sunset',
-                    value: getTime(widget.detailInfo.current.sunset!),
-                  ),
-                ],
-                // DetailInfoBox(
-                //   imgUrl: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
-                //       ? 'assets/icons/ic_sunrise.png'
-                //       : 'assets/icons/ic_sunset.png',
-                //   value: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
-                //       ? getTime(widget.detailInfo.current.sunrise!)
-                //       : getTime(widget.detailInfo.current.sunset!),
-                //   title: getTime(widget.detailInfo.current.sunrise!) == getTime(widget.detailInfo.current.sunset!)
-                //       ? 'Sunrise'
-                //       : 'Sunset',
-                // ),
-
+                DateTime.now().hour > 6 && DateTime.now().hour <= 18
+                    ? DetailInfoBox(
+                        imgUrl: 'assets/icons/ic_sunset.png',
+                        title: 'Sunset',
+                        value: getTime(widget.detailInfo.current.sunset!),
+                      )
+                    : DetailInfoBox(
+                        imgUrl: 'assets/icons/ic_sunrise.png',
+                        title: 'Sunrise',
+                        value: getTime(widget.detailInfo.current.sunrise!),
+                      ),
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_wind_speed.png',
                   value: '${widget.detailInfo.current.windSpeed} km/h',
