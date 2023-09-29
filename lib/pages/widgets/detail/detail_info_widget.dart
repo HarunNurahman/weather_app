@@ -34,7 +34,8 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // print(widget.detailInfo.current.sunrise);
+    // print(getTime(widget.detailInfo.current.sunset!));
+    // print(getTime(widget.detailInfo.current.sunrise!));
     return BlocProvider(
       create: (context) => AirPollutionBloc()
         ..add(
@@ -344,17 +345,19 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                   value: '${widget.detailInfo.current.humidity}%',
                   title: 'Humidity',
                 ),
-                DateTime.now().hour > 6 && DateTime.now().hour <= 18
+                DateTime.now().hour > 6 && DateTime.now().hour < 18
                     ? DetailInfoBox(
                         imgUrl: 'assets/icons/ic_sunset.png',
                         title: 'Sunset',
                         value: getTime(widget.detailInfo.current.sunset!),
                       )
-                    : DetailInfoBox(
-                        imgUrl: 'assets/icons/ic_sunrise.png',
-                        title: 'Sunrise',
-                        value: getTime(widget.detailInfo.current.sunrise!),
-                      ),
+                    : DateTime.now().hour < 6 && DateTime.now().hour > 18
+                        ? DetailInfoBox(
+                            imgUrl: 'assets/icons/ic_sunrise.png',
+                            title: 'Sunrise',
+                            value: getTime(widget.detailInfo.current.sunrise!),
+                          )
+                        : const SizedBox(),
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_wind_speed.png',
                   value: '${widget.detailInfo.current.windSpeed} km/h',

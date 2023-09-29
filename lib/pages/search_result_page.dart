@@ -53,6 +53,13 @@ class _SearchResultPageState extends State<SearchResultPage> {
     }
   }
 
+  String getTime(final timeStamp) {
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    String value = DateFormat('Hm').format(time);
+
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Widget untuk appbar
@@ -392,7 +399,46 @@ class _SearchResultPageState extends State<SearchResultPage> {
                                     style: whiteTextStyle.copyWith(
                                       fontSize: 18,
                                       fontWeight: bold,
-                                      color: whiteColor,
+                                      color: airPollutionModel.data.current.pollution.aqius <=
+                                              50
+                                          ? greenColor
+                                          : airPollutionModel.data.current.pollution.aqius > 50 &&
+                                                  airPollutionModel.data.current
+                                                          .pollution.aqius <=
+                                                      100
+                                              ? yellowColor
+                                              : airPollutionModel.data.current.pollution.aqius > 100 &&
+                                                      airPollutionModel
+                                                              .data
+                                                              .current
+                                                              .pollution
+                                                              .aqius <=
+                                                          150
+                                                  ? orangeColor
+                                                  : airPollutionModel.data.current.pollution.aqius > 150 &&
+                                                          airPollutionModel
+                                                                  .data
+                                                                  .current
+                                                                  .pollution
+                                                                  .aqius <=
+                                                              200
+                                                      ? redColor
+                                                      : airPollutionModel
+                                                                      .data
+                                                                      .current
+                                                                      .pollution
+                                                                      .aqius >
+                                                                  200 &&
+                                                              airPollutionModel
+                                                                      .data
+                                                                      .current
+                                                                      .pollution
+                                                                      .aqius <=
+                                                                  300
+                                                          ? purpleColor
+                                                          : airPollutionModel.data.current.pollution.aqius > 300 && airPollutionModel.data.current.pollution.aqius <= 500
+                                                              ? maroonColor
+                                                              : null,
                                     ),
                                   ),
                                   footer: Text(
@@ -578,30 +624,42 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           value: '${forecast.current!.current.humidity}%',
                           title: 'Humidity',
                         ),
-                        SearchResultDetail(
-                          imgUrl: 'assets/icons/ic_pressure.png',
-                          value: '${forecast.current!.current.pressure} hPa',
-                          title: 'Air Pressure',
-                        ),
+                        DateTime.now().hour > 6 && DateTime.now().hour < 18
+                            ? SearchResultDetail(
+                                imgUrl: 'assets/icons/ic_sunset.png',
+                                title: 'Sunset',
+                                value:
+                                    getTime(forecast.current!.current.sunset),
+                              )
+                            : DateTime.now().hour < 6 &&
+                                    DateTime.now().hour > 18
+                                ? SearchResultDetail(
+                                    imgUrl: 'assets/icons/ic_sunrise.png',
+                                    title: 'Sunrise',
+                                    value: getTime(
+                                        forecast.current!.current.sunrise),
+                                  )
+                                : const SizedBox(),
                         SearchResultDetail(
                           imgUrl: 'assets/icons/ic_wind_speed.png',
                           value: '${forecast.current!.current.windSpeed} km/h',
                           title: 'Wind Speed',
                         ),
-                        if (DateTime.now().hour > 6 &&
-                            DateTime.now().hour <= 18) ...[
-                          SearchResultDetail(
-                            imgUrl: 'assets/icons/ic_uvi.png',
-                            value: '${forecast.current!.current.uvi}',
-                            title: 'UV Index',
-                          )
-                        ] else ...[
-                          SearchResultDetail(
-                            imgUrl: 'assets/icons/ic_fog.png',
-                            value: '${forecast.current!.current.clouds}%',
-                            title: 'Cloudiness',
-                          )
-                        ]
+                        DateTime.now().hour > 6 && DateTime.now().hour < 18
+                            ? SearchResultDetail(
+                                imgUrl: 'assets/icons/ic_uvi.png',
+                                value: '${forecast.current!.current.uvi}',
+                                title: 'UV Index',
+                              )
+                            : DateTime.now().hour < 6 &&
+                                    DateTime.now().hour > 18
+                                ? SearchResultDetail(
+                                    imgUrl: 'assets/icons/ic_fog.png',
+                                    value:
+                                        '${forecast.current!.current.clouds}%',
+                                    title: 'Cloudiness',
+                                  )
+                                : const SizedBox(),
                       ],
                     )
                   ],

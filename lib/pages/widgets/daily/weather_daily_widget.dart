@@ -60,7 +60,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
             BlocBuilder<AirPollutionBloc, AirPollutionState>(
               builder: (context, state) {
                 if (state is AirPollutionLoading) {
-                  return const CircularProgressIndicator();
+                  return const SizedBox();
                 } else if (state is AirPollutionSuccess) {
                   AirPollutionModel airPollutionModel = state.airPollutionModel;
 
@@ -80,10 +80,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                               Center(
                                 child: Text(
                                   widget.dailyWeather.daily[0].summary!,
-                                  style: whiteTextStyle.copyWith(
-                                    fontSize: 16,
-                                    fontWeight: medium,
-                                  ),
+                                  style: whiteTextStyle.copyWith(fontSize: 16),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -134,7 +131,6 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                                                       : 'Air quality is hazardous.',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 16,
-                                    fontWeight: medium,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   textAlign: TextAlign.center,
@@ -164,7 +160,6 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                                                 : 'UV index is extreme\nJacket, sunscreen, and hat are must!',
                                     style: whiteTextStyle.copyWith(
                                       fontSize: 16,
-                                      fontWeight: medium,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     textAlign: TextAlign.center,
@@ -181,7 +176,6 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                                       : 'Rise and shine!\nSunrise will be at ${getTime(widget.currentWeather.current.sunrise!)}',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 16,
-                                    fontWeight: medium,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   textAlign: TextAlign.center,
@@ -212,7 +206,6 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                 }
               },
             ),
-
             SizedBox(height: defaultHorizontalMargin),
             SizedBox(
               height: 240,

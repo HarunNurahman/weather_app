@@ -18,15 +18,15 @@ Color blueColor3 = const Color(0xFF158C96);
 Color blueColor4 = const Color(0xFFD2DFFF);
 Color blueColor5 = const Color(0xFF9AB6FF);
 
-Color greenColor = const Color(0xFF2AA837);
+Color greenColor = const Color(0xFF93CC4B);
 
 Color transparent = Colors.transparent;
 
-Color yellowColor = const Color(0xFFBD9801);
-Color orangeColor = const Color(0xFFEB4700);
-Color redColor = const Color(0xFFAE0001);
-Color purpleColor = const Color(0xFF2B0157);
-Color maroonColor = const Color(0xFF2D0209);
+Color yellowColor = const Color(0xFFFFCF23);
+Color orangeColor = const Color(0xFFFEA120);
+Color redColor = const Color(0xFFDC0703);
+Color purpleColor = const Color(0xFF5B255F);
+Color maroonColor = const Color(0xFF722221);
 
 // Text Style List
 TextStyle whiteTextStyle = TextStyle(
