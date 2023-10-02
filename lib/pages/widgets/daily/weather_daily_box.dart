@@ -75,7 +75,7 @@ class WeatherDailyBox extends StatelessWidget {
             ),
           ),
           Text(
-            '${minTemp.toString()}°C/${maxTemp.toString()}°C',
+            '${minTemp.toString()}°C | ${maxTemp.toString()}°C',
             style: blackTextStyle.copyWith(
               color: blackColor2,
               fontWeight: semibold,

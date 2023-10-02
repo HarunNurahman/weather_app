@@ -36,6 +36,7 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
   Widget build(BuildContext context) {
     // print(getTime(widget.detailInfo.current.sunset!));
     // print(getTime(widget.detailInfo.current.sunrise!));
+
     return BlocProvider(
       create: (context) => AirPollutionBloc()
         ..add(
@@ -345,25 +346,23 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                   value: '${widget.detailInfo.current.humidity}%',
                   title: 'Humidity',
                 ),
-                DateTime.now().hour > 6 && DateTime.now().hour < 18
+                widget.detailInfo.current.uvi! > 0.0
                     ? DetailInfoBox(
                         imgUrl: 'assets/icons/ic_sunset.png',
                         title: 'Sunset',
                         value: getTime(widget.detailInfo.current.sunset!),
                       )
-                    : DateTime.now().hour < 6 && DateTime.now().hour > 18
-                        ? DetailInfoBox(
-                            imgUrl: 'assets/icons/ic_sunrise.png',
-                            title: 'Sunrise',
-                            value: getTime(widget.detailInfo.current.sunrise!),
-                          )
-                        : const SizedBox(),
+                    : DetailInfoBox(
+                        imgUrl: 'assets/icons/ic_sunrise.png',
+                        title: 'Sunrise',
+                        value: getTime(widget.detailInfo.current.sunrise!),
+                      ),
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_wind_speed.png',
                   value: '${widget.detailInfo.current.windSpeed} km/h',
                   title: 'Wind Speed',
                 ),
-                DateTime.now().hour > 6 && DateTime.now().hour <= 18
+                widget.detailInfo.current.uvi! > 0.0
                     ? DetailInfoBox(
                         imgUrl: 'assets/icons/ic_uvi.png',
                         value: '${widget.detailInfo.current.uvi}',

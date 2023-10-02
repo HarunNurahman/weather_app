@@ -150,22 +150,10 @@ class _SearchResultPageState extends State<SearchResultPage> {
               child: Center(
                 child: Column(
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        text: dateFormat,
-                        style: whiteTextStyle,
-                        children: [
-                          TextSpan(
-                            text: ' - $timeFormat',
-                            style: whiteTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: defaultVerticalMargin),
                     Image.asset(
-                        'assets/icons/weathers/${forecast.current!.current.weather![0].icon}.png',
-                        width: 64),
+                      'assets/icons/weathers/${forecast.current!.current.weather![0].icon}.png',
+                      width: 96,
+                    ),
                     const SizedBox(height: 18),
                     Text(
                       '${forecast.current!.current.temp}°C',
@@ -624,42 +612,35 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           value: '${forecast.current!.current.humidity}%',
                           title: 'Humidity',
                         ),
-                        DateTime.now().hour > 6 && DateTime.now().hour < 18
+                        forecast.current!.current.uvi! > 0.0
                             ? SearchResultDetail(
                                 imgUrl: 'assets/icons/ic_sunset.png',
                                 title: 'Sunset',
                                 value:
                                     getTime(forecast.current!.current.sunset),
                               )
-                            : DateTime.now().hour < 6 &&
-                                    DateTime.now().hour > 18
-                                ? SearchResultDetail(
-                                    imgUrl: 'assets/icons/ic_sunrise.png',
-                                    title: 'Sunrise',
-                                    value: getTime(
-                                        forecast.current!.current.sunrise),
-                                  )
-                                : const SizedBox(),
+                            : SearchResultDetail(
+                                imgUrl: 'assets/icons/ic_sunrise.png',
+                                title: 'Sunrise',
+                                value:
+                                    getTime(forecast.current!.current.sunrise),
+                              ),
                         SearchResultDetail(
                           imgUrl: 'assets/icons/ic_wind_speed.png',
                           value: '${forecast.current!.current.windSpeed} km/h',
                           title: 'Wind Speed',
                         ),
-                        DateTime.now().hour > 6 && DateTime.now().hour < 18
+                        forecast.current!.current.uvi! > 0.0
                             ? SearchResultDetail(
                                 imgUrl: 'assets/icons/ic_uvi.png',
                                 value: '${forecast.current!.current.uvi}',
                                 title: 'UV Index',
                               )
-                            : DateTime.now().hour < 6 &&
-                                    DateTime.now().hour > 18
-                                ? SearchResultDetail(
-                                    imgUrl: 'assets/icons/ic_fog.png',
-                                    value:
-                                        '${forecast.current!.current.clouds}%',
-                                    title: 'Cloudiness',
-                                  )
-                                : const SizedBox(),
+                            : SearchResultDetail(
+                                imgUrl: 'assets/icons/ic_fog.png',
+                                value: '${forecast.current!.current.clouds}%',
+                                title: 'Cloudiness',
+                              )
                       ],
                     )
                   ],

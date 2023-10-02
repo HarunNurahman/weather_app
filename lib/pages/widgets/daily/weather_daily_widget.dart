@@ -170,8 +170,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                               // SUNRISE AND SUNSET MESSAGE
                               Center(
                                 child: Text(
-                                  DateTime.now().hour > 6 &&
-                                          DateTime.now().hour <= 18
+                                  widget.currentWeather.current.uvi! > 0.0
                                       ? 'Don\'t miss the sunset!\nSunset will be at ${getTime(widget.currentWeather.current.sunset!)}'
                                       : 'Rise and shine!\nSunrise will be at ${getTime(widget.currentWeather.current.sunrise!)}',
                                   style: whiteTextStyle.copyWith(
