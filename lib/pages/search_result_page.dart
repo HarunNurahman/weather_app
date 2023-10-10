@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+// import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -15,7 +15,7 @@ import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/pages/widgets/search_result/search_result_daily.dart';
 import 'package:weather_app/pages/widgets/search_result/search_result_detail.dart';
 import 'package:weather_app/pages/widgets/search_result/search_result_hourly.dart';
-import 'package:weather_app/services/notification_services.dart';
+// import 'package:weather_app/services/notification_services.dart';
 
 class SearchResultPage extends StatefulWidget {
   final double lat;
@@ -86,42 +86,14 @@ class _SearchResultPageState extends State<SearchResultPage> {
           ),
         ),
         actions: [
-          BlocBuilder<ForecastBloc, ForecastState>(
-            builder: (context, state) {
-              if (state is ForecastLoading) {
-                return const SizedBox();
-              } else if (state is ForecastSuccess) {
-                WeatherData forecast = state.forecastWeather;
-
-                return Container(
-                  margin: EdgeInsets.only(right: defaultRadius),
-                  child: GestureDetector(
-                    onTap: () {
-                      DatePicker.showDateTimePicker(
-                        context,
-                        showTitleActions: true,
-                        onChanged: (dateTime) => scheduleTime = dateTime,
-                        onConfirm: (dateTime) {
-                          debugPrint(
-                              'Notification Scheduled for $scheduleTime');
-                          NotificationService().scheduledNotification(
-                            title:
-                                '${widget.cityName} at ${scheduleTime!.hour}:${scheduleTime!.minute}',
-                            body:
-                                '${forecast.current!.current.weather![0].description!.toTitleCase()}: ${forecast.current!.current.temp}°C',
-                            scheduledNotificationDateTime: scheduleTime!,
-                          );
-                        },
-                      );
-                    },
-                    child: Icon(Icons.settings, size: 24, color: whiteColor),
-                  ),
-                );
-              } else {
-                return const SizedBox();
-              }
-            },
-          )
+          Container(
+            margin: EdgeInsets.only(right: defaultRadius),
+            child: GestureDetector(
+              onTap: () {
+              },
+              child: Icon(Icons.settings, size: 24, color: whiteColor),
+            ),
+          ),
         ],
       );
     }

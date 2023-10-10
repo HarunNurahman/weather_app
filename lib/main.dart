@@ -1,13 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weather_app/firebase_options.dart';
 import 'package:weather_app/pages/dashboard_page.dart';
-import 'package:weather_app/services/notification_services.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:weather_app/services/api_services.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().initNotification();
-  tz.initializeTimeZones();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await ApiServices().initNotification();
   runApp(const MyApp());
 }
 

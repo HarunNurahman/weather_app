@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/models/air_pollution_model.dart';
 import 'package:weather_app/models/forecast_weather_model.dart';
@@ -12,6 +13,8 @@ import 'package:weather_app/models/weather_data_hourly.dart';
 
 class ApiServices {
   final Dio _dio = Dio();
+  // Create an instance of Firebase Messaging
+  final firebaseMessaging = FirebaseMessaging.instance;
 
   String baseUrl(var lat, var lon) {
     String url =
@@ -93,5 +96,15 @@ class ApiServices {
     } catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  // Funtion untuk inisialisasi notifikasi
+  Future<void> initNotification() async {
+    // Request permission untuk menerima notifikasi
+    await firebaseMessaging.requestPermission();
+
+    // Mengambil FCM token
+    final fCMToken = await firebaseMessaging.getToken();
+    print('Token : $fCMToken');
   }
 }

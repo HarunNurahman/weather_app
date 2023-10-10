@@ -62,7 +62,7 @@ class _DashboardPageState extends State<DashboardPage> {
         onTap: () async {
           await launchUrl(
             Uri.parse(
-              'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=${weatherController.getLat().value}&lon=${weatherController.getLon().value}&zoom=9',
+              'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=${weatherController.getLat().value}&lon=${weatherController.getLon().value}&zoom=10',
             ),
           );
         },

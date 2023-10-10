@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:weather_app/pages/notification_setting_page.dart';
 import 'package:weather_app/pages/widgets/search_delegate.dart';
 
 import '../../config/styles.dart';
@@ -84,9 +83,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
         ),
         const SizedBox(width: 8),
         GestureDetector(
-          onTap: () => Get.to(
-            () => const NotificationSettingPage(),
-          ),
+          onTap: () {},
           child: Icon(
             Icons.settings,
             size: 24,
