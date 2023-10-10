@@ -85,7 +85,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
         const SizedBox(width: 8),
         GestureDetector(
           onTap: () => Get.to(
-            NotificationSettingPage(),
+            () => const NotificationSettingPage(),
           ),
           child: Icon(
             Icons.settings,

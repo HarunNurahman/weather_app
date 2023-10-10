@@ -39,10 +39,6 @@ class _DashboardPageState extends State<DashboardPage> {
   // Auto-update waktu (hh:mm:ss)
   @override
   void initState() {
-    time = Timer.periodic(
-      const Duration(seconds: 1),
-      (t) => update(),
-    );
     super.initState();
   }
 
