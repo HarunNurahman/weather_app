@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/pages/widgets/search_delegate.dart';
+import 'package:weather_app/services/notification_services.dart';
 
 import '../../config/styles.dart';
 import '../../services/global_controller.dart';
@@ -83,9 +84,15 @@ class _HeaderWidgetState extends State<HeaderWidget> {
         ),
         const SizedBox(width: 8),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            NotificationService().showNotification(
+              title: 'Current weather in your area',
+              body:
+                  '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} - ${weatherController.getData().daily!.daily[0].temp!.max}°C | ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+            );
+          },
           child: Icon(
-            Icons.settings,
+            Icons.notifications,
             size: 24,
             color: whiteColor,
           ),

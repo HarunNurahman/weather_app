@@ -101,7 +101,12 @@ class ApiServices {
   // Funtion untuk inisialisasi notifikasi
   Future<void> initNotification() async {
     // Request permission untuk menerima notifikasi
-    await firebaseMessaging.requestPermission();
+    await firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      provisional: false,
+      sound: true,
+    );
 
     // Mengambil FCM token
     final fCMToken = await firebaseMessaging.getToken();

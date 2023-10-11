@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+// import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,6 +15,7 @@ import 'package:weather_app/pages/widgets/hourly/skeleton_weather_hourly_box.dar
 import 'package:weather_app/pages/widgets/hourly/weather_hourly_widget.dart';
 import 'package:weather_app/services/global_controller.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:weather_app/services/notification_services.dart';
 
 import 'widgets/header_widget.dart';
 
@@ -36,16 +39,51 @@ class _DashboardPageState extends State<DashboardPage> {
     permanent: true,
   );
 
-  // Auto-update waktu (hh:mm:ss)
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void update() {
     setState(() {
       timeFormat = DateFormat.Hms().format(DateTime.now());
     });
+  }
+
+  // Auto-update waktu (hh:mm:ss)
+  @override
+  void initState() {
+    // Foreground state notification
+    FirebaseMessaging.onMessage.listen((event) {
+      setState(() {
+        NotificationService().showNotification(
+          title: 'Current weather in your area',
+          body:
+              '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} - ${weatherController.getData().daily!.daily[0].temp!.max}°C | ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+        );
+      });
+    });
+
+    // Background state notification
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      setState(() {
+        NotificationService().showNotification(
+          title: 'Current weather in your area',
+          body:
+              '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} - ${weatherController.getData().daily!.daily[0].temp!.max}°C | ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+        );
+      });
+    });
+
+    // Terminated state notification
+    FirebaseMessaging.instance.getInitialMessage().then((event) {
+      if (event != null) {
+        setState(() {
+          NotificationService().showNotification(
+            title: 'Current weather in your area',
+            body:
+                '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} - ${weatherController.getData().daily!.daily[0].temp!.max}°C | ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+          );
+        });
+      }
+    });
+
+    super.initState();
   }
 
   @override
@@ -121,7 +159,7 @@ class _DashboardPageState extends State<DashboardPage> {
           GestureDetector(
             onTap: () {},
             child: Icon(
-              Icons.settings,
+              Icons.notifications,
               size: 24,
               color: whiteColor,
             ),
