@@ -1,10 +1,7 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-// import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/pages/widgets/daily/weather_daily_widget.dart';
@@ -15,7 +12,6 @@ import 'package:weather_app/pages/widgets/hourly/skeleton_weather_hourly_box.dar
 import 'package:weather_app/pages/widgets/hourly/weather_hourly_widget.dart';
 import 'package:weather_app/services/global_controller.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:weather_app/services/notification_services.dart';
 
 import 'widgets/header_widget.dart';
 
@@ -27,62 +23,13 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final GlobalController weatherController = Get.put(GlobalController());
-
-  String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
-  String timeFormat = DateFormat.Hms().format(DateTime.now());
-
-  Timer? time;
-
-  final GlobalController globalController = Get.put(
+  final GlobalController weatherController = Get.put(
     GlobalController(),
     permanent: true,
   );
 
-  void update() {
-    setState(() {
-      timeFormat = DateFormat.Hms().format(DateTime.now());
-    });
-  }
-
-  // Auto-update waktu (hh:mm:ss)
   @override
   void initState() {
-    // Foreground state notification
-    FirebaseMessaging.onMessage.listen((event) {
-      setState(() {
-        NotificationService().showNotification(
-          title: 'Current weather in your area',
-          body:
-              '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} - ${weatherController.getData().daily!.daily[0].temp!.max}°C | ${weatherController.getData().daily!.daily[0].temp!.min}°C',
-        );
-      });
-    });
-
-    // Background state notification
-    FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      setState(() {
-        NotificationService().showNotification(
-          title: 'Current weather in your area',
-          body:
-              '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} - ${weatherController.getData().daily!.daily[0].temp!.max}°C | ${weatherController.getData().daily!.daily[0].temp!.min}°C',
-        );
-      });
-    });
-
-    // Terminated state notification
-    FirebaseMessaging.instance.getInitialMessage().then((event) {
-      if (event != null) {
-        setState(() {
-          NotificationService().showNotification(
-            title: 'Current weather in your area',
-            body:
-                '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} - ${weatherController.getData().daily!.daily[0].temp!.max}°C | ${weatherController.getData().daily!.daily[0].temp!.min}°C',
-          );
-        });
-      }
-    });
-
     super.initState();
   }
 
@@ -96,7 +43,7 @@ class _DashboardPageState extends State<DashboardPage> {
     // Widget informasi cuaca terkini di lokasi yang terdeteksi
     Widget weatherInfo() {
       return WeatherInfoWidget(
-        currentWeather: globalController.getData().getCurrentWeather(),
+        currentWeather: weatherController.getData().getCurrentWeather(),
         onTap: () async {
           await launchUrl(
             Uri.parse(
@@ -110,15 +57,15 @@ class _DashboardPageState extends State<DashboardPage> {
     // Widget informasi cuaca beberapa jam kedepan
     Widget weatherHourly() {
       return WeatherHourlyWidget(
-        weatherHourly: globalController.getData().getHourlyWeather(),
+        weatherHourly: weatherController.getData().getHourlyWeather(),
       );
     }
 
     // Widget informasi cuaca 3/5 hari kedepan
     Widget weatherDaily() {
       return WeatherDailyWidget(
-        dailyWeather: globalController.getData().getDailyWeather(),
-        currentWeather: globalController.getData().getCurrentWeather(),
+        dailyWeather: weatherController.getData().getDailyWeather(),
+        currentWeather: weatherController.getData().getCurrentWeather(),
         lat: weatherController.getLat().value,
         lon: weatherController.getLon().value,
       );
@@ -127,7 +74,7 @@ class _DashboardPageState extends State<DashboardPage> {
     // Widget detail informasi cuaca (humidity, air pressure, wind speed, fog)
     Widget detailInformation() {
       return DetailInfoWidget(
-        detailInfo: globalController.getData().getCurrentWeather(),
+        detailInfo: weatherController.getData().getCurrentWeather(),
         lat: weatherController.getLat().value,
         lon: weatherController.getLon().value,
       );
@@ -316,7 +263,7 @@ class _DashboardPageState extends State<DashboardPage> {
             );
           },
           child: Obx(
-            () => globalController.isLoading.isTrue
+            () => weatherController.isLoading.isTrue
                 ? SingleChildScrollView(
                     child: Container(
                       margin: EdgeInsets.symmetric(

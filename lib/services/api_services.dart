@@ -112,4 +112,8 @@ class ApiServices {
     final fCMToken = await firebaseMessaging.getToken();
     print('Token : $fCMToken');
   }
+
+  void handleMessage(RemoteMessage message) async {
+    print('Handling background message');
+  }
 }
