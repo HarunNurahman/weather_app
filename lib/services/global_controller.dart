@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/models/weather_data.dart';
@@ -38,18 +39,39 @@ class GlobalController extends GetxController {
 
     isServiceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!isServiceEnabled) {
-      return Future.error("Please enable location service");
+      // return Future.error("Please enable location service");
+      return ScaffoldMessenger.of(Get.context!).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Please enable location service",
+          ),
+        ),
+      );
     }
 
     locationPermission = await Geolocator.checkPermission();
     if (locationPermission == LocationPermission.deniedForever) {
-      return Future.error(
-        "Location permission is denied, please enable on setting",
+      // return Future.error(
+      //   "Location permission is denied, please enable on setting",
+      // );
+      return ScaffoldMessenger.of(Get.context!).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Location permission is denied, please enable on setting",
+          ),
+        ),
       );
     } else if (locationPermission == LocationPermission.denied) {
       locationPermission = await Geolocator.requestPermission();
       if (locationPermission == LocationPermission.denied) {
-        return Future.error("Location permission is denied, please try again");
+        // return Future.error("Location permission is denied, please try again");
+        return ScaffoldMessenger.of(Get.context!).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "Location permission is denied, please try again",
+            ),
+          ),
+        );
       }
     }
 
