@@ -70,6 +70,15 @@ class _HeaderWidgetState extends State<HeaderWidget> {
       );
     });
 
+    FirebaseMessaging.onBackgroundMessage((message) async {
+      return NotificationService().showNotification(
+        title:
+            '$subcity • ${weatherController.getData().current!.current.temp}°C',
+        body:
+            '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+      );
+    });
+
     // Terminated state notification
     FirebaseMessaging.instance.getInitialMessage().then((event) {
       if (event != null) {
