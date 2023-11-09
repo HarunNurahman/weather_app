@@ -85,16 +85,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
             fontSize: 16,
           ),
         ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: defaultRadius),
-            child: GestureDetector(
-              onTap: () {
-              },
-              child: Icon(Icons.settings, size: 24, color: whiteColor),
-            ),
-          ),
-        ],
       );
     }
 
