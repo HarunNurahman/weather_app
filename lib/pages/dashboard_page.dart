@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,6 +13,7 @@ import 'package:weather_app/pages/widgets/hourly/skeleton_weather_hourly_box.dar
 import 'package:weather_app/pages/widgets/hourly/weather_hourly_widget.dart';
 import 'package:weather_app/services/global_controller.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:weather_app/services/notification_services.dart';
 
 import 'widgets/header_widget.dart';
 
@@ -30,6 +32,51 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
+    // Foreground state notification
+    FirebaseMessaging.onMessage.listen((event) {
+      setState(() {
+        NotificationService().showNotification(
+          title:
+              'Current Weather • ${weatherController.getData().current!.current.temp}°C',
+          body:
+              '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+        );
+      });
+    });
+
+    // Background state notification
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      setState(() {
+        NotificationService().showNotification(
+          title: '• ${weatherController.getData().current!.current.temp}°C',
+          body:
+              '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+        );
+      });
+    });
+
+    // FirebaseMessaging.onBackgroundMessage((message) {
+    //   return NotificationService().showNotification(
+    //     title:
+    //         '$subcity • ${weatherController.getData().current!.current.temp}°C',
+    //     body:
+    //         '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+    //   );
+    // });
+
+    // Terminated state notification
+    FirebaseMessaging.instance.getInitialMessage().then((event) {
+      if (event != null) {
+        setState(() {
+          NotificationService().showNotification(
+            title: '• ${weatherController.getData().current!.current.temp}°C',
+            body:
+                '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
+          );
+        });
+      }
+    });
+
     super.initState();
   }
 

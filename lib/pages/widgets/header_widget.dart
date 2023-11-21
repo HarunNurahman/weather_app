@@ -1,4 +1,4 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -36,53 +36,6 @@ class _HeaderWidgetState extends State<HeaderWidget> {
       weatherController.getLat().value,
       weatherController.getLon().value,
     );
-
-    // Foreground state notification
-    FirebaseMessaging.onMessage.listen((event) {
-      setState(() {
-        NotificationService().showNotification(
-          title:
-              '$subcity • ${weatherController.getData().current!.current.temp}°C',
-          body:
-              '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
-        );
-      });
-    });
-
-    // Background state notification
-    FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      setState(() {
-        NotificationService().showNotification(
-          title:
-              '$subcity • ${weatherController.getData().current!.current.temp}°C',
-          body:
-              '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
-        );
-      });
-    });
-
-    // FirebaseMessaging.onBackgroundMessage((message) {
-    //   return NotificationService().showNotification(
-    //     title:
-    //         '$subcity • ${weatherController.getData().current!.current.temp}°C',
-    //     body:
-    //         '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
-    //   );
-    // });
-
-    // Terminated state notification
-    FirebaseMessaging.instance.getInitialMessage().then((event) {
-      if (event != null) {
-        setState(() {
-          NotificationService().showNotification(
-            title:
-                '$subcity • ${weatherController.getData().current!.current.temp}°C',
-            body:
-                '${weatherController.getData().current!.current.weather![0].description.toString().toTitleCase()} • High ${weatherController.getData().daily!.daily[0].temp!.max}°C | Low ${weatherController.getData().daily!.daily[0].temp!.min}°C',
-          );
-        });
-      }
-    });
 
     super.initState();
   }
