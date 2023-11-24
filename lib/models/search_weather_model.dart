@@ -112,8 +112,8 @@ class Main {
     this.grndLevel,
   });
 
-  double? temp;
-  double? feelsLike;
+  int? temp;
+  int? feelsLike;
   double? tempMin;
   double? tempMax;
   int? pressure;
@@ -122,8 +122,8 @@ class Main {
   int? grndLevel;
 
   factory Main.fromJson(Map<String, dynamic> json) => Main(
-        temp: json["temp"]?.toDouble(),
-        feelsLike: json["feels_like"]?.toDouble(),
+        temp: (json['temp'] as num?)?.round(),
+        feelsLike: (json["feels_like"] as num?)?.round(),
         tempMin: json["temp_min"]?.toDouble(),
         tempMax: json["temp_max"]?.toDouble(),
         pressure: json["pressure"],

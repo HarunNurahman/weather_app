@@ -346,7 +346,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           SizedBox(height: defaultVerticalMargin),
                           Center(
                             child: Text(
-                              'Weather App (v.0.3) - Harun Nurahman',
+                              'Weather App (v.0.4) - Harun Nurahman',
                               style: blackTextStyle.copyWith(
                                 color: grayColor,
                               ),

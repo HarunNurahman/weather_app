@@ -123,7 +123,6 @@ class MySearchDelegate extends SearchDelegate {
                             search.name!,
                             style: whiteTextStyle.copyWith(fontWeight: bold),
                           ),
-                          Text(dateFormat, style: whiteTextStyle),
                         ],
                       ),
                       SizedBox(height: defaultVerticalMargin),

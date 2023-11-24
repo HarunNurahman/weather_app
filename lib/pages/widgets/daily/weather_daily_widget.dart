@@ -138,8 +138,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                                 ),
                               ),
                               // UVI INDEX MESSAGE
-                              if (DateTime.now().hour > 6 &&
-                                  DateTime.now().hour <= 18) ...[
+                              if (widget.currentWeather.current.uvi! > 0) ...[
                                 Center(
                                   child: Text(
                                     widget.currentWeather.current.uvi! <= 2
@@ -207,7 +206,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
             ),
             SizedBox(height: defaultHorizontalMargin),
             SizedBox(
-              height: 240,
+              height: 410,
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => WeatherDailyBox(
@@ -218,7 +217,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                   minTemp: widget.dailyWeather.daily[index].temp!.min!,
                   maxTemp: widget.dailyWeather.daily[index].temp!.max!,
                 ),
-                itemCount: widget.dailyWeather.daily.length = 3,
+                itemCount: widget.dailyWeather.daily.length = 5,
               ),
             )
           ],

@@ -14,7 +14,7 @@ class Current {
   int? clouds;
   int? pressure;
   int? visibility;
-  double? feelsLike;
+  int? feelsLike;
   double? uvi;
   double? windSpeed;
   List<Weather>? weather;
@@ -41,7 +41,7 @@ class Current {
         clouds: json['clouds'] as int?,
         pressure: json['pressure'] as int?,
         visibility: json['visibility'] as int?,
-        feelsLike: (json['feels_like'] as num?)!.toDouble(),
+        feelsLike: (json['feels_like'] as num?)?.round(),
         uvi: (json['uvi'] as num?)!.toDouble(),
         windSpeed: (json['wind_speed'] as num?)?.toDouble(),
         weather: (json['weather'] as List<dynamic>?)

@@ -203,6 +203,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
         );
       }
 
+      // Widget untuk konten daily weather
       Widget daily() {
         return BlocBuilder<ForecastBloc, ForecastState>(
           builder: (context, state) {
@@ -225,7 +226,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     ),
                     SizedBox(height: defaultHorizontalMargin),
                     SizedBox(
-                      height: 240,
+                      height: 410,
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) => SearchResultDaily(
@@ -237,6 +238,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           minTemp: forecast.daily!.daily[index].temp!.min!,
                           maxTemp: forecast.daily!.daily[index].temp!.max!,
                         ),
+                        itemCount: forecast.daily!.daily.length = 5,
                       ),
                     )
                   ],

@@ -97,9 +97,14 @@ class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${widget.currentWeather.current.temp}°C',
-                      style: whiteTextStyle.copyWith(fontSize: 20),
+                    Row(
+                      children: [
+                        Text(
+                          '${widget.currentWeather.current.temp}°C',
+                          style: whiteTextStyle.copyWith(fontSize: 20),
+                        ),
+                        const SizedBox(width: 12),
+                      ],
                     ),
                     const SizedBox(height: 4),
                     Text(
