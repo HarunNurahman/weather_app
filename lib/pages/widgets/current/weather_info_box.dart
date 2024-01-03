@@ -20,7 +20,7 @@ class WeatherInfoWidget extends StatefulWidget {
 }
 
 class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
-  String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
+  String dateFormat = DateFormat('EEEE, dd MMMM yyyy').format(DateTime.now());
   String timeFormat = DateFormat.Hms().format(DateTime.now());
 
   Timer? time;
