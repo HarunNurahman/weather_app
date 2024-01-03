@@ -65,6 +65,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
                   AirPollutionModel airPollutionModel = state.airPollutionModel;
 
                   return Container(
+                    height: 75,
                     width: double.infinity,
                     padding: EdgeInsets.all(defaultHorizontalMargin),
                     decoration: BoxDecoration(

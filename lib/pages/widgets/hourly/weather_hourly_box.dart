@@ -44,7 +44,7 @@ class WeatherHourlyBox extends StatelessWidget {
               fontWeight: semibold,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Text(
             getTime(timeStamp),
             style: whiteTextStyle.copyWith(fontSize: 12),
