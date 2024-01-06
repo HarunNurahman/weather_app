@@ -26,7 +26,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
     Placemark place = placemark[0];
     setState(() {
       city = place.subAdministrativeArea!;
-      subcity = place.locality!;
+      subcity = place.subLocality!;
     });
   }
 
