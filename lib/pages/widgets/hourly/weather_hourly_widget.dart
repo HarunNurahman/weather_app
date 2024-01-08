@@ -14,30 +14,6 @@ class WeatherHourlyWidget extends StatefulWidget {
 class _WeatherHourlyWidgetState extends State<WeatherHourlyWidget> {
   @override
   Widget build(BuildContext context) {
-    Widget weatherHourlyList() {
-      return SizedBox(
-        height: 115,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return WeatherHourlyBox(
-              temp: widget.weatherHourly.hourly[index].temp!,
-              timeStamp: widget.weatherHourly.hourly[index].dt!,
-              index: index,
-              imgUrl: widget.weatherHourly.hourly[index].weather![0].icon!,
-            );
-          },
-          separatorBuilder: (context, index) => VerticalDivider(
-            color: transparent,
-            width: 10,
-          ),
-          itemCount: widget.weatherHourly.hourly.length >= 6
-              ? 6
-              : widget.weatherHourly.hourly.length,
-        ),
-      );
-    }
-
     return Container(
       margin: EdgeInsets.only(top: defaultVerticalMargin),
       child: Column(
@@ -53,6 +29,30 @@ class _WeatherHourlyWidgetState extends State<WeatherHourlyWidget> {
           const SizedBox(height: 16),
           weatherHourlyList(),
         ],
+      ),
+    );
+  }
+
+  Widget weatherHourlyList() {
+    return SizedBox(
+      height: 120,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return WeatherHourlyBox(
+            temp: widget.weatherHourly.hourly[index].temp!,
+            timeStamp: widget.weatherHourly.hourly[index].dt!,
+            index: index,
+            imgUrl: widget.weatherHourly.hourly[index].weather![0].icon!,
+          );
+        },
+        separatorBuilder: (context, index) => VerticalDivider(
+          color: transparent,
+          width: 10,
+        ),
+        itemCount: widget.weatherHourly.hourly.length >= 6
+            ? 6
+            : widget.weatherHourly.hourly.length,
       ),
     );
   }

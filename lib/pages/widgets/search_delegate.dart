@@ -15,6 +15,7 @@ class MySearchDelegate extends SearchDelegate {
       appBarTheme: AppBarTheme(
         color: blackColor,
         elevation: 0,
+        iconTheme: IconThemeData(color: whiteColor),
       ),
       // Border Color
       inputDecorationTheme: const InputDecorationTheme(
@@ -101,7 +102,7 @@ class MySearchDelegate extends SearchDelegate {
                     vertical: defaultVerticalMargin,
                     horizontal: defaultHorizontalMargin,
                   ),
-                  height: 200,
+                  height: 210,
                   padding: EdgeInsets.all(defaultVerticalMargin),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(defaultRadius),
