@@ -254,7 +254,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: defaultHorizontalMargin),
-                    height: MediaQuery.of(context).size.height * 0.53,
+                    height: MediaQuery.of(context).size.height * 0.55,
                     child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => SearchResultDaily(
