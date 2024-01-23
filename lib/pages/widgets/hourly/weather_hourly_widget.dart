@@ -50,8 +50,8 @@ class _WeatherHourlyWidgetState extends State<WeatherHourlyWidget> {
           color: transparent,
           width: 10,
         ),
-        itemCount: widget.weatherHourly.hourly.length >= 6
-            ? 6
+        itemCount: widget.weatherHourly.hourly.length >= 12
+            ? 12
             : widget.weatherHourly.hourly.length,
       ),
     );

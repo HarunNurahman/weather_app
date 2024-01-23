@@ -101,7 +101,7 @@ class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
                       children: [
                         Text(
                           '${widget.currentWeather.current.temp}°C',
-                          style: whiteTextStyle.copyWith(fontSize: 20),
+                          style: whiteTextStyle.copyWith(fontSize: 18),
                         ),
                         const SizedBox(width: 12),
                       ],
@@ -112,8 +112,9 @@ class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
                           .toString()
                           .toTitleCase(),
                       style: whiteTextStyle.copyWith(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: semibold,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     )
                   ],
