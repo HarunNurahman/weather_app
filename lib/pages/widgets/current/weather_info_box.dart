@@ -41,6 +41,13 @@ class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
     });
   }
 
+  String getTime(final timeStamp) {
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    String value = DateFormat('Hm').format(time);
+
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -124,10 +131,19 @@ class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
               ],
             ),
             SizedBox(height: defaultVerticalMargin),
-            Text(
-              'Feels Like ${widget.currentWeather.current.feelsLike}°C',
-              style: whiteTextStyle,
-            )
+            Row(
+              children: [
+                Text(
+                  'Feels Like ${widget.currentWeather.current.feelsLike}°C',
+                  style: whiteTextStyle,
+                ),
+                const Spacer(),
+                Text(
+                  'Last Updated at ${getTime(widget.currentWeather.current.dt)}',
+                  style: whiteTextStyle,
+                )
+              ],
+            ),
           ],
         ),
       ),

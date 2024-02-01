@@ -7,6 +7,7 @@ class WeatherDataCurrent {
 }
 
 class Current {
+  int? dt;
   int? sunrise;
   int? sunset;
   int? temp;
@@ -20,6 +21,7 @@ class Current {
   List<Weather>? weather;
 
   Current({
+    this.dt,
     this.sunrise,
     this.sunset,
     this.temp,
@@ -34,6 +36,7 @@ class Current {
   });
 
   factory Current.fromJson(Map<String, dynamic> json) => Current(
+        dt: json['dt'] as int?,
         sunrise: json['sunrise'] as int?,
         sunset: json['sunset'] as int?,
         temp: (json['temp'] as num?)?.round(),
@@ -50,6 +53,7 @@ class Current {
       );
 
   Map<String, dynamic> toJson() => {
+        'dt': dt,
         'temp': temp,
         'humidity': humidity,
         'clouds': clouds,
