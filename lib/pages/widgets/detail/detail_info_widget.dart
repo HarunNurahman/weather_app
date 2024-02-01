@@ -359,7 +359,8 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
                       ),
                 DetailInfoBox(
                   imgUrl: 'assets/icons/ic_wind_speed.png',
-                  value: '${widget.detailInfo.current.windSpeed! * 10} km/h',
+                  value:
+                      '${(widget.detailInfo.current.windSpeed! * 10).round()} km/h',
                   title: 'Wind Speed',
                 ),
                 widget.detailInfo.current.uvi! > 0.0
