@@ -28,7 +28,7 @@ Color redColor = const Color(0xFFDC0703);
 Color purpleColor = const Color(0xFF5B255F);
 Color maroonColor = const Color(0xFF722221);
 
-// Text Style List
+// TEXT STYLE
 TextStyle whiteTextStyle = TextStyle(
   fontFamily: 'SF Pro Display',
   color: whiteColor,
@@ -38,19 +38,19 @@ TextStyle blackTextStyle = TextStyle(
   color: blackColor,
 );
 
-// Font Weight List
+// FONT WEIGHT
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
 FontWeight semibold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
 
-// Default Margin dan Default Radius Value
+// DEFAULT MARGIN & DEFAULT RADIUS VALUE
 double defaultHorizontalMargin = 16.0;
 double defaultVerticalMargin = 24.0;
 double defaultRadius = 12.0;
 
-// Kapital pada huruf pertama
+// CAPITALIZE TEXT
 extension StringCasingExtension on String {
   String toCapitalized() =>
       length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
@@ -60,7 +60,7 @@ extension StringCasingExtension on String {
       .join(' ');
 }
 
-// App Format (format tanggal)
+// APP FORMAT
 class AppFormat {
   static String dateFormat(String stringDate) {
     DateTime dateTime = DateTime.parse(stringDate);

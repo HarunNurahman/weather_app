@@ -15,11 +15,13 @@ class HeaderWidget extends StatefulWidget {
 }
 
 class _HeaderWidgetState extends State<HeaderWidget> {
+  // INIT USER LOCATION
   String city = '';
   String subcity = '';
 
   final GlobalController weatherController = Get.put(GlobalController());
 
+  // GET USER LOCATION - *FORMAT: KOTA, KELURAHAN
   getAddress(lat, lon) async {
     List<Placemark> placemark = await placemarkFromCoordinates(lat, lon);
     Placemark place = placemark[0];
@@ -29,13 +31,13 @@ class _HeaderWidgetState extends State<HeaderWidget> {
     });
   }
 
+  // INITIALIZE USER LOCATION TO HEADER
   @override
   void initState() {
     getAddress(
       weatherController.getLat().value,
       weatherController.getLon().value,
     );
-
     super.initState();
   }
 
@@ -54,7 +56,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             children: [
               Icon(Icons.location_on, color: whiteColor, size: 24),
               const SizedBox(width: 8),
-              // Lokasi
+              // USER LOCATION
               RichText(
                 text: TextSpan(
                   text: city,
@@ -76,7 +78,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             ],
           ),
           const Spacer(),
-          // Search button
+          // SEARCH BUTTON
           GestureDetector(
             onTap: () {
               showSearch(
@@ -91,6 +93,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             ),
           ),
           const SizedBox(width: 8),
+          // SHOW FOREGROUND NOTIFICATION
           GestureDetector(
             onTap: () {
               NotificationService().showNotification(

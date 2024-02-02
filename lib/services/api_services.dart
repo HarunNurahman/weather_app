@@ -13,7 +13,7 @@ import 'package:weather_app/models/weather_data_hourly.dart';
 
 class ApiServices {
   final Dio _dio = Dio();
-  // Create an instance of Firebase Messaging
+  // INSTANCE FOR FIREBASE MESSAGING
   final firebaseMessaging = FirebaseMessaging.instance;
 
   String baseUrl(var lat, var lon) {
@@ -27,13 +27,9 @@ class ApiServices {
 
   WeatherData? weatherData;
 
-  // Mengambil data cuaca berdasarkan gps
+  // GET WEATHER DATA FROM GEOLOCATOR
   Future<WeatherData> getWeather(lat, lon) async {
     try {
-      // print('Call getWeather');
-      // var response = await _dio.get(
-      //   '$baseUrl?lat=$lat&lon=$lon&appid=$apiKey&units=metric&exclude=minutely',
-      // );
       final response = await http.get(
         Uri.parse(baseUrl(lat, lon)),
       );
@@ -50,10 +46,9 @@ class ApiServices {
     }
   }
 
-  // API Pencarian cuaca berdasarkan query kota
+  // SEARCH WEATHER API BASED ON CITY KEYWORD
   Future<SearchWeatherModel> searchWeather(String query) async {
     try {
-      // print('Call searchWeather');
       final response = await _dio
           .get('$searchUrl/weather?q=$query&appid=$apiKey&units=metric');
       SearchWeatherModel searchResult =
@@ -65,13 +60,11 @@ class ApiServices {
     }
   }
 
-  // API untuk search result
+  // DETAIL SEARCH WEATHER API FROM SEARCH RESULT
   Future<List<ForecastWeatherModel>> getWeatherForecast(
     String cityName,
   ) async {
     try {
-      // print('Call getWeatherForecast');
-
       final response = await _dio
           .get('$searchUrl/forecast?q=$cityName&appid=$apiKey&units=metric');
       var forecast = response.data["list"] as List;
@@ -83,7 +76,7 @@ class ApiServices {
     }
   }
 
-  // API untuk polusi udara berdasarkan lat & lon
+  // AIR QUALITY API
   Future<AirPollutionModel> getAirPollution(double lat, double lon) async {
     try {
       // print("Call getAirPollution");
@@ -98,9 +91,9 @@ class ApiServices {
     }
   }
 
-  // Funtion untuk inisialisasi notifikasi
+  // INITIALIZE NOTIFICATION PERMISSION WHEN APP INSTALLED FIRST TIME
   Future<void> initNotification() async {
-    // Request permission untuk menerima notifikasi
+    // REQUEST PERMISSION
     await firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
@@ -108,7 +101,7 @@ class ApiServices {
       sound: true,
     );
 
-    // Mengambil FCM token
+    // GET FCM TOKEN FOR FUTURE DEVELOPMENT
     final fCMToken = await firebaseMessaging.getToken();
     print('Token : $fCMToken');
   }

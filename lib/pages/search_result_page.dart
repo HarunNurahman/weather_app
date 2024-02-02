@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -15,7 +12,6 @@ import 'package:weather_app/models/weather_data.dart';
 import 'package:weather_app/pages/widgets/search_result/search_result_daily.dart';
 import 'package:weather_app/pages/widgets/search_result/search_result_detail.dart';
 import 'package:weather_app/pages/widgets/search_result/search_result_hourly.dart';
-// import 'package:weather_app/services/notification_services.dart';
 
 class SearchResultPage extends StatefulWidget {
   final double lat;
@@ -33,26 +29,6 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
-  String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
-  String timeFormat = DateFormat.Hms().format(DateTime.now());
-  DateTime? scheduleTime = DateTime.now();
-
-  Timer? time;
-
-  @override
-  void initState() {
-    time = Timer.periodic(const Duration(seconds: 1), (timer) => update());
-    super.initState();
-  }
-
-  void update() {
-    if (mounted) {
-      setState(() {
-        timeFormat = DateFormat.Hms().format(DateTime.now());
-      });
-    }
-  }
-
   String getTime(final timeStamp) {
     DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
     String value = DateFormat('Hm').format(time);
@@ -90,7 +66,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
     );
   }
 
-  // Widget untuk appbar
+  // APPBAR WIDGET
   PreferredSizeWidget appBar() {
     return AppBar(
       backgroundColor: blueColor,
@@ -116,11 +92,11 @@ class _SearchResultPageState extends State<SearchResultPage> {
     );
   }
 
-  // Cuaca saat ini
+  // CURRENT WEATHER WIDGET
   Widget currentWeather() {
     return BlocBuilder<ForecastBloc, ForecastState>(
       builder: (context, state) {
-        if (state is ForecastLoading) {
+        if (state is ForecastLoading) { // LOADING ANIMATION STATE
           return Shimmer.fromColors(
             baseColor: blueColor,
             highlightColor: blueColor3,
@@ -131,7 +107,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
               margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
             ),
           );
-        } else if (state is ForecastSuccess) {
+        } else if (state is ForecastSuccess) { // SUCCESS STATE
           WeatherData forecast = state.forecastWeather;
           return Container(
             color: blueColor,
@@ -170,7 +146,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
               ),
             ),
           );
-        } else {
+        } else { // ERROR STATE
           print(state.toString());
           return const SizedBox();
         }
@@ -178,14 +154,15 @@ class _SearchResultPageState extends State<SearchResultPage> {
     );
   }
 
-  // Widget untuk konten hourly, dan detail informasi
+  // CONTENT WIDGETS (HOURLY, DAILY, DETAIL INFORMATION)
   Widget content() {
+    // HOURLY
     Widget hourly() {
       return BlocBuilder<ForecastBloc, ForecastState>(
         builder: (context, state) {
-          if (state is ForecastLoading) {
+          if (state is ForecastLoading) { // LOADING ANIMATION STATE
             return const SizedBox();
-          } else if (state is ForecastSuccess) {
+          } else if (state is ForecastSuccess) { // SUCCESS STATE
             WeatherData forecast = state.forecastWeather;
             return Container(
               margin: EdgeInsets.only(top: defaultVerticalMargin),
@@ -224,20 +201,20 @@ class _SearchResultPageState extends State<SearchResultPage> {
                 ],
               ),
             );
-          } else {
+          } else { // ERROR STATE
             return const SizedBox();
           }
         },
       );
     }
 
-    // Widget untuk konten daily weather
+    // DAILY
     Widget daily() {
       return BlocBuilder<ForecastBloc, ForecastState>(
         builder: (context, state) {
-          if (state is ForecastLoading) {
+          if (state is ForecastLoading) { // LOADING ANIMATION STATE
             return const SizedBox();
-          } else if (state is ForecastSuccess) {
+          } else if (state is ForecastSuccess) { // SUCCESS STATE
             WeatherData forecast = state.forecastWeather;
 
             return Container(
@@ -271,20 +248,20 @@ class _SearchResultPageState extends State<SearchResultPage> {
                 ],
               ),
             );
-          } else {
+          } else { // ERROR STATE
             return const SizedBox();
           }
         },
       );
     }
 
-    // Widget untuk detail informasi (humidity, air pressure, wind speed, visibility)
+    // DETAIL INFORMATION (AIR QUALITY, HUMIDITY, SUNSET/SUNRISE, WIND SPEED, UV INDEX)
     Widget detailInfo() {
       return BlocBuilder<ForecastBloc, ForecastState>(
         builder: (context, state) {
-          if (state is ForecastLoading) {
+          if (state is ForecastLoading) { // LOADING ANIMATION STATE
             return const SizedBox();
-          } else if (state is ForecastSuccess) {
+          } else if (state is ForecastSuccess) { // SUCCESS STATE
             WeatherData forecast = state.forecastWeather;
             return Container(
               margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
@@ -297,9 +274,10 @@ class _SearchResultPageState extends State<SearchResultPage> {
                         fontSize: 20, fontWeight: medium),
                   ),
                   SizedBox(height: defaultHorizontalMargin),
+                  // AIR QUALITY WIDGET
                   BlocBuilder<AirPollutionBloc, AirPollutionState>(
                     builder: (context, state) {
-                      if (state is AirPollutionLoading) {
+                      if (state is AirPollutionLoading) { // LOADING ANIMATION STATE
                         return Shimmer.fromColors(
                           baseColor: blackColor4,
                           highlightColor: grayColor,
@@ -313,7 +291,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                             ),
                           ),
                         );
-                      } else if (state is AirPollutionSuccess) {
+                      } else if (state is AirPollutionSuccess) { // SUCCESS STATE
                         AirPollutionModel airPollutionModel =
                             state.airPollutionModel;
                         return Container(
@@ -325,6 +303,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           ),
                           child: Row(
                             children: [
+                              // AIR QUALITY INDEX INDICATOR
                               CircularPercentIndicator(
                                 radius: 42,
                                 lineWidth: 6,
@@ -427,6 +406,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                                 ),
                               ),
                               const SizedBox(width: 19),
+                              // AIR QUALITY SUMMARY
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -592,6 +572,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     },
                   ),
                   SizedBox(height: defaultHorizontalMargin),
+                  // DETAIL INFORMATION
                   Wrap(
                     spacing: 14,
                     runSpacing: 14,
@@ -633,7 +614,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                 ],
               ),
             );
-          } else {
+          } else { // ERROR STATE
             print(state.toString());
 
             return const SizedBox();

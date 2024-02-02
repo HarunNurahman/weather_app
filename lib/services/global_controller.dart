@@ -9,10 +9,12 @@ class GlobalController extends GetxController {
   final RxDouble _lat = 0.0.obs;
   final RxDouble _lon = 0.0.obs;
 
+  // GETTER FUNCTION
   RxBool checkLoading() => isLoading;
   RxDouble getLat() => _lat;
   RxDouble getLon() => _lon;
 
+  // INITIALIZE LOCATION
   @override
   void onInit() {
     if (isLoading.isTrue) {
@@ -21,11 +23,13 @@ class GlobalController extends GetxController {
     super.onInit();
   }
 
+  // GET WEATHER DATA
   final weatherData = WeatherData().obs;
   WeatherData getData() {
     return weatherData.value;
   }
 
+  // REFRESH FUNCTION
   refreshData() async {
     getLocation();
     weatherData.value = await ApiServices().getWeather(_lat.value, _lon.value);
@@ -33,13 +37,14 @@ class GlobalController extends GetxController {
     return weatherData.value;
   }
 
+  // GET LOCATION FUNCTION FROM GEOLOCATOR
   getLocation() async {
     bool isServiceEnabled;
     LocationPermission locationPermission;
 
+    // CHECK IF LOCATION ACCESS IS ENABLED
     isServiceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!isServiceEnabled) {
-      // return Future.error("Please enable location service");
       return ScaffoldMessenger.of(Get.context!).showSnackBar(
         const SnackBar(
           content: Text(
@@ -49,11 +54,11 @@ class GlobalController extends GetxController {
       );
     }
 
+    // CHECK LOCATION PERMISSION
     locationPermission = await Geolocator.checkPermission();
+
+    // IF LOCATION PERMISSION IS DENIED
     if (locationPermission == LocationPermission.deniedForever) {
-      // return Future.error(
-      //   "Location permission is denied, please enable on setting",
-      // );
       return ScaffoldMessenger.of(Get.context!).showSnackBar(
         const SnackBar(
           content: Text(
@@ -64,7 +69,6 @@ class GlobalController extends GetxController {
     } else if (locationPermission == LocationPermission.denied) {
       locationPermission = await Geolocator.requestPermission();
       if (locationPermission == LocationPermission.denied) {
-        // return Future.error("Location permission is denied, please try again");
         return ScaffoldMessenger.of(Get.context!).showSnackBar(
           const SnackBar(
             content: Text(
@@ -75,6 +79,7 @@ class GlobalController extends GetxController {
       }
     }
 
+    // IF LOCATION PERMISSION IS GRANTED
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     ).then((value) {

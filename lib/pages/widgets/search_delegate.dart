@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/search_weather/search_weather_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/pages/search_result_page.dart';
 
 class MySearchDelegate extends SearchDelegate {
-  String dateFormat = DateFormat('EEEEE, dd MMMM yyyy').format(DateTime.now());
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -17,17 +15,14 @@ class MySearchDelegate extends SearchDelegate {
         elevation: 0,
         iconTheme: IconThemeData(color: whiteColor),
       ),
-      // Border Color
       inputDecorationTheme: const InputDecorationTheme(
         border: InputBorder.none,
       ),
-      // Typing Style
       textTheme: TextTheme(
         titleLarge: whiteTextStyle.copyWith(
           decoration: TextDecoration.none,
         ),
       ),
-      // Text Selection Style
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: whiteColor,
         selectionColor: blueColor,
@@ -36,6 +31,7 @@ class MySearchDelegate extends SearchDelegate {
     );
   }
 
+  // DELETE BUTTON
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -52,12 +48,14 @@ class MySearchDelegate extends SearchDelegate {
     ];
   }
 
+  // BACK BUTTON
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
         onPressed: () => close(context, null),
         icon: const Icon(Icons.arrow_back_rounded),
       );
 
+  // BUILD SEARCH RESULT
   @override
   Widget buildResults(BuildContext context) {
     return BlocProvider(
@@ -68,6 +66,7 @@ class MySearchDelegate extends SearchDelegate {
       child: BlocBuilder<SearchWeatherBloc, SearchWeatherState>(
         builder: (context, state) {
           if (state is SearchWeatherLoading) {
+            // LOADING STATE
             return Container(
               color: blackColor,
               child: Center(
@@ -81,6 +80,7 @@ class MySearchDelegate extends SearchDelegate {
               ),
             );
           } else if (state is SearchWeatherSuccess) {
+            // SUCCESS STATE
             SearchWeatherModel search = state.searchResult;
             return Scaffold(
               backgroundColor: blackColor,
@@ -116,34 +116,28 @@ class MySearchDelegate extends SearchDelegate {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Tanggal dan Waktu
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            search.name!,
-                            style: whiteTextStyle.copyWith(fontWeight: bold),
-                          ),
-                        ],
+                      // CITY NAME
+                      Text(
+                        search.name!,
+                        style: whiteTextStyle.copyWith(fontWeight: bold),
                       ),
                       SizedBox(height: defaultVerticalMargin),
-                      // Suhu dan Status Cuaca
                       Row(
                         children: [
-                          // Icon cuaca
+                          // WEATHER ICON
                           Image.asset(
                             'assets/icons/weathers/${search.weather![0].icon}.png',
                             width: 64,
                           ),
                           SizedBox(width: defaultRadius),
-                          // Divider
+                          // DIVIDER
                           Container(
                             height: 50,
                             width: 1,
                             color: whiteColor.withOpacity(0.5),
                           ),
                           SizedBox(width: defaultRadius),
-                          // Informasi cuaca
+                          // TEMP AND WEATHER DESCRIPTION
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -164,6 +158,7 @@ class MySearchDelegate extends SearchDelegate {
                         ],
                       ),
                       SizedBox(height: defaultVerticalMargin),
+                      // FEELS LIKE
                       Text(
                         'Feels Like ${search.main!.feelsLike}°C',
                         style: whiteTextStyle,
@@ -174,7 +169,7 @@ class MySearchDelegate extends SearchDelegate {
               ),
             );
           } else {
-            print(state.toString());
+            // ERROR STATE
             return Container(
               color: blackColor,
               child: Center(

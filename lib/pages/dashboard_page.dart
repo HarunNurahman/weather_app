@@ -32,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
-    // Foreground state notification
+    // FOREGROUND STATE NOTIFICATION
     FirebaseMessaging.onMessage.listen((event) {
       setState(() {
         NotificationService().showNotification(
@@ -44,7 +44,7 @@ class _DashboardPageState extends State<DashboardPage> {
       });
     });
 
-    // Background state notification
+    // BACKGROUND STATE NOTIFICATION
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
       setState(() {
         NotificationService().showNotification(
@@ -64,7 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
     //   );
     // });
 
-    // Terminated state notification
+    // TERMINATED BACKGROUND NOTIFICATION
     FirebaseMessaging.instance.getInitialMessage().then((event) {
       if (event != null) {
         setState(() {
@@ -136,12 +136,12 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // Header Widget (Lokasi saat ini & search button)
+  // HEADER WIDGET (LOKASI REALTIME & SEARCH BUTTON)
   Widget header() {
     return const HeaderWidget();
   }
 
-  // Widget informasi cuaca terkini di lokasi yang terdeteksi
+  // CURRENT WEATHER WIDGET
   Widget weatherInfo() {
     return WeatherInfoWidget(
       currentWeather: weatherController.getData().getCurrentWeather(),
@@ -155,14 +155,14 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // Widget informasi cuaca beberapa jam kedepan
+  // HOURLY WEATHER WIDGET (12 HOURS)
   Widget weatherHourly() {
     return WeatherHourlyWidget(
       weatherHourly: weatherController.getData().getHourlyWeather(),
     );
   }
 
-  // Widget informasi cuaca 3/5 hari kedepan
+  // DAILY WEATHER AND MESSAGE BOX WIDGET (7 DAYS)
   Widget weatherDaily() {
     return WeatherDailyWidget(
       dailyWeather: weatherController.getData().getDailyWeather(),
@@ -172,7 +172,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // Widget detail informasi cuaca (humidity, air pressure, wind speed, fog)
+  // ADDITIONAL INFORMATION WIDGET (AIR QUALITY, HUMIDITY, SUNSET/SUNRISE, WIND SPEED, UV INDEX)
   Widget detailInformation() {
     return DetailInfoWidget(
       detailInfo: weatherController.getData().getCurrentWeather(),
@@ -181,7 +181,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // Skeleton Loading Animation untuk header
+  // HEADER SKELETON LOADING ANIMATION
   Widget skeletonHeader() {
     return Row(
       children: [
@@ -189,12 +189,12 @@ class _DashboardPageState extends State<DashboardPage> {
           children: [
             Icon(Icons.location_on, color: whiteColor, size: 24),
             const SizedBox(width: 8),
-            // Lokasi
-            Text('Mencari Lokasi...', style: whiteTextStyle),
+            // USER LOCATION
+            Text('Finding Location...', style: whiteTextStyle),
           ],
         ),
         const Spacer(),
-        // Search button
+        // SEARCH BUTTON
         GestureDetector(
           onTap: () {},
           child: Icon(
@@ -204,6 +204,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ),
         const SizedBox(width: 8),
+        // SHOW NOTIFICATION BUTTON
         GestureDetector(
           onTap: () {},
           child: Icon(
@@ -216,7 +217,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // Skeleton Loading Animation untuk currentWeather
+  // CURRENT WEATHER SKELETON LOADING ANIMATION
   Widget skeletonCurrentWeather() {
     return Shimmer.fromColors(
       baseColor: const Color(0xFF4F7FFA),
@@ -239,7 +240,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // Skeleton Loading Animation untuk hourlyWeather
+  // HOURLY WEATHER SKELETON LOADING ANIMATION
   Widget skeletonHourlyWeather() {
     return Container(
       margin: EdgeInsets.only(top: defaultVerticalMargin),
@@ -268,7 +269,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // Skeleton Loading Animation untuk dailyWeather
+  // DAILY WEATHER SKELETON LOADING ANIMATION
   Widget skeletonDailyWeather() {
     return Container(
       margin: EdgeInsets.only(top: defaultVerticalMargin),
@@ -306,7 +307,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // Skeleton Loading Animation untuk detailWeatherInfo
+  // ADDITIONAL INFORMATION SKELETON LOADING ANIMATION
   Widget skeletonDetailInfo() {
     return Container(
       margin: EdgeInsets.only(top: defaultVerticalMargin),
