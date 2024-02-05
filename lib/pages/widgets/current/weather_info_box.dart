@@ -140,8 +140,8 @@ class _WeatherInfoWidgetState extends State<WeatherInfoWidget> {
                 const Spacer(),
                 Text(
                   'Last Updated at ${getTime(widget.currentWeather.current.dt)}',
-                  style: whiteTextStyle,
-                )
+                  style: whiteTextStyle.copyWith(fontSize: 10),
+                ),
               ],
             ),
           ],

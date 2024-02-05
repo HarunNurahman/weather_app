@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/bloc/search_weather/search_weather_bloc.dart';
 import 'package:weather_app/config/styles.dart';
 import 'package:weather_app/models/search_weather_model.dart';
 import 'package:weather_app/pages/search_result_page.dart';
 
 class MySearchDelegate extends SearchDelegate {
+  String getTime(final timeStamp) {
+    DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    String value = DateFormat('Hm').format(time);
+
+    return value;
+  }
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -81,6 +89,7 @@ class MySearchDelegate extends SearchDelegate {
             );
           } else if (state is SearchWeatherSuccess) {
             // SUCCESS STATE
+            // SEARCH RESULT BOX
             SearchWeatherModel search = state.searchResult;
             return Scaffold(
               backgroundColor: blackColor,
@@ -159,9 +168,18 @@ class MySearchDelegate extends SearchDelegate {
                       ),
                       SizedBox(height: defaultVerticalMargin),
                       // FEELS LIKE
-                      Text(
-                        'Feels Like ${search.main!.feelsLike}°C',
-                        style: whiteTextStyle,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Feels Like ${search.main!.feelsLike}°C',
+                            style: whiteTextStyle,
+                          ),
+                          Text(
+                            'Last Updated at ${getTime(search.dt)}',
+                            style: whiteTextStyle.copyWith(fontSize: 10),
+                          ),
+                        ],
                       )
                     ],
                   ),
