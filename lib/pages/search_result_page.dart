@@ -264,7 +264,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
           } else if (state is ForecastSuccess) { // SUCCESS STATE
             WeatherData forecast = state.forecastWeather;
             return Container(
-              margin: EdgeInsets.symmetric(vertical: defaultVerticalMargin),
+              margin: EdgeInsets.only(bottom: defaultVerticalMargin),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -45,6 +45,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
         ),
       child: Container(
         margin: EdgeInsets.only(top: defaultVerticalMargin),
+        height: 570,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -206,7 +207,7 @@ class _WeatherDailyWidgetState extends State<WeatherDailyWidget> {
             ),
             Container(
               margin: EdgeInsets.only(top: defaultHorizontalMargin),
-              height: MediaQuery.of(context).size.height * 0.55,
+              height: 435,
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => WeatherDailyBox(
