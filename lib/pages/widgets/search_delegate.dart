@@ -60,7 +60,7 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
         onPressed: () => close(context, null),
-        icon: const Icon(Icons.arrow_back_rounded),
+        icon: const Icon(Icons.arrow_back_ios_new_rounded),
       );
 
   // BUILD SEARCH RESULT

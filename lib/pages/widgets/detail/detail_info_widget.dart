@@ -43,7 +43,7 @@ class _DetailInfoWidgetState extends State<DetailInfoWidget> {
           AirPollutionEventStarted(widget.lat, widget.lon),
         ),
       child: Container(
-        margin: EdgeInsets.only(top: defaultVerticalMargin / 2),
+        margin: EdgeInsets.only(top: defaultVerticalMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
