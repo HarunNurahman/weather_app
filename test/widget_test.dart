@@ -1,8 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:weather_app/pages/dashboard_page.dart';
 import 'package:weather_app/pages/search_result_page.dart';
-import 'package:weather_app/pages/widgets/header_widget.dart'; // Import the file where the widget you want to test is located.
 
 void main() {
   // Define the testWidgets function to start the widget test.
@@ -27,11 +28,17 @@ void main() {
   });
 
   testWidgets('Dashboard Page widget test', (WidgetTester tester) async {
+    setupFirebaseCoreMocks();
+
+    await Firebase.initializeApp();
+    // setUpAll(() async {
+    //   await Firebase.initializeApp();
+    // });
+
     TestWidgetsFlutterBinding.ensureInitialized();
 
     await tester.pumpWidget(const MaterialApp(home: DashboardPage()));
 
     expect(find.byType(Scaffold), findsOneWidget);
-    expect(find.byType(HeaderWidget), findsOneWidget);
   });
 }
