@@ -61,21 +61,18 @@ class Data {
 
 class Current {
   Pollution pollution;
-  Weather weather;
+  
 
   Current({
     required this.pollution,
-    required this.weather,
   });
 
   factory Current.fromJson(Map<String, dynamic> json) => Current(
         pollution: Pollution.fromJson(json["pollution"]),
-        weather: Weather.fromJson(json["weather"]),
       );
 
   Map<String, dynamic> toJson() => {
         "pollution": pollution.toJson(),
-        "weather": weather.toJson(),
       };
 }
 

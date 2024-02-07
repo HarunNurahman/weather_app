@@ -2,43 +2,79 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:weather_app/pages/dashboard_page.dart';
 import 'package:weather_app/pages/search_result_page.dart';
 
 void main() {
-  // Define the testWidgets function to start the widget test.
-  testWidgets('Search Result Page widget test', (WidgetTester tester) async {
-    // Build the SearchResultPage widget by pumping it into the widget tester.
-    await tester.pumpWidget(const MaterialApp(
-        home: SearchResultPage(
-      lat: -6.9396,
-      lon: 107.6203,
-      cityName: 'Bandung',
-    )));
+  group('Widget Tests', () {
+    testWidgets('Dashboard Page widget test', (WidgetTester tester) async {
+      // FAKE FIRECORE INITIALIZATION
+      setupFirebaseCoreMocks();
+      await Firebase.initializeApp();
 
-    // Check if certain widgets are found in the widget tree.
-    expect(find.byType(AppBar),
-        findsOneWidget); // Check if there is exactly one AppBar widget.
-    expect(find.byType(Scaffold),
-        findsOneWidget); // Check if there is exactly one Scaffold widget.
-    expect(find.byType(SingleChildScrollView),
-        findsOneWidget); // Check if there is exactly one SingleChildScrollView widget.
-    expect(find.byType(Column),
-        findsWidgets); // Check if there are any Column widgets.
-  });
+      TestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('Dashboard Page widget test', (WidgetTester tester) async {
-    setupFirebaseCoreMocks();
+      // BUILD THE DASHBOARDPAGE WIDGET BY PUMPING IT INTO THE WIDGET TESTER.
+      await tester.pumpWidget(const MaterialApp(home: DashboardPage()));
 
-    await Firebase.initializeApp();
-    // setUpAll(() async {
-    //   await Firebase.initializeApp();
-    // });
+      // CHECK IF WIDGETS ARE FOUND IN THE WIDGET TREE.
+      expect(find.byType(DashboardPage), findsWidgets);
 
-    TestWidgetsFlutterBinding.ensureInitialized();
+      // CHECK IF CERTAIN WIDGETS ARE FOUND IN THE WIDGET TREE.
+      expect(
+        find.byType(Scaffold),
+        findsOneWidget,
+      ); // CHECK IF THERE IS EXACTLY ONE SCAFFOLD WIDGET.
 
-    await tester.pumpWidget(const MaterialApp(home: DashboardPage()));
+      expect(
+        find.byType(GestureDetector),
+        findsWidgets,
+      ); // CHECK IF THERE ARE ANY GESTURE DETECTOR WIDGET.
 
-    expect(find.byType(Scaffold), findsOneWidget);
+      expect(
+        find.byType(SingleChildScrollView),
+        findsWidgets,
+      ); // CHECK IF THERE ARE ANY SINGLECHILDSCROLLVIEW WIDGET.
+
+      expect(
+        find.byType(Column),
+        findsWidgets,
+      ); // CHECK IF THERE ARE ANY COLUMN WIDGETS.
+    });
+
+    testWidgets('Search Result Page widget test', (WidgetTester tester) async {
+      // BUILD THE SEARCHRESULTPAGE WIDGET BY PUMPING IT INTO THE WIDGET TESTER.
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: SearchResultPage(
+            lat: -6.9396,
+            lon: 107.6203,
+            cityName: 'Bandung',
+          ),
+        ),
+      );
+
+      // CHECK IF CERTAIN WIDGETS ARE FOUND IN THE WIDGET TREE.
+      expect(
+        find.byType(Scaffold),
+        findsOneWidget,
+      ); // CHECK IF THERE IS EXACTLY ONE SCAFFOLD WIDGET.
+
+      expect(
+        find.byType(AppBar),
+        findsOneWidget,
+      ); // CHECK IF THERE IS EXACTLY ONE APPBAR WIDGET.
+
+      expect(
+        find.byType(SingleChildScrollView),
+        findsOneWidget,
+      ); // CHECK IF THERE IS EXACTLY ONE SINGLECHILDSCROLLVIEW WIDGET.
+
+      expect(
+        find.byType(Column),
+        findsWidgets,
+      ); // CHECK IF THERE ARE ANY COLUMN WIDGETS.
+    });
   });
 }
