@@ -41,6 +41,18 @@ void main() {
         find.byType(Column),
         findsWidgets,
       ); // CHECK IF THERE ARE ANY COLUMN WIDGETS.
+
+      // Check for the presence of GestureDetectors which are typically used for buttons
+      final gestureDetectorFinder = find.byType(GestureDetector);
+      expect(gestureDetectorFinder, findsWidgets);
+
+      // Tap on the GestureDetector for the search button
+      await tester.tap(find.byIcon(Icons.search));
+      await tester.pump(); // wait for animations if any
+
+      // Tap on the GestureDetector for the notifications button
+      await tester.tap(find.byIcon(Icons.notifications));
+      await tester.pump(); // wait for animations if any
     });
 
     testWidgets('Search Result Page widget test', (WidgetTester tester) async {

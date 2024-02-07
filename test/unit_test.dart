@@ -12,7 +12,7 @@ void main() {
   final apiServices = MockApiServices();
 
   group('ApiServices Tests', () {
-    // Test getWeather method
+    // TEST GETWEATHER METHOD
     test('returns WeatherData on successful weather fetch', () async {
       final fakeWeatherData = WeatherData();
       when(() => apiServices.getWeather(any(), any()))
@@ -23,25 +23,21 @@ void main() {
       expect(result, equals(fakeWeatherData));
     });
 
-    // Test searchWeather method
+    // TEST SEARCHWEATHER METHOD
     test('returns SearchWeatherModel on successful weather search', () async {
-      // Arrange
       final fakeSearchWeatherModel =
-          SearchWeatherModel(/*...*/); // Add necessary fake data
+          SearchWeatherModel();
       when(() => apiServices.searchWeather(any()))
           .thenAnswer((_) async => fakeSearchWeatherModel);
 
-      // Act
       final result = await apiServices.searchWeather('query');
 
-      // Assert
       expect(result, equals(fakeSearchWeatherModel));
     });
 
-    // Test getAirPollution method
+    // TEST GETAIRPOLLUTION METHOD
     test('returns AirPollutionModel on successful air pollution fetch',
         () async {
-      // Arrange
       final fakeAirPollutionModel = AirPollutionModel(
         status: 'success',
         data: Data(
@@ -59,14 +55,12 @@ void main() {
             ),
           ),
         ),
-      ); // Add necessary fake data
+      );
       when(() => apiServices.getAirPollution(any(), any()))
           .thenAnswer((_) async => fakeAirPollutionModel);
 
-      // Act
       final result = await apiServices.getAirPollution(-6.9396, 107.6203);
 
-      // Assert
       expect(result, equals(fakeAirPollutionModel));
     });
   });
