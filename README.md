@@ -11,7 +11,9 @@ UI Design https://www.figma.com/community/file/1055880209981553884 by [Reynaldi 
 
 ## Installation
 Visit [OpenWeatherMap](https://openweathermap.org/) and register with your account.
+
 After registering, the next step is to go to https://home.openweathermap.org/api_keys and acquire your API key.
+
 When you acquire your API key, you can go to  ```lib/services/api_services.dart``` and change ```apiKey``` to your API key.
 
 ```String apiKey = YOUR_API_KEY```
