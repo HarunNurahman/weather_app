@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 // App Color
 Color blackColor = const Color(0xFF201D1D);
@@ -17,6 +16,8 @@ Color blueColor2 = const Color(0xFF3C6EEF);
 Color blueColor3 = const Color(0xFF158C96);
 Color blueColor4 = const Color(0xFFD2DFFF);
 Color blueColor5 = const Color(0xFF9AB6FF);
+Color blueColor6 = const Color(0xFF4F7FFA);
+Color blueColor7 = const Color(0xFF335FD1);
 
 Color greenColor = const Color(0xFF93CC4B);
 
@@ -53,14 +54,4 @@ extension StringCasingExtension on String {
       .split(' ')
       .map((str) => str.toCapitalized())
       .join(' ');
-}
-
-// App Format
-class AppFormat {
-// DateTime formatting function
-  static String dateFormat(String stringDate) {
-    DateTime dateTime = DateTime.parse(stringDate);
-
-    return DateFormat('EEEE, dd MMM yyyy', 'id_ID').format(dateTime);
-  }
 }
