@@ -1,135 +1,82 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/pages/search_page.dart';
 import 'package:weather_app/pages/widgets/addon-info_item.dart';
 import 'package:weather_app/pages/widgets/air-quality_card.dart';
 import 'package:weather_app/pages/widgets/daily-weather_item.dart';
 import 'package:weather_app/pages/widgets/hourly-weather_item.dart';
-import 'package:weather_app/shared/app_format.dart';
 import 'package:weather_app/shared/styles.dart';
 
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
+class SearchResultPage extends StatelessWidget {
+  const SearchResultPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Section
-                headerSection(context), // User location and search button
-                // Current Weather Section
-                currentWeatherSection(), // Current weather information based on the user location
-                // Hourly Weather Section
-                hourlyWeatherSection(), // Hourly weather information up to 12 hours
-                // Daily Weather Section
-                dailyWeatherSection(), // Daily weather information up to 5 days and message box about weather description, etc.
-                // Additional Information Section
-                additionalInfoSection(),
-              ],
-            ),
-          ],
-        ),
+      appBar: appBar(context),
+      body: ListView(
+        children: [
+          currentWeatherSection(),
+          hourlyWeatherSection(),
+          dailyWeatherSection(),
+          additionalInfoSection(),
+        ],
       ),
     );
   }
 
-  Widget headerSection(BuildContext context) {
-    return Row(
-      children: [
-        Icon(Icons.location_on, color: whiteColor, size: 24),
-        const SizedBox(width: 8),
-        // User location
-        Expanded(
-          child: Text(
-            'Kota Bandung, Kecamatan Regol',
-            style: whiteTextStyle.copyWith(fontWeight: medium),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const SearchPage(),
-            ),
-          ),
-          child: Icon(Icons.search, color: whiteColor, size: 24),
-        ),
-      ],
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: blueColor,
+      centerTitle: true,
+      leading: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Icon(Icons.arrow_back, color: whiteColor),
+      ),
+      title: Text(
+        'Haurgeulis',
+        style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 16),
+      ),
     );
   }
 
   Widget currentWeatherSection() {
     return Container(
-      margin: const EdgeInsets.only(top: 24),
       padding: const EdgeInsets.all(24),
       width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [blueColor6, blueColor7],
-        ),
-        borderRadius: BorderRadius.circular(12),
-      ),
+      color: blueColor,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Date and time
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Thursday, 1 August 2024', style: whiteTextStyle),
-              Text(
-                AppFormat.dateTime(DateTime.now().toString()),
-                style: whiteTextStyle,
-              ),
-            ],
+          // Date
+          Text(
+            'Thursday, 1 August 2024',
+            style: whiteTextStyle.copyWith(
+              fontSize: 16,
+              fontWeight: medium,
+            ),
           ),
           const SizedBox(height: 24),
-          // Temperature and weather icon
-          Row(
-            children: [
-              // Weather icon
-              Image.asset('assets/icons/weathers/01d.png', width: 64),
-              const SizedBox(width: 12),
-              // Temperature
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '29° C',
-                      style: whiteTextStyle.copyWith(fontSize: 20),
-                    ),
-                    Text(
-                      'Partly Cloudy',
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 20,
-                        fontWeight: semibold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          // Weather Icon
+          Image.asset('assets/icons/weathers/01d.png', width: 72),
+          const SizedBox(height: 16),
+          // Temperature
+          Text('20°C', style: whiteTextStyle.copyWith(fontSize: 20)),
+          const SizedBox(height: 4),
+          // Weather Description
+          Text(
+            'Partly Cloudy',
+            style: whiteTextStyle.copyWith(
+              fontSize: 20,
+              fontWeight: bold,
+            ),
           ),
           const SizedBox(height: 24),
           // Highest, lowest and feels like temperature
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '30° / 20° Feels Like 31° C',
-                style: whiteTextStyle.copyWith(fontSize: 16),
-              ),
-            ],
+          Text(
+            '30° / 20° Feels Like 31° C',
+            style: whiteTextStyle.copyWith(fontSize: 16),
           ),
         ],
       ),
@@ -139,6 +86,7 @@ class DashboardPage extends StatelessWidget {
   Widget hourlyWeatherSection() {
     return Container(
       margin: const EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -171,6 +119,7 @@ class DashboardPage extends StatelessWidget {
 
   Widget dailyWeatherSection() {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       margin: const EdgeInsets.only(top: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,19 +182,10 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget messageBox(String text) {
-    return Center(
-      child: Text(
-        text,
-        style: whiteTextStyle.copyWith(fontSize: 18),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
   Widget additionalInfoSection() {
     return Container(
-      margin: const EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.only(top: 24, bottom: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -270,6 +210,16 @@ class DashboardPage extends StatelessWidget {
             ],
           )
         ],
+      ),
+    );
+  }
+
+  Widget messageBox(String text) {
+    return Center(
+      child: Text(
+        text,
+        style: whiteTextStyle.copyWith(fontSize: 18),
+        textAlign: TextAlign.center,
       ),
     );
   }
