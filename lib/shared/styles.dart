@@ -10,6 +10,7 @@ Color whiteColor = const Color(0xFFFFFFFF);
 Color whiteColor2 = const Color(0xFFEEEBEB);
 
 Color grayColor = const Color(0xFF494343);
+Color grayColor2 = const Color(0xFFE4E4E4);
 
 Color blueColor = const Color(0xFF4F80FA);
 Color blueColor2 = const Color(0xFF3C6EEF);
@@ -19,7 +20,7 @@ Color blueColor5 = const Color(0xFF9AB6FF);
 Color blueColor6 = const Color(0xFF4F7FFA);
 Color blueColor7 = const Color(0xFF335FD1);
 
-Color greenColor = const Color(0xFF93CC4B);
+Color greenColor = const Color(0xFF2AA837);
 
 Color transparent = Colors.transparent;
 

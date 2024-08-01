@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/pages/widgets/addon-info_item.dart';
+import 'package:weather_app/pages/widgets/air-quality_card.dart';
 import 'package:weather_app/pages/widgets/daily-weather_item.dart';
 import 'package:weather_app/pages/widgets/hourly-weather_item.dart';
 import 'package:weather_app/shared/app_format.dart';
@@ -26,6 +28,8 @@ class DashboardPage extends StatelessWidget {
                 hourlyWeatherSection(), // Hourly weather information up to 12 hours
                 // Daily Weather Section
                 dailyWeatherSection(), // Daily weather information up to 5 days and message box about weather description, etc.
+                // Additional Information Section
+                additionalInfoSection(),
               ],
             ),
           ],
@@ -139,14 +143,16 @@ class DashboardPage extends StatelessWidget {
           // Hourly Weather Item
           Container(
             margin: const EdgeInsets.only(top: 16),
-            height: 120,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: 12,
-              itemBuilder: (context, index) {
-                return HourlyWeatherItem();
-              },
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 0, maxHeight: 120),
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: 12,
+                itemBuilder: (context, index) {
+                  return const HourlyWeatherItem();
+                },
+              ),
             ),
           )
         ],
@@ -172,7 +178,7 @@ class DashboardPage extends StatelessWidget {
             children: [
               // Message Box
               Container(
-                padding: const EdgeInsets.all(6),
+                padding: const EdgeInsets.all(10),
                 margin: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
                   color: blueColor,
@@ -182,6 +188,7 @@ class DashboardPage extends StatelessWidget {
                   options: CarouselOptions(
                     height: 60,
                     viewportFraction: 1,
+                    autoPlay: true,
                     autoPlayInterval: const Duration(seconds: 3),
                   ),
                   items: [
@@ -197,16 +204,16 @@ class DashboardPage extends StatelessWidget {
               ),
               // Daily Weather Item
               ConstrainedBox(
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   minHeight: 350,
                   maxHeight: double.infinity,
                 ),
                 child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: 5,
                   itemBuilder: (context, index) {
-                    return DailyWeatherItem();
+                    return const DailyWeatherItem();
                   },
                 ),
               )
@@ -223,6 +230,37 @@ class DashboardPage extends StatelessWidget {
         text,
         style: whiteTextStyle.copyWith(fontSize: 18),
         textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget additionalInfoSection() {
+    return Container(
+      margin: const EdgeInsets.only(top: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Detail Information',
+            style: whiteTextStyle.copyWith(
+              fontSize: 20,
+              fontWeight: medium,
+            ),
+          ),
+          // Air Quality Card
+          const AirQualityCard(),
+          // Additional Info Item
+          Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children: const [
+              AddonItem(),
+              AddonItem(),
+              AddonItem(),
+              AddonItem(),
+            ],
+          )
+        ],
       ),
     );
   }
