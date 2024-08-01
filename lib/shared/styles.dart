@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// Color List
+// App Color
 Color blackColor = const Color(0xFF201D1D);
 Color blackColor2 = const Color(0xFF201C1C);
 Color blackColor3 = const Color(0xFF242222);
@@ -28,7 +28,7 @@ Color redColor = const Color(0xFFDC0703);
 Color purpleColor = const Color(0xFF5B255F);
 Color maroonColor = const Color(0xFF722221);
 
-// TEXT STYLE
+// App Text Style
 TextStyle whiteTextStyle = TextStyle(
   fontFamily: 'SF Pro Display',
   color: whiteColor,
@@ -38,19 +38,14 @@ TextStyle blackTextStyle = TextStyle(
   color: blackColor,
 );
 
-// FONT WEIGHT
+// App Font Weight
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
 FontWeight semibold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
 
-// DEFAULT MARGIN & DEFAULT RADIUS VALUE
-double defaultHorizontalMargin = 16.0;
-double defaultVerticalMargin = 24.0;
-double defaultRadius = 12.0;
-
-// CAPITALIZE TEXT
+// Capitalize Text Extension
 extension StringCasingExtension on String {
   String toCapitalized() =>
       length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
@@ -60,8 +55,9 @@ extension StringCasingExtension on String {
       .join(' ');
 }
 
-// APP FORMAT
+// App Format
 class AppFormat {
+// DateTime formatting function
   static String dateFormat(String stringDate) {
     DateTime dateTime = DateTime.parse(stringDate);
 
