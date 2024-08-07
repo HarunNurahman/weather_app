@@ -2,11 +2,12 @@ class WeatherHourlyModel {
   List<Hourly> hourly;
   WeatherHourlyModel({required this.hourly});
 
-  factory WeatherHourlyModel.fromJson(Map<String, dynamic> json) {
-    return WeatherHourlyModel(
-      hourly: List<Hourly>.from(json['hourly'].map((x) => Hourly.fromJson(x))),
-    );
-  }
+  factory WeatherHourlyModel.fromJson(Map<String, dynamic> json) =>
+      WeatherHourlyModel(
+        hourly: List<Hourly>.from(
+          json['hourly'].map((e) => Hourly.fromJson(e)),
+        ),
+      );
 }
 
 class Hourly {

@@ -1,9 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/pages/widgets/addon-info_item.dart';
-import 'package:weather_app/pages/widgets/air-quality_card.dart';
-import 'package:weather_app/pages/widgets/daily-weather_item.dart';
-import 'package:weather_app/pages/widgets/hourly-weather_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:weather_app/bloc/weather/weather_bloc.dart';
 import 'package:weather_app/shared/styles.dart';
 
 class SearchResultPage extends StatelessWidget {
@@ -107,7 +105,7 @@ class SearchResultPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: 12,
                 itemBuilder: (context, index) {
-                  return const HourlyWeatherItem();
+                  return Container();
                 },
               ),
             ),
@@ -118,67 +116,71 @@ class SearchResultPage extends StatelessWidget {
   }
 
   Widget dailyWeatherSection() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      margin: const EdgeInsets.only(top: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Daily',
-            style: whiteTextStyle.copyWith(
-              fontSize: 20,
-              fontWeight: medium,
-            ),
-          ),
-          // Daily Weather Item
-          Column(
+    return BlocBuilder<WeatherBloc, WeatherState>(
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          margin: const EdgeInsets.only(top: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Message Box
-              Container(
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.symmetric(vertical: 16),
-                decoration: BoxDecoration(
-                  color: blueColor,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: 60,
-                    viewportFraction: 1,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 3),
-                  ),
-                  items: [
-                    messageBox('Message Box'),
-                    messageBox(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-                    ),
-                    messageBox(
-                      'Aliquam eu nulla a orci congue auctor finibus sit amet arcu',
-                    ),
-                  ],
+              Text(
+                'Daily',
+                style: whiteTextStyle.copyWith(
+                  fontSize: 20,
+                  fontWeight: medium,
                 ),
               ),
               // Daily Weather Item
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: 350,
-                  maxHeight: double.infinity,
-                ),
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return const DailyWeatherItem();
-                  },
-                ),
-              )
+              Column(
+                children: [
+                  // Message Box
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    decoration: BoxDecoration(
+                      color: blueColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: FlutterCarousel(
+                      options: CarouselOptions(
+                        height: 60,
+                        viewportFraction: 1,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
+                      ),
+                      items: [
+                        messageBox('Message Box'),
+                        messageBox(
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+                        ),
+                        messageBox(
+                          'Aliquam eu nulla a orci congue auctor finibus sit amet arcu',
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Daily Weather Item
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minHeight: 350,
+                      maxHeight: double.infinity,
+                    ),
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return Container();
+                      },
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -197,16 +199,16 @@ class SearchResultPage extends StatelessWidget {
             ),
           ),
           // Air Quality Card
-          const AirQualityCard(),
+          // const AirQualityCard(),
           // Additional Info Item
-          const Wrap(
+          Wrap(
             spacing: 16,
             runSpacing: 16,
             children: [
-              AddonItem(),
-              AddonItem(),
-              AddonItem(),
-              AddonItem(),
+              Container(),
+              Container(),
+              Container(),
+              Container(),
             ],
           )
         ],

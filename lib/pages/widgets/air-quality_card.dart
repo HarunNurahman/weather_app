@@ -3,7 +3,17 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:weather_app/shared/styles.dart';
 
 class AirQualityCard extends StatelessWidget {
-  const AirQualityCard({super.key});
+  final int value;
+  final String title;
+  final String description;
+  final Color color;
+  const AirQualityCard({
+    super.key,
+    required this.value,
+    required this.title,
+    required this.description,
+    this.color = const Color(0xFF2AA837),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +31,18 @@ class AirQualityCard extends StatelessWidget {
           CircularPercentIndicator(
             radius: 42,
             lineWidth: 5,
-            percent: 0.7,
-            progressColor: greenColor,
+            percent: value / 500,
+            progressColor: color,
             arcBackgroundColor: grayColor2,
             arcType: ArcType.FULL,
             circularStrokeCap: CircularStrokeCap.round,
+            
             center: Text(
-              '80',
+              value.toString(),
               style: whiteTextStyle.copyWith(
                 fontSize: 18,
                 fontWeight: bold,
-                color: greenColor,
+                color: color,
               ),
             ),
           ),
@@ -42,14 +53,14 @@ class AirQualityCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'AQI - Sangat Baik',
+                  title,
                   style: whiteTextStyle.copyWith(
                     fontWeight: bold,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Kualitas udara di daerahmu untuk saat ini sangat baik. Tidak ada pencemaran udara yang menyebabkan berbagai penyakit',
+                  description,
                   style: whiteTextStyle.copyWith(
                     fontSize: 12,
                   ),

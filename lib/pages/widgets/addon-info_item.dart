@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/shared/styles.dart';
 
 class AddonItem extends StatelessWidget {
-  const AddonItem({super.key});
+  final String imgUrl;
+  final String title;
+  final String value;
+  const AddonItem({
+    super.key,
+    required this.imgUrl,
+    required this.title,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +23,22 @@ class AddonItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset('assets/icons/ic_humid.png', width: 24),
+          Image.asset(
+            'assets/icons/$imgUrl.png',
+            width: 24,
+            color: blueColor,
+          ),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '70%',
+                value,
                 style: whiteTextStyle.copyWith(fontWeight: bold),
               ),
               const SizedBox(height: 4),
               Text(
-                'Humidity',
+                title,
                 style: whiteTextStyle,
               ),
             ],
