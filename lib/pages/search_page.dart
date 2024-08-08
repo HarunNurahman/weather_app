@@ -17,60 +17,57 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SearchBloc(),
-      child: Scaffold(
-        appBar: appBar(searchController.text),
-        body: BlocBuilder<SearchBloc, SearchState>(
-          builder: (context, state) {
-            if (state is SearchLoading) {
-              return Center(
-                child: CircularProgressIndicator(color: blueColor),
-              );
-            }
+    return Scaffold(
+      appBar: appBar(searchController.text),
+      body: BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state) {
+          if (state is SearchLoading) {
+            return Center(
+              child: CircularProgressIndicator(color: blueColor),
+            );
+          }
 
-            if (state is SearchFailed) {
-              return Center(
-                child: Text(
-                  state.errorMessage,
-                  style: whiteTextStyle,
-                ),
-              );
-            }
+          if (state is SearchFailed) {
+            return Center(
+              child: Text(
+                state.errorMessage,
+                style: whiteTextStyle,
+              ),
+            );
+          }
 
-            if (state is SearchSuccess) {
-              ForecastModel forecast = state.forecast;
-              return ListView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 24,
-                ),
-                children: [
-                  // Search Result
-                  //// Search result card if location is found by user
-                  searchResult(
-                    city: forecast.city!.name,
-                    imgUrl: forecast.list![0].weather![0].icon,
-                    temp: forecast.list![0].main!.temp!.round(),
-                    description: forecast.list![0].weather![0].description!
-                        .toCapitalized(),
-                    tempMax: forecast.list![0].main!.tempMax!.round(),
-                    tempMin: forecast.list![0].main!.tempMin!.round(),
-                    feelsLike: forecast.list![0].main!.feelsLike!.round(),
-                    // Go to search result page
-                    ontap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchResultPage(),
-                      ),
+          if (state is SearchSuccess) {
+            ForecastModel forecast = state.forecast;
+            return ListView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 24,
+              ),
+              children: [
+                // Search Result
+                //// Search result card if location is found by user
+                searchResult(
+                  city: forecast.city!.name,
+                  imgUrl: forecast.list![0].weather![0].icon,
+                  temp: forecast.list![0].main!.temp!.round(),
+                  description: forecast.list![0].weather![0].description!
+                      .toCapitalized(),
+                  tempMax: forecast.list![0].main!.tempMax!.round(),
+                  tempMin: forecast.list![0].main!.tempMin!.round(),
+                  feelsLike: forecast.list![0].main!.feelsLike!.round(),
+                  // Go to search result page
+                  ontap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchResultPage(),
                     ),
                   ),
-                ],
-              );
-            }
-            return Container();
-          },
-        ),
+                ),
+              ],
+            );
+          }
+          return Container();
+        },
       ),
     );
   }
