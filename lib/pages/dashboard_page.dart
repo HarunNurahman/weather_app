@@ -28,6 +28,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   LocationService locationService = LocationService();
 
+  // Get Address Function
   getAddress(lat, lon) async {
     List<Placemark> placemark = await placemarkFromCoordinates(lat, lon);
     Placemark place = placemark[0];
@@ -37,17 +38,16 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
-  @override
-  void initState() {
-    _initLocation();
-    super.initState();
-  }
-
   Future<void> _initLocation() async {
+    // This Function Will Request Permission To Access The User's Location And Obtain Location Data.
     await locationService.getLocation();
+
+    // Checks If The Latitude And Longitude Of The locationService Are Not Null, Ensuring That The Location Has Been Successfully Retrieved.
     if (locationService.latitude != null && locationService.longitude != null) {
+      // Calls The getAddress Function With The Retrieved Latitude And Longitude
       await getAddress(locationService.latitude!, locationService.longitude!);
       if (mounted) {
+        // Sends A GetWeatherEvent Event To The WeatherBloc With Latitude And Longitude As Arguments
         context.read<WeatherBloc>().add(
               GetWeatherEvent(
                 locationService.latitude!,
@@ -55,6 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             );
 
+        // This Line Sends A GetAirQualityEvent Event To The AirQualityBloc With Latitude And Longitude As Arguments
         context.read<AirQualityBloc>().add(
               GetAirQualityEvent(
                 locationService.latitude!,
@@ -66,29 +67,49 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   @override
+  void initState() {
+    _initLocation();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Section
-                // User location and search button
-                headerSection(context),
-                // Current Weather Section
-                currentWeatherSection(), // Current weather information based on the user location
-                // Hourly Weather Section
-                hourlyWeatherSection(), // Hourly weather information up to 12 hours
-                // Daily Weather Section
-                dailyWeatherSection(), // Daily weather information up to 5 days and message box about weather description, etc.
-                // Additional Information Section
-                additionalInfoSection(),
-              ],
-            ),
-          ],
+        child: BlocBuilder<WeatherBloc, WeatherState>(
+          builder: (context, state) {
+            if (state is WeatherLoading) {
+              return Center(
+                child: CircularProgressIndicator(color: blueColor),
+              );
+            }
+
+            if (state is WeatherSuccess) {
+              return ListView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header Section
+                      // User location and search button
+                      headerSection(context),
+                      // Current Weather Section
+                      currentWeatherSection(), // Current weather information based on the user location
+                      // Hourly Weather Section
+                      hourlyWeatherSection(), // Hourly weather information up to 12 hours
+                      // Daily Weather Section
+                      dailyWeatherSection(), // Daily weather information up to 5 days and message box about weather description, etc.
+                      // Additional Information Section
+                      additionalInfoSection(),
+                    ],
+                  ),
+                ],
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );

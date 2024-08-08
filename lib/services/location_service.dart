@@ -1,14 +1,20 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/models/weather/weather_model.dart';
-import 'package:weather_app/services/api_service.dart';
 
 class LocationService {
+  static final LocationService _instance = LocationService._internal();
   double? _latitude;
   double? _longitude;
 
+  factory LocationService() {
+    return _instance;
+  }
+
+  LocationService._internal();
+
   double? get latitude => _latitude;
   double? get longitude => _longitude;
-  Future<WeatherModel> getLocation() async {
+
+  Future<void> getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -16,28 +22,25 @@ class LocationService {
     permission = await Geolocator.checkPermission();
 
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      throw Exception('Location services are disabled.');
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error(
+      throw Exception(
         'Location permissions are permanently denied, we cannot request permissions.',
       );
     } else if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        throw Exception('Location permissions are denied');
       }
     }
 
-    return await Geolocator.getCurrentPosition(
+    final position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
-    ).then(
-      (value) {
-        _latitude = value.latitude;
-        _longitude = value.longitude;
-        return ApiService().getWeather(value.latitude, value.longitude);
-      },
     );
+
+    _latitude = position.latitude;
+    _longitude = position.longitude;
   }
 }

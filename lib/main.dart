@@ -7,10 +7,12 @@ import 'package:weather_app/bloc/weather/weather_bloc.dart';
 import 'package:weather_app/firebase_options.dart';
 import 'package:weather_app/pages/dashboard_page.dart';
 import 'package:weather_app/services/bloc_observer.dart';
+import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/shared/styles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocationService().getLocation();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Bloc.observer = SimpleBlocObserver();
 
