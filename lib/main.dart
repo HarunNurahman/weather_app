@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:weather_app/bloc/air_quality/air_quality_bloc.dart';
+import 'package:weather_app/bloc/search/search_bloc.dart';
 import 'package:weather_app/bloc/weather/weather_bloc.dart';
 import 'package:weather_app/firebase_options.dart';
 import 'package:weather_app/pages/dashboard_page.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AirQualityBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SearchBloc(),
         ),
       ],
       child: MaterialApp(

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:weather_app/models/forecast/forecast_model.dart';
 import 'package:weather_app/models/weather/weather_model.dart';
 import 'package:weather_app/services/api_service.dart';
 

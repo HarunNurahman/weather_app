@@ -19,6 +19,14 @@ final class WeatherSuccess extends WeatherState {
   List<Object> get props => [weather];
 }
 
+final class ForecastSuccess extends WeatherState {
+  final ForecastModel forecast;
+  const ForecastSuccess(this.forecast);
+
+  @override
+  List<Object> get props => [forecast];
+}
+
 final class WeatherError extends WeatherState {
   final String errorMessage;
   const WeatherError(this.errorMessage);

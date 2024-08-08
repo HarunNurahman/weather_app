@@ -15,3 +15,11 @@ class GetWeatherEvent extends WeatherEvent {
   @override
   List<Object> get props => [lat, lon];
 }
+
+class GetForecastEvent extends WeatherEvent {
+  final String query;
+  const GetForecastEvent(this.query);
+
+  @override
+  List<Object> get props => [query];
+}

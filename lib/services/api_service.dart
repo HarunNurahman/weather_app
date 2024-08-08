@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:weather_app/models/air_quality/air-quality_model.dart';
+import 'package:weather_app/models/forecast/forecast_model.dart';
 import 'package:weather_app/models/weather/weather-current_model.dart';
 import 'package:weather_app/models/weather/weather-daily_model.dart';
 import 'package:weather_app/models/weather/weather-hourly_model.dart';
@@ -49,6 +50,24 @@ class ApiService {
       throw Exception('Failed to get weather data');
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future<ForecastModel> getForecast(String query) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          '$owmSearchUrl/forecast?q=$query&appid=$owmApiKey&units=metric',
+        ),
+      );
+      if (response.statusCode == 200) {
+        var jsonString = jsonDecode(response.body);
+        return ForecastModel.fromJson(jsonString);
+      }
+
+      throw Exception('Failed to get forecast data');
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
