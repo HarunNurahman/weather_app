@@ -573,6 +573,7 @@ class _DashboardPageState extends State<DashboardPage> {
         text,
         style: whiteTextStyle.copyWith(fontSize: 18),
         textAlign: TextAlign.center,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
     );

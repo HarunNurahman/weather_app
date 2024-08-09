@@ -59,7 +59,11 @@ class _SearchPageState extends State<SearchPage> {
                   ontap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SearchResultPage(),
+                      builder: (context) => SearchResultPage(
+                        lat: forecast.city!.coord!.lat!,
+                        lon: forecast.city!.coord!.lon!,
+                        city: forecast.city!.name!,
+                      ),
                     ),
                   ),
                 ),
