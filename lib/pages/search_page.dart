@@ -29,9 +29,20 @@ class _SearchPageState extends State<SearchPage> {
 
           if (state is SearchFailed) {
             return Center(
-              child: Text(
-                state.errorMessage,
-                style: whiteTextStyle,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/icons/error_state.png', width: 200),
+                  const SizedBox(height: 16),
+                  Text(
+                    'City Not Found!',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: medium,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             );
           }

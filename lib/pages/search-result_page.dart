@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:weather_app/bloc/air_quality/air_quality_bloc.dart';
 import 'package:weather_app/bloc/weather/weather_bloc.dart';
 import 'package:weather_app/models/air_quality/air-quality_model.dart';
@@ -28,8 +29,24 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
+  String city = '';
+  String province = '';
+
+  getAddress() async {
+    List<Placemark> placemark = await placemarkFromCoordinates(
+      widget.lat,
+      widget.lon,
+    );
+    Placemark place = placemark[0];
+    setState(() {
+      city = place.subAdministrativeArea!;
+      province = place.administrativeArea!;
+    });
+  }
+
   @override
   void initState() {
+    getAddress();
     context.read<WeatherBloc>().add(GetWeatherEvent(widget.lat, widget.lon));
     context.read<AirQualityBloc>().add(
           GetAirQualityEvent(widget.lat, widget.lon),
@@ -84,7 +101,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
         icon: Icon(Icons.arrow_back, color: whiteColor),
       ),
       title: Text(
-        widget.city,
+        '$city, $province',
         style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 20),
       ),
     );
