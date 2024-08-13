@@ -7,10 +7,10 @@ import 'package:weather_app/models/weather/weather-daily_model.dart';
 import 'package:weather_app/models/weather/weather-hourly_model.dart';
 import 'package:weather_app/models/weather/weather_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/shared/api_key.dart';
 
 class ApiService {
   // OpenWeatherMap API
-  String owmApiKey = '2c8848a279b83b708bd1998475800a02';
   String owmSearchUrl = 'https://api.openweathermap.org/data/2.5';
   String owmBaseUrl(lat, lon) {
     String url =
@@ -19,7 +19,6 @@ class ApiService {
   }
 
   // IQ Air API
-  String iqAirApiKey = '4d51d89e-cf0a-4ee5-960c-f37bbb0a0131';
   String airQualityUrl(lat, lon) {
     String url =
         'http://api.airvisual.com/v2/nearest_city?lat=$lat&lon=$lon&key=$iqAirApiKey';

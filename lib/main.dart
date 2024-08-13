@@ -9,12 +9,14 @@ import 'package:weather_app/firebase_options.dart';
 import 'package:weather_app/pages/dashboard_page.dart';
 import 'package:weather_app/services/bloc_observer.dart';
 import 'package:weather_app/services/location_service.dart';
+import 'package:weather_app/services/notification_service.dart';
 import 'package:weather_app/shared/styles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await LocationService().getLocation();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await LocationService().getLocation();
+  await NotificationService().initNotification();
   Bloc.observer = SimpleBlocObserver();
 
   initializeDateFormatting();

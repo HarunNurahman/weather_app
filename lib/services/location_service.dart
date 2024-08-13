@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
@@ -42,5 +43,17 @@ class LocationService {
 
     _latitude = position.latitude;
     _longitude = position.longitude;
+  }
+
+  Future<void> updateUserLocation(String token) async {
+    try {
+      await getLocation();
+
+      FirebaseFirestore.instance.collection('users').doc(token).update({
+        'location': GeoPoint(_latitude!, _longitude!),
+      });
+    } catch (e) {
+      print('Failed to update location: $e');
+    }
   }
 }
