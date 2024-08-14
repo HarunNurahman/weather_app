@@ -150,7 +150,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                   style: whiteTextStyle.copyWith(fontSize: 20),
                 ),
                 const SizedBox(height: 4),
-                // Weather Description
+                // Weather description
                 Text(
                   weather.current!.current.weather![0].description!
                       .toTitleCase(),
@@ -201,7 +201,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     fontWeight: medium,
                   ),
                 ),
-                // Hourly Weather Item
+                // Hourly weather item
                 Container(
                   margin: const EdgeInsets.only(top: 16),
                   child: ConstrainedBox(
@@ -259,10 +259,10 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     fontWeight: medium,
                   ),
                 ),
-                // Daily Weather Item
+                // Daily weather item
                 Column(
                   children: [
-                    // Message Box
+                    // Message box
                     Container(
                       padding: const EdgeInsets.all(10),
                       margin: const EdgeInsets.symmetric(vertical: 16),
@@ -304,7 +304,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                         ],
                       ),
                     ),
-                    // Daily Weather Item
+                    // Daily weather item
                     ConstrainedBox(
                       constraints: const BoxConstraints(
                         minHeight: 350,
@@ -362,7 +362,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     fontWeight: medium,
                   ),
                 ),
-                // Air Quality Card
+                // Air quality card
                 BlocBuilder<AirQualityBloc, AirQualityState>(
                   builder: (context, state) {
                     if (state is AirQualityError) {
@@ -374,9 +374,9 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     if (state is AirQualitySuccess) {
                       AirQualityModel airQuality = state.airQuality;
                       return AirQualityCard(
-                        // AQI Value
+                        // AQI value
                         value: airQuality.data!.current!.pollution!.aqius!,
-                        // Color Based on AQI
+                        // Color based on AQI
                         color: airQuality.data!.current!.pollution!.aqius! <= 50
                             ? greenColor
                             : airQuality.data!.current!.pollution!.aqius! >
@@ -406,7 +406,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                                                     300
                                             ? purpleColor
                                             : maroonColor,
-                        // Title Based on AQI
+                        // Title based on AQI
                         title: airQuality.data!.current!.pollution!.aqius! <= 50
                             ? 'AQI - Good'
                             : airQuality.data!.current!.pollution!.aqius! >
@@ -472,7 +472,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     return Container();
                   },
                 ),
-                // Additional Info Item
+                // Additional info item
                 Wrap(
                   spacing: 16,
                   runSpacing: 16,
@@ -483,7 +483,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       value: '${weather.current!.current.humidity.toString()}%',
                       imgUrl: 'ic_humid',
                     ),
-                    // Sunrise and Sunset Time
+                    // Sunrise and sunset time
                     weather.current!.current.uvi! > 0.0
                         ? AddonItem(
                             title: 'Sunset',
@@ -499,14 +499,14 @@ class _SearchResultPageState extends State<SearchResultPage> {
                             ),
                             imgUrl: 'ic_sunrise',
                           ),
-                    // Wind Speed
+                    // Wind speed
                     AddonItem(
                       title: 'Wind Speed',
                       value:
                           '${(weather.current!.current.windSpeed! * 10).round()} km/h',
                       imgUrl: 'ic_wind_speed',
                     ),
-                    // UV Index
+                    // UV index
                     weather.current!.current.uvi! > 0.0
                         ? AddonItem(
                             title: 'UV Index',

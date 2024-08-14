@@ -11,7 +11,7 @@ class NotificationService {
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> initNotification() async {
-    // Request Notification Permission
+    // Request notification permission
     await firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
@@ -21,11 +21,12 @@ class NotificationService {
 
     // Get FCM Token
     final fCMToken = await firebaseMessaging.getToken();
-    print('Token : $fCMToken');
+    // Save the token to cloud firestore
     FirebaseFirestore.instance
         .collection('users')
         .doc(fCMToken)
         .set({'token': fCMToken});
+    // Update user location
     locationService.updateUserLocation(fCMToken!);
 
     AndroidInitializationSettings initSetting =
@@ -54,6 +55,7 @@ class NotificationService {
         ),
       );
 
+  // Shows a notification with the given id, title, body, and payload.
   Future showNotification({
     int id = 0,
     String? title,

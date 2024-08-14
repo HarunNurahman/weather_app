@@ -28,7 +28,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   LocationService locationService = LocationService();
 
-  // Get Address Function
+  // Get address function
   getAddress(lat, lon) async {
     List<Placemark> placemark = await placemarkFromCoordinates(lat, lon);
     Placemark place = placemark[0];
@@ -38,17 +38,16 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
- 
   Future<void> _initLocation() async {
-    // This Function Will Request Permission To Access The User's Location And Obtain Location Data.
+    // This function will request permission to access the user's location and obtain location data.
     await locationService.getLocation();
 
-    // Checks If The Latitude And Longitude Of The locationService Are Not Null, Ensuring That The Location Has Been Successfully Retrieved.
+    // Checks if the latitude and longitude of the LocationService are not null, ensuring that the location has been successfully retrieved.
     if (locationService.latitude != null && locationService.longitude != null) {
-      // Calls The getAddress Function With The Retrieved Latitude And Longitude
+      // Calls the getaddress function with the retrieved latitude and longitude
       await getAddress(locationService.latitude!, locationService.longitude!);
       if (mounted) {
-        // Sends A GetWeatherEvent Event To The WeatherBloc With Latitude And Longitude As Arguments
+        // Sends a GetWeatherEvent event to the WeatherBloc with latitude and longitude as arguments
         context.read<WeatherBloc>().add(
               GetWeatherEvent(
                 locationService.latitude!,
@@ -56,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             );
 
-        // This Line Sends A GetAirQualityEvent Event To The AirQualityBloc With Latitude And Longitude As Arguments
+        // This line sends a GetAirqualityEvent event to the AirQualityBloc with latitude and longitude as arguments
         context.read<AirQualityBloc>().add(
               GetAirQualityEvent(
                 locationService.latitude!,
@@ -87,8 +86,10 @@ class _DashboardPageState extends State<DashboardPage> {
 
             if (state is WeatherSuccess) {
               return ListView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 24,
+                ),
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,7 +251,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     fontWeight: medium,
                   ),
                 ),
-                // Hourly Weather Item
+                // Hourly weather item
                 Container(
                   margin: const EdgeInsets.only(top: 16),
                   child: ConstrainedBox(
@@ -305,10 +306,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     fontWeight: medium,
                   ),
                 ),
-                // Daily Weather Item
+                // Daily weather item
                 Column(
                   children: [
-                    // Message Box
+                    // Message box
                     Container(
                       padding: const EdgeInsets.all(10),
                       margin: const EdgeInsets.symmetric(vertical: 16),
@@ -350,7 +351,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         ],
                       ),
                     ),
-                    // Daily Weather Item
+                    // Daily weather item
                     ConstrainedBox(
                       constraints: const BoxConstraints(
                         minHeight: 350,
@@ -401,7 +402,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     fontWeight: medium,
                   ),
                 ),
-                // Air Quality Card
+                // Air quality card
                 BlocBuilder<AirQualityBloc, AirQualityState>(
                   builder: (context, state) {
                     if (state is AirQualityError) {
@@ -413,9 +414,9 @@ class _DashboardPageState extends State<DashboardPage> {
                     if (state is AirQualitySuccess) {
                       AirQualityModel airQuality = state.airQuality;
                       return AirQualityCard(
-                        // AQI Value
+                        // AQI value
                         value: airQuality.data!.current!.pollution!.aqius!,
-                        // Color Based on AQI
+                        // Color based on AQI
                         color: airQuality.data!.current!.pollution!.aqius! <= 50
                             ? greenColor
                             : airQuality.data!.current!.pollution!.aqius! >
@@ -445,7 +446,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                     300
                                             ? purpleColor
                                             : maroonColor,
-                        // Title Based on AQI
+                        // Title based on AQI
                         title: airQuality.data!.current!.pollution!.aqius! <= 50
                             ? 'AQI - Good'
                             : airQuality.data!.current!.pollution!.aqius! >
@@ -511,7 +512,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     return Container();
                   },
                 ),
-                // Additional Info Item
+                // Additional info item
                 Wrap(
                   spacing: 16,
                   runSpacing: 16,
@@ -522,7 +523,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       value: '${weather.current!.current.humidity.toString()}%',
                       imgUrl: 'ic_humid',
                     ),
-                    // Sunrise and Sunset Time
+                    // Sunrise and sunset time
                     weather.current!.current.uvi! > 0.0
                         ? AddonItem(
                             title: 'Sunset',
@@ -538,14 +539,14 @@ class _DashboardPageState extends State<DashboardPage> {
                             ),
                             imgUrl: 'ic_sunrise',
                           ),
-                    // Wind Speed
+                    // Wind speed
                     AddonItem(
                       title: 'Wind Speed',
                       value:
                           '${(weather.current!.current.windSpeed! * 10).round()} km/h',
                       imgUrl: 'ic_wind_speed',
                     ),
-                    // UV Index
+                    // UV index
                     weather.current!.current.uvi! > 0.0
                         ? AddonItem(
                             title: 'UV Index',

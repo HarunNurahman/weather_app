@@ -144,7 +144,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Location Name
+            // Location name
             Text(
               city!,
               style: whiteTextStyle.copyWith(

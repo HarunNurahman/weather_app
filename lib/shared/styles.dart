@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// App Color
+// App color
 Color blackColor = const Color(0xFF201D1D);
 Color blackColor2 = const Color(0xFF201C1C);
 Color blackColor3 = const Color(0xFF242222);
@@ -30,7 +30,7 @@ Color redColor = const Color(0xFFDC0703);
 Color purpleColor = const Color(0xFF5B255F);
 Color maroonColor = const Color(0xFF722221);
 
-// App Text Style
+// App text style
 TextStyle whiteTextStyle = TextStyle(
   fontFamily: 'SF Pro Display',
   color: whiteColor,
@@ -40,14 +40,14 @@ TextStyle blackTextStyle = TextStyle(
   color: blackColor,
 );
 
-// App Font Weight
+// App font weight
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
 FontWeight semibold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
 
-// Capitalize Text Extension
+// Capitalize text extension
 extension StringCasingExtension on String {
   String toCapitalized() =>
       length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';

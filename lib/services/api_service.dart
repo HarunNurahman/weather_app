@@ -18,7 +18,7 @@ class ApiService {
     return url;
   }
 
-  // IQ Air API
+  // IQAir API
   String airQualityUrl(lat, lon) {
     String url =
         'http://api.airvisual.com/v2/nearest_city?lat=$lat&lon=$lon&key=$iqAirApiKey';
@@ -52,6 +52,7 @@ class ApiService {
     }
   }
 
+  // Retrieve forecast data from the API based on the given search query for search result page
   Future<ForecastModel> getForecast(String query) async {
     try {
       final response = await http.get(
