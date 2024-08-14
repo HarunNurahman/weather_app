@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
   static final LocationService _instance = LocationService._internal();
+
   double? _latitude;
   double? _longitude;
 
-  factory LocationService() {
-    return _instance;
-  }
+  factory LocationService() => _instance;
 
   LocationService._internal();
 
@@ -31,19 +31,23 @@ class LocationService {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     permission = await Geolocator.checkPermission();
 
+    // Check if location services are enabled.
     if (!serviceEnabled) {
-      throw Exception('Location services are disabled.');
+      _setDefaultLocation();
+      return;
     }
 
-    if (permission == LocationPermission.deniedForever) {
-      throw Exception(
-        'Location permissions are permanently denied, we cannot request permissions.',
-      );
-    } else if (permission == LocationPermission.denied) {
+    // Check location permission
+    // If permission is denied, request it only once.
+    if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        throw Exception('Location permissions are denied');
-      }
+    }
+
+    // Handle different permission states.
+    if (permission == LocationPermission.deniedForever ||
+        permission == LocationPermission.denied) {
+      _setDefaultLocation();
+      return;
     }
 
     final position = await Geolocator.getCurrentPosition(
@@ -70,13 +74,28 @@ class LocationService {
   //   Future<void>: A Future that completes when the location is updated.
   Future<void> updateUserLocation(String token) async {
     try {
+      // Ensure that location is updated before proceeding
       await getLocation();
 
-      FirebaseFirestore.instance.collection('users').doc(token).update({
-        'location': GeoPoint(_latitude!, _longitude!),
-      });
+      if (_latitude != null && _longitude != null) {
+        await FirebaseFirestore.instance.collection('users').doc(token).update({
+          'location': GeoPoint(_latitude!, _longitude!),
+        });
+      } else {
+        throw Exception('Failed to get location data.');
+      }
     } catch (e) {
       throw Exception('Failed to update location: $e');
     }
+  }
+
+  void _setDefaultLocation() {
+    _latitude = -6.175389038073123;
+    _longitude = 106.8271567748102;
+    Fluttertoast.showToast(
+      msg: "Location permission is denied. Default location is used.",
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+    );
   }
 }

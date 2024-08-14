@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -26,6 +27,7 @@ class _DashboardPageState extends State<DashboardPage> {
   String city = ''; // Kota
   String locality = ''; // Kecamatan
 
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   LocationService locationService = LocationService();
 
   // Get address function
@@ -72,46 +74,61 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
   }
 
+  Future<void> onRefresh() async {
+    try {
+      await _initLocation();
+
+      final fcmToken = await firebaseMessaging.getToken();
+      String token = fcmToken!;
+      await locationService.updateUserLocation(token);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<WeatherBloc, WeatherState>(
-          builder: (context, state) {
-            if (state is WeatherLoading) {
-              return Center(
-                child: CircularProgressIndicator(color: blueColor),
-              );
-            }
+        child: RefreshIndicator(
+          onRefresh: onRefresh,
+          child: BlocBuilder<WeatherBloc, WeatherState>(
+            builder: (context, state) {
+              if (state is WeatherLoading) {
+                return Center(
+                  child: CircularProgressIndicator(color: blueColor),
+                );
+              }
 
-            if (state is WeatherSuccess) {
-              return ListView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 24,
-                ),
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Header Section
-                      // User location and search button
-                      headerSection(context),
-                      // Current Weather Section
-                      currentWeatherSection(), // Current weather information based on the user location
-                      // Hourly Weather Section
-                      hourlyWeatherSection(), // Hourly weather information up to 12 hours
-                      // Daily Weather Section
-                      dailyWeatherSection(), // Daily weather information up to 5 days and message box about weather description, etc.
-                      // Additional Information Section
-                      additionalInfoSection(),
-                    ],
+              if (state is WeatherSuccess) {
+                return ListView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 24,
                   ),
-                ],
-              );
-            }
-            return Container();
-          },
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header Section
+                        // User location and search button
+                        headerSection(context),
+                        // Current Weather Section
+                        currentWeatherSection(), // Current weather information based on the user location
+                        // Hourly Weather Section
+                        hourlyWeatherSection(), // Hourly weather information up to 12 hours
+                        // Daily Weather Section
+                        dailyWeatherSection(), // Daily weather information up to 5 days and message box about weather description, etc.
+                        // Additional Information Section
+                        additionalInfoSection(),
+                      ],
+                    ),
+                  ],
+                );
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );
@@ -331,23 +348,21 @@ class _DashboardPageState extends State<DashboardPage> {
                           messageBox(
                             weather.current!.current.uvi! > 0.0
                                 ? 'Don\'t miss the sunset!\nSunset will be at ${AppFormat.getTime(weather.current!.current.sunset!)}'
-                                : 'Rise and shine!\nSunrise will be at ${AppFormat.getTime(weather.current!.current.sunset!)}',
+                                : 'Rise and shine!\nSunrise will be at ${AppFormat.getTime(weather.current!.current.sunrise!)}',
                           ),
-                          weather.current!.current.uvi! > 0.0
-                              ? messageBox(
-                                  weather.current!.current.uvi! <= 2
-                                      ? 'UV index is low\nIt\'s great time to sunbathing outside'
-                                      : weather.current!.current.uvi! > 2 &&
-                                              weather.current!.current.uvi! <= 5
-                                          ? 'UV index is moderate\nTry wear sunscreen or hat if you are going outside'
-                                          : weather.current!.current.uvi! > 5 &&
-                                                  weather.current!.current
-                                                          .uvi! <=
-                                                      7
-                                              ? 'UV index is high\nSeek a shade, use sunscreen, slip on shirt and a hat'
-                                              : 'UV index is extreme\njacket, sunscreen, and hat are must!',
-                                )
-                              : messageBox(''),
+                          if (weather.current!.current.uvi! > 0.0) ...[
+                            messageBox(
+                              weather.current!.current.uvi! <= 2
+                                  ? 'UV index is low\nIt\'s great time to sunbathing outside'
+                                  : weather.current!.current.uvi! > 2 &&
+                                          weather.current!.current.uvi! <= 5
+                                      ? 'UV index is moderate\nTry wear sunscreen or hat if you are going outside'
+                                      : weather.current!.current.uvi! > 5 &&
+                                              weather.current!.current.uvi! <= 7
+                                          ? 'UV index is high\nSeek a shade, use sunscreen, slip on shirt and a hat'
+                                          : 'UV index is extreme\njacket, sunscreen, and hat are must!',
+                            )
+                          ],
                         ],
                       ),
                     ),
@@ -535,7 +550,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         : AddonItem(
                             title: 'Sunrise',
                             value: AppFormat.getTime(
-                              weather.current!.current.sunset!,
+                              weather.current!.current.sunrise!,
                             ),
                             imgUrl: 'ic_sunrise',
                           ),
