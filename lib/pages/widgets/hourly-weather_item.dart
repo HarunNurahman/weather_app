@@ -42,7 +42,9 @@ class HourlyWeatherItem extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             AppFormat.getTime(timeStamp),
-            style: whiteTextStyle,
+            style: whiteTextStyle.copyWith(
+              fontSize: 12,
+            ),
           ),
         ],
       ),

@@ -102,7 +102,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
       ),
       title: Text(
         '$city, $province',
-        style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 20),
+        style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 16),
       ),
     );
   }
@@ -474,8 +474,8 @@ class _SearchResultPageState extends State<SearchResultPage> {
                 ),
                 // Additional info item
                 Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
+                  spacing: 12,
+                  runSpacing: 12,
                   children: [
                     // Humidity
                     AddonItem(
@@ -534,7 +534,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
     return Center(
       child: Text(
         text,
-        style: whiteTextStyle.copyWith(fontSize: 18),
+        style: whiteTextStyle.copyWith(fontSize: 16),
         textAlign: TextAlign.center,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,

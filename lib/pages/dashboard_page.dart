@@ -539,8 +539,8 @@ class _DashboardPageState extends State<DashboardPage> {
                 // Additional info item
                 Center(
                   child: Wrap(
-                    spacing: 14,
-                    runSpacing: 14,
+                    spacing: 12,
+                    runSpacing: 12,
                     children: [
                       // Humidity
                       AddonItem(
@@ -600,7 +600,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return Center(
       child: Text(
         text,
-        style: whiteTextStyle.copyWith(fontSize: 18),
+        style: whiteTextStyle.copyWith(fontSize: 16),
         textAlign: TextAlign.center,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
