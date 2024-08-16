@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:weather_app/bloc/air_quality/air_quality_bloc.dart';
 import 'package:weather_app/bloc/weather/weather_bloc.dart';
 import 'package:weather_app/models/air_quality/air-quality_model.dart';
@@ -165,80 +166,88 @@ class _DashboardPageState extends State<DashboardPage> {
       builder: (context, state) {
         if (state is WeatherSuccess) {
           WeatherModel weather = state.weather;
-          return Container(
-            margin: const EdgeInsets.only(top: 24),
-            padding: const EdgeInsets.all(24),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [blueColor6, blueColor7],
+          return GestureDetector(
+            onTap: () async {
+              launchUrl(
+                Uri.parse(
+                    'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=${locationService.latitude}&lon=${locationService.longitude}&zoom=10'),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 24),
+              padding: const EdgeInsets.all(24),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [blueColor6, blueColor7],
+                ),
+                borderRadius: BorderRadius.circular(12),
               ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Date and time
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      AppFormat.dateFormat(DateTime.now().toIso8601String()),
-                      style: whiteTextStyle,
-                    ),
-                    Text(
-                      AppFormat.dateTime(DateTime.now().toString()),
-                      style: whiteTextStyle,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                // Temperature and weather icon
-                Row(
-                  children: [
-                    // Weather icon
-                    Image.asset(
-                      'assets/icons/weathers/${weather.current!.current.weather![0].icon}.png',
-                      width: 64,
-                    ),
-                    const SizedBox(width: 12),
-                    // Temperature
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${weather.current!.current.temp}° C',
-                            style: whiteTextStyle.copyWith(fontSize: 20),
-                          ),
-                          Text(
-                            weather.current!.current.weather![0].description
-                                .toString()
-                                .toCapitalized(),
-                            style: whiteTextStyle.copyWith(
-                              fontSize: 20,
-                              fontWeight: semibold,
-                            ),
-                          ),
-                        ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Date and time
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppFormat.dateFormat(DateTime.now().toIso8601String()),
+                        style: whiteTextStyle,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                // Highest, lowest and feels like temperature
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${weather.daily!.daily[0].temp!.max}° / ${weather.daily!.daily[0].temp!.min}° C - Feels Like ${weather.current!.current.feelsLike!}° C',
-                      style: whiteTextStyle.copyWith(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ],
+                      Text(
+                        AppFormat.dateTime(DateTime.now().toString()),
+                        style: whiteTextStyle,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  // Temperature and weather icon
+                  Row(
+                    children: [
+                      // Weather icon
+                      Image.asset(
+                        'assets/icons/weathers/${weather.current!.current.weather![0].icon}.png',
+                        width: 64,
+                      ),
+                      const SizedBox(width: 12),
+                      // Temperature
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${weather.current!.current.temp}° C',
+                              style: whiteTextStyle.copyWith(fontSize: 20),
+                            ),
+                            Text(
+                              weather.current!.current.weather![0].description
+                                  .toString()
+                                  .toCapitalized(),
+                              style: whiteTextStyle.copyWith(
+                                fontSize: 20,
+                                fontWeight: semibold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  // Highest, lowest and feels like temperature
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${weather.daily!.daily[0].temp!.max}° / ${weather.daily!.daily[0].temp!.min}° C - Feels Like ${weather.current!.current.feelsLike!}° C',
+                        style: whiteTextStyle.copyWith(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -528,52 +537,55 @@ class _DashboardPageState extends State<DashboardPage> {
                   },
                 ),
                 // Additional info item
-                Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: [
-                    // Humidity
-                    AddonItem(
-                      title: 'Humidity',
-                      value: '${weather.current!.current.humidity.toString()}%',
-                      imgUrl: 'ic_humid',
-                    ),
-                    // Sunrise and sunset time
-                    weather.current!.current.uvi! > 0.0
-                        ? AddonItem(
-                            title: 'Sunset',
-                            value: AppFormat.getTime(
-                              weather.current!.current.sunset!,
+                Center(
+                  child: Wrap(
+                    spacing: 14,
+                    runSpacing: 14,
+                    children: [
+                      // Humidity
+                      AddonItem(
+                        title: 'Humidity',
+                        value:
+                            '${weather.current!.current.humidity.toString()}%',
+                        imgUrl: 'ic_humid',
+                      ),
+                      // Sunrise and sunset time
+                      weather.current!.current.uvi! > 0.0
+                          ? AddonItem(
+                              title: 'Sunset',
+                              value: AppFormat.getTime(
+                                weather.current!.current.sunset!,
+                              ),
+                              imgUrl: 'ic_sunset',
+                            )
+                          : AddonItem(
+                              title: 'Sunrise',
+                              value: AppFormat.getTime(
+                                weather.current!.current.sunrise!,
+                              ),
+                              imgUrl: 'ic_sunrise',
                             ),
-                            imgUrl: 'ic_sunset',
-                          )
-                        : AddonItem(
-                            title: 'Sunrise',
-                            value: AppFormat.getTime(
-                              weather.current!.current.sunrise!,
+                      // Wind speed
+                      AddonItem(
+                        title: 'Wind Speed',
+                        value:
+                            '${(weather.current!.current.windSpeed! * 10).round()} km/h',
+                        imgUrl: 'ic_wind_speed',
+                      ),
+                      // UV index
+                      weather.current!.current.uvi! > 0.0
+                          ? AddonItem(
+                              title: 'UV Index',
+                              value: weather.current!.current.uvi.toString(),
+                              imgUrl: 'ic_uvi',
+                            )
+                          : AddonItem(
+                              title: 'Cloudiness',
+                              value: '${weather.current!.current.clouds}%',
+                              imgUrl: 'ic_fog',
                             ),
-                            imgUrl: 'ic_sunrise',
-                          ),
-                    // Wind speed
-                    AddonItem(
-                      title: 'Wind Speed',
-                      value:
-                          '${(weather.current!.current.windSpeed! * 10).round()} km/h',
-                      imgUrl: 'ic_wind_speed',
-                    ),
-                    // UV index
-                    weather.current!.current.uvi! > 0.0
-                        ? AddonItem(
-                            title: 'UV Index',
-                            value: weather.current!.current.uvi.toString(),
-                            imgUrl: 'ic_uvi',
-                          )
-                        : AddonItem(
-                            title: 'Cloudiness',
-                            value: '${weather.current!.current.clouds}%',
-                            imgUrl: 'ic_fog',
-                          ),
-                  ],
+                    ],
+                  ),
                 )
               ],
             ),
