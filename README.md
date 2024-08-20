@@ -10,7 +10,7 @@ UI Design https://www.figma.com/community/file/1055880209981553884 by [Reynaldi 
 3. Search based on city name
 
 ## Installation
-Visit [OpenWeatherMap](https://openweathermap.org/) and IQAir [IQAir](https://www.iqair.com/) and register with your account.
+Visit [OpenWeatherMap](https://openweathermap.org/) and [IQAir](https://www.iqair.com/) and register with your account.
 
 After registering, the next step is to go to https://home.openweathermap.org/api_keys and https://dashboard.iqair.com/personal/api-keys and acquire your API key.
 
