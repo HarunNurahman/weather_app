@@ -13,6 +13,7 @@ import 'package:weather_app/pages/widgets/addon-info_item.dart';
 import 'package:weather_app/pages/widgets/air-quality_card.dart';
 import 'package:weather_app/pages/widgets/daily-weather_item.dart';
 import 'package:weather_app/pages/widgets/hourly-weather_item.dart';
+import 'package:weather_app/pages/widgets/skeleton-page_loading.dart';
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/shared/app_format.dart';
 import 'package:weather_app/shared/styles.dart';
@@ -96,9 +97,7 @@ class _DashboardPageState extends State<DashboardPage> {
           child: BlocBuilder<WeatherBloc, WeatherState>(
             builder: (context, state) {
               if (state is WeatherLoading) {
-                return Center(
-                  child: CircularProgressIndicator(color: blueColor),
-                );
+                return const SkeletonLoading();
               }
 
               if (state is WeatherSuccess) {
@@ -148,6 +147,8 @@ class _DashboardPageState extends State<DashboardPage> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        const SizedBox(width: 24),
+
         GestureDetector(
           onTap: () => Navigator.push(
             context,
@@ -170,7 +171,8 @@ class _DashboardPageState extends State<DashboardPage> {
             onTap: () async {
               launchUrl(
                 Uri.parse(
-                    'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=${locationService.latitude}&lon=${locationService.longitude}&zoom=10'),
+                  'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=${locationService.latitude}&lon=${locationService.longitude}&zoom=10',
+                ),
               );
             },
             child: Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:weather_app/bloc/search/search_bloc.dart';
 import 'package:weather_app/models/forecast/forecast_model.dart';
 import 'package:weather_app/pages/search-result_page.dart';
@@ -22,8 +23,27 @@ class _SearchPageState extends State<SearchPage> {
       body: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
           if (state is SearchLoading) {
-            return Center(
-              child: CircularProgressIndicator(color: blueColor),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Shimmer.fromColors(
+                baseColor: const Color(0xFF4F7FFA),
+                highlightColor: const Color(0xFF335FD1),
+                child: Container(
+                  width: double.infinity,
+                  height: 193,
+                  margin: const EdgeInsets.only(top: 24),
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFF4F7FFA),
+                        Color(0xFF335FD1),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             );
           }
 
