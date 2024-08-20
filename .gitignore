@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 lib/shared/api_key.dart
+functions/.gitignore
+node_modules/
+.env
+.firebaserc
