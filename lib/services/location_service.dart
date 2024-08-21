@@ -1,3 +1,4 @@
+import 'package:background_fetch/background_fetch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +15,24 @@ class LocationService {
 
   double? get latitude => _latitude;
   double? get longitude => _longitude;
+
+  /// Sets the default location of the device.
+  ///
+  /// This function is used when location permission is denied.
+  /// It sets the latitude and longitude to a default value and displays a toast message to the user.
+  ///
+  /// Parameters: None
+  ///
+  /// Returns: None
+  void _setDefaultLocation() {
+    _latitude = -6.175389038073123;
+    _longitude = 106.8271567748102;
+    Fluttertoast.showToast(
+      msg: "Location permission is denied. Default location is used.",
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+    );
+  }
 
   // Retrieves the current location of the device.
   //
@@ -89,13 +108,66 @@ class LocationService {
     }
   }
 
-  void _setDefaultLocation() {
-    _latitude = -6.175389038073123;
-    _longitude = 106.8271567748102;
-    Fluttertoast.showToast(
-      msg: "Location permission is denied. Default location is used.",
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-    );
+  void backgroundFetchHeadlessTask(HeadlessTask task) async {
+    // Handle background fetch events
+    String taskId = task.taskId;
+
+    try {
+      // Fetch the user's location
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      // Fetch all users' tokens from Firestore
+      QuerySnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('users').get();
+
+      // Iterate through each user document
+      for (var doc in userSnapshot.docs) {
+        // Update the user's location in Firestore
+        await doc.reference.update({
+          'location': GeoPoint(position.latitude, position.longitude),
+        });
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+    BackgroundFetch.finish(taskId);
+  }
+
+  void initPlatformState() async {
+    // Initialize background fetch
+    BackgroundFetch.configure(
+        BackgroundFetchConfig(
+          minimumFetchInterval: 15, // Set the interval in minutes
+          stopOnTerminate: false,
+          enableHeadless: true,
+        ), (String taskId) async {
+      // Fetch the user's location and update Firestore
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Fetch all users' tokens from Firestore
+      QuerySnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('users').get();
+
+      // Iterate through each user document
+      for (var doc in userSnapshot.docs) {
+        // Update the user's location in Firestore
+        await doc.reference.update({
+          'location': GeoPoint(position.latitude, position.longitude),
+        });
+      }
+
+      BackgroundFetch.finish(taskId);
+    }, (String taskId) async {
+      // This is the headless task handler. It will be called if the app is terminated.
+      print('Headless event received.');
+      BackgroundFetch.finish(taskId);
+    });
+
+    // Register background fetch headless task
+    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
   }
 }

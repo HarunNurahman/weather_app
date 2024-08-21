@@ -16,6 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocationService().getLocation();
+  LocationService().initPlatformState;
   await NotificationService().initNotification();
   Bloc.observer = SimpleBlocObserver();
 

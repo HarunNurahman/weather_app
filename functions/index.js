@@ -29,7 +29,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const axios = require("axios");
 admin.initializeApp();
-exports.sendWeatherNotification = functions.pubsub.schedule("every 1 hours").onRun(async (context) => {
+exports.sendWeatherNotification = functions.pubsub.schedule("every 3 hours").onRun(async (context) => {
   const snapshot = await admin.firestore().collection("users").get();
   const users = snapshot.docs.map(doc => {
     const {location, token} = doc.data();
