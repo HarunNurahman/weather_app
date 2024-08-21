@@ -1,6 +1,6 @@
 # Weather Forecast Application
 
-The weather forecast application was built with Dart/Flutter. For this project, I used BLoC as state management. For data sources, I'm using API from OpenWeatherMap API. Thanks to [Reynaldi Daniel](https://www.figma.com/@heyrey) for his UI Design as inspiration for the front end of this application, I will attach the link for his UI design right below this description.
+The weather forecast application was built with Dart/Flutter. For this project, I used BLoC as state management. For data sources, I'm using API from OpenWeatherMap and IQAir.
 
 UI Design https://www.figma.com/community/file/1055880209981553884 by [Reynaldi Daniel](https://www.figma.com/@heyrey)
 
