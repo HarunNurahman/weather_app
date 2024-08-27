@@ -284,23 +284,21 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           messageBox(
                             weather.current!.current.uvi! > 0.0
                                 ? 'Don\'t miss the sunset!\nSunset will be at ${AppFormat.getTime(weather.current!.current.sunset!)}'
-                                : 'Rise and shine!\nSunrise will be at ${AppFormat.getTime(weather.current!.current.sunset!)}',
+                                : 'Rise and shine!\nSunrise will be at ${AppFormat.getTime(weather.current!.current.sunrise!)}',
                           ),
-                          weather.current!.current.uvi! > 0.0
-                              ? messageBox(
-                                  weather.current!.current.uvi! <= 2
-                                      ? 'UV index is low\nIt\'s great time to sunbathing outside'
-                                      : weather.current!.current.uvi! > 2 &&
-                                              weather.current!.current.uvi! <= 5
-                                          ? 'UV index is moderate\nTry wear sunscreen or hat if you are going outside'
-                                          : weather.current!.current.uvi! > 5 &&
-                                                  weather.current!.current
-                                                          .uvi! <=
-                                                      7
-                                              ? 'UV index is high\nSeek a shade, use sunscreen, slip on shirt and a hat'
-                                              : 'UV index is extreme\njacket, sunscreen, and hat are must!',
-                                )
-                              : messageBox(''),
+                          if (weather.current!.current.uvi! > 0.0) ...[
+                            messageBox(
+                              weather.current!.current.uvi! <= 2
+                                  ? 'UV index is low\nIt\'s great time to sunbathing outside'
+                                  : weather.current!.current.uvi! > 2 &&
+                                          weather.current!.current.uvi! <= 5
+                                      ? 'UV index is moderate\nTry wear sunscreen or hat if you are going outside'
+                                      : weather.current!.current.uvi! > 5 &&
+                                              weather.current!.current.uvi! <= 7
+                                          ? 'UV index is high\nSeek a shade, use sunscreen, slip on shirt and a hat'
+                                          : 'UV index is extreme\njacket, sunscreen, and hat are must!',
+                            )
+                          ],
                         ],
                       ),
                     ),
