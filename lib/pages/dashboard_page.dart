@@ -183,7 +183,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [blueColor6, blueColor7],
+                  colors: [blueColor4, blueColor5],
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),

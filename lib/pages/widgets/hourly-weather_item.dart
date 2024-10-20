@@ -22,7 +22,7 @@ class HourlyWeatherItem extends StatelessWidget {
         vertical: 12,
       ),
       decoration: BoxDecoration(
-        color: blackColor3,
+        color: blackColor2,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(

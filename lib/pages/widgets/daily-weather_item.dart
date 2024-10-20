@@ -24,7 +24,7 @@ class DailyWeatherItem extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: blueColor4,
+        color: blueColor2,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -36,7 +36,7 @@ class DailyWeatherItem extends StatelessWidget {
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: blueColor5,
+              color: blueColor3,
             ),
             child: Image.asset('assets/icons/weathers/$imgUrl.png'),
           ),

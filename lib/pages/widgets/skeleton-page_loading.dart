@@ -76,13 +76,13 @@ class SkeletonLoading extends StatelessWidget {
   Widget skeletonHourlyWeather() {
     Widget skeletonWeatherHourlyBox() {
       return Shimmer.fromColors(
-        baseColor: blackColor3,
+        baseColor: blackColor2,
         highlightColor: grayColor,
         child: Container(
           width: 78,
           height: 107,
           decoration: BoxDecoration(
-            color: blackColor3,
+            color: blackColor2,
             borderRadius: BorderRadius.circular(12),
           ),
         ),
@@ -133,15 +133,15 @@ class SkeletonLoading extends StatelessWidget {
           Column(
             children: [
               Shimmer.fromColors(
-                baseColor: blueColor4,
-                highlightColor: blueColor5,
+                baseColor: blueColor2,
+                highlightColor: blueColor3,
                 child: Container(
                   width: double.infinity,
                   height: 72,
                   padding: const EdgeInsets.all(16),
                   margin: const EdgeInsets.only(bottom: 12),
                   decoration: BoxDecoration(
-                    color: blueColor4,
+                    color: blueColor2,
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
@@ -160,7 +160,7 @@ class SkeletonLoading extends StatelessWidget {
         height: 70,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: blackColor4,
+          color: blackColor3,
           borderRadius: BorderRadius.circular(12),
         ),
       );
@@ -180,21 +180,21 @@ class SkeletonLoading extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Shimmer.fromColors(
-            baseColor: blackColor4,
+            baseColor: blackColor3,
             highlightColor: grayColor,
             child: Container(
               width: double.infinity,
               height: 110,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: blackColor4,
+                color: blackColor3,
               ),
             ),
           ),
           const SizedBox(height: 16),
           Center(
             child: Shimmer.fromColors(
-              baseColor: blackColor4,
+              baseColor: blackColor3,
               highlightColor: grayColor,
               child: Wrap(
                 spacing: 16,

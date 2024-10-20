@@ -18,7 +18,7 @@ class AddonItem extends StatelessWidget {
       width: 170,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: blackColor4,
+        color: blackColor3,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

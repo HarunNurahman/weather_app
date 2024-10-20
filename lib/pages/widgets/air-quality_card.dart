@@ -22,7 +22,7 @@ class AirQualityCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: blackColor4,
+        color: blackColor3,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -36,7 +36,6 @@ class AirQualityCard extends StatelessWidget {
             arcBackgroundColor: grayColor2,
             arcType: ArcType.FULL,
             circularStrokeCap: CircularStrokeCap.round,
-            
             center: Text(
               value.toString(),
               style: whiteTextStyle.copyWith(
