@@ -271,7 +271,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: FlutterCarousel(
-                        options: CarouselOptions(
+                        options: FlutterCarouselOptions(
                           enableInfiniteScroll: true,
                           showIndicator: false,
                           height: 60,

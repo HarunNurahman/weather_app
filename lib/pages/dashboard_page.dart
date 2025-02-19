@@ -43,30 +43,39 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Future<void> _initLocation() async {
-    // This function will request permission to access the user's location and obtain location data.
-    await locationService.getLocation();
+    try {
+      // This function will request permission to access the user's location and obtain location data.
+      await locationService.getLocation();
 
-    // Checks if the latitude and longitude of the LocationService are not null, ensuring that the location has been successfully retrieved.
-    if (locationService.latitude != null && locationService.longitude != null) {
-      // Calls the getaddress function with the retrieved latitude and longitude
-      await getAddress(locationService.latitude!, locationService.longitude!);
-      if (mounted) {
-        // Sends a GetWeatherEvent event to the WeatherBloc with latitude and longitude as arguments
-        context.read<WeatherBloc>().add(
-              GetWeatherEvent(
-                locationService.latitude!,
-                locationService.longitude!,
-              ),
-            );
+      // Checks if the latitude and longitude of the LocationService are not null, ensuring that the location has been successfully retrieved.
+      if (locationService.latitude != null &&
+          locationService.longitude != null) {
+        // Calls the getAddress function with the retrieved latitude and longitude
+        await getAddress(locationService.latitude!, locationService.longitude!);
+        if (mounted) {
+          // Sends a GetWeatherEvent event to the WeatherBloc with latitude and longitude as arguments
+          context.read<WeatherBloc>().add(
+                GetWeatherEvent(
+                  locationService.latitude!,
+                  locationService.longitude!,
+                ),
+              );
 
-        // This line sends a GetAirqualityEvent event to the AirQualityBloc with latitude and longitude as arguments
-        context.read<AirQualityBloc>().add(
-              GetAirQualityEvent(
-                locationService.latitude!,
-                locationService.longitude!,
-              ),
-            );
+          // This line sends a GetAirqualityEvent event to the AirQualityBloc with latitude and longitude as arguments
+          context.read<AirQualityBloc>().add(
+                GetAirQualityEvent(
+                  locationService.latitude!,
+                  locationService.longitude!,
+                ),
+              );
+        }
       }
+    } catch (e) {
+      // Handle the exception and provide feedback to the user
+      print('Error initializing location: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error initializing location: ${e.toString()}')),
+      );
     }
   }
 
@@ -346,7 +355,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: FlutterCarousel(
-                        options: CarouselOptions(
+                        options: FlutterCarouselOptions(
                           enableInfiniteScroll: true,
                           showIndicator: false,
                           height: 60,
