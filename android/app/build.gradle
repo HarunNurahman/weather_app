@@ -50,10 +50,10 @@ android {
 
     defaultConfig {
         applicationId "com.example.weather_app"
-        minSdkVersion 28
-        targetSdkVersion 33
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        minSdk 23
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
         multiDexEnabled true
     }
 

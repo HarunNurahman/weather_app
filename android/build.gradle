@@ -23,5 +23,6 @@ ext {
     compileSdkVersion   = 35                // or higher / as desired
     targetSdkVersion    = 35                // or higher / as desired
     appCompatVersion    = "1.7.0"           // or higher / as desired
+    kotlin_version      = '2.1.10'
 }
 
